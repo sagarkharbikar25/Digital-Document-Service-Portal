@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Applications – JDCOEM Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifList">
+          <div style="padding:20px; text-align:center; color:#9ca3af; font-size:12px;">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-item" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+    <a class="nav-item active" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge" id="sideAppBadge"></span>
+    </a>
+    <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+    <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge" id="sideNotifBadge"></span>
+    </a>
+    <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+  </aside>
+
+  <!-- ────── MAIN ────── -->
+  <main class="main">
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="crumb">
+        <a href="home.html">🏠 Home</a><span class="sep">›</span>
+        <span class="cur">My Applications</span>
+      </div>
+      <div class="hero-row">
+        <div class="hero-left">
+          <h1>📂 My Applications</h1>
+          <p>View and track all document requests submitted by you.</p>
+        </div>
+        <button class="hero-cta" onclick="window.location.href='documents.html'">＋ Apply for New Document</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- SUMMARY CARDS -->
+      <div class="sum-grid fu">
+        <div class="sum-card sc-total">
+          <div class="sc-num" id="sumTotal">0</div>
+          <div class="sc-lbl">Total Applications</div>
+          <div class="sc-ico">📋</div>
+        </div>
+        <div class="sum-card sc-pending fd1">
+          <div class="sc-num" id="sumPending">0</div>
+          <div class="sc-lbl">Pending</div>
+          <div class="sc-ico">⏳</div>
+        </div>
+        <div class="sum-card sc-approved fd2">
+          <div class="sc-num" id="sumApproved">0</div>
+          <div class="sc-lbl">Approved</div>
+          <div class="sc-ico">✅</div>
+        </div>
+        <div class="sum-card sc-rejected fd3">
+          <div class="sc-num" id="sumRejected">0</div>
+          <div class="sc-lbl">Rejected</div>
+          <div class="sc-ico">❌</div>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar fu fd1">
+        <div class="search-wrap">
+          <span class="s-ico">🔍</span>
+          <input type="text" id="qSearch" placeholder="Search App ID or document…" oninput="applyFilters()">
+        </div>
+        <select class="fsel" id="fStatus" onchange="applyFilters()">
+          <option value="">All Status</option>
+          <option>Pending</option>
+          <option>Verified</option>
+          <option>Processing</option>
+          <option>Approved</option>
+          <option>Rejected</option>
+        </select>
+        <select class="fsel" id="fType" onchange="applyFilters()">
+          <option value="">All Documents</option>
+          <option>Bonafide Certificate</option>
+          <option>Character Certificate</option>
+          <option>Transfer Certificate (TC)</option>
+          <option>Official Transcript</option>
+          <option>No Objection Certificate (NOC)</option>
+          <option>Migration Certificate</option>
+          <option>Provisional Certificate</option>
+          <option>Degree Certificate</option>
+          <option>Hall Ticket / Admit Card</option>
+          <option>Mark Sheet</option>
+          <option>Fee Receipt / Fee Structure</option>
+          <option>Admission Letter</option>
+          <option>Identity Card (College ID)</option>
+        </select>
+        <div class="res-info">Showing <b id="visCnt">0</b> of <b id="totCnt">0</b></div>
+        <button class="clear-btn" onclick="clearFilters()">✕ Clear Filters</button>
+      </div>
+
+      <!-- STATUS LEGEND -->
+      <div class="legend fu fd2">
+        <span style="font-size:12px;font-weight:700;color:var(--g500);">Status:</span>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--warn)"></div> Pending – Awaiting clerk review</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--info)"></div> Verified – Checked by clerk</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--violet)"></div> Processing – Being prepared</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--success)"></div> Approved – Document ready</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--error)"></div> Rejected – Action required</div>
+      </div>
+
+      <!-- APPLICATIONS TABLE -->
+      <div class="table-card fu fd2">
+        <div class="tc-head">
+          <h3>Application Records</h3>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div class="empty-state" id="emptyState">
+          <span class="e-icon">📭</span>
+          <h3>No Applications Yet</h3>
+          <p>You haven't applied for any documents yet.<br>It only takes a few minutes to get started.</p>
+          <a class="empty-cta" href="documents.html">📄 Apply for a Document</a>
+        </div>
+
+        <!-- TABLE -->
+        <div class="tc-scroll" id="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Application ID</th>
+                <th>Document Type</th>
+                <th>Date Applied</th>
+                <th>Processing Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- REMARKS / NOTIFICATIONS -->
+      <div id="remarksWrap"></div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<!-- ────── DETAIL MODAL ────── -->
+<div class="overlay" id="detailOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="detailModal">
+
+    <div class="m-hdr">
+      <h3>📋 Application Details</h3>
+      <button class="m-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="m-body">
+
+      <!-- INFO GRID -->
+      <div>
+        <div class="m-sec-lbl">Application Information</div>
+        <div class="m-grid">
+          <div class="mi"><div class="mi-lbl">Application ID</div><div class="mi-val" id="mi-id" style="font-family:monospace;font-weight:700;letter-spacing:.5px;"></div></div>
+          <div class="mi"><div class="mi-lbl">Current Status</div><div class="mi-val" id="mi-status"></div></div>
+          <div class="mi"><div class="mi-lbl">Document Type</div><div class="mi-val" id="mi-type"></div></div>
+          <div class="mi"><div class="mi-lbl">Date Applied</div><div class="mi-val" id="mi-date"></div></div>
+          <div class="mi"><div class="mi-lbl">Processing Time</div><div class="mi-val" id="mi-proc"></div></div>
+          <div class="mi"><div class="mi-lbl">Issuing Authority</div><div class="mi-val">Academic Section, College Office</div></div>
+        </div>
+      </div>
+
+      <!-- PURPOSE -->
+      <div>
+        <div class="m-sec-lbl">Purpose / Reason</div>
+        <div class="m-purpose" id="mi-purpose">–</div>
+      </div>
+
+      <!-- FILES -->
+      <div>
+        <div class="m-sec-lbl">Uploaded Documents</div>
+        <div id="mi-files" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+
+      <!-- TIMELINE -->
+      <div>
+        <div class="m-sec-lbl">Application Timeline</div>
+        <div class="timeline" id="mi-timeline"></div>
+      </div>
+
+      <!-- REMARKS -->
+      <div id="mi-remarks-wrap" style="display:none;">
+        <div class="m-sec-lbl">Admin / Clerk Remarks</div>
+        <div id="mi-remarks"></div>
+      </div>
+
+    </div><!-- /m-body -->
+
+    <div class="m-foot">
+      <button class="m-btn-dl" id="mDlBtn" onclick="handleModalDownload()" disabled>⬇️ Download Document</button>
+      <button class="m-btn-track" onclick="window.location.href='track-status.html'">📍 Track Status</button>
+      <button class="m-btn-close" onclick="closeModal()">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ────── FOOTER ────── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>
+
+<script src="../js/dashboard.js"></script>
+</body>
+</html>

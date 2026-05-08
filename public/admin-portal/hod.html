@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOD Dashboard | JDCOEM Admin Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="hdr-inner">
+    <a href="index.html" class="logo-link">
+      <div class="logo-em">🏛️</div>
+      <div><div class="logo-title">JDCOEM Admin Portal</div><div class="logo-sub">Document Services</div></div>
+    </a>
+    <div class="hdr-role-tag" style="background:rgba(91,33,182,.2);border-color:rgba(91,33,182,.4);color:#c4b5fd;" id="hdr-role-tag">HOD</div>
+    <div class="hdr-sp"></div>
+    <div class="hdr-user">
+      <div class="hdr-av" id="hdr-av">?</div>
+      <div><div class="hdr-nm" id="hdr-nm">Loading…</div><div class="hdr-sub" id="hdr-sub"></div></div>
+    </div>
+    <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-role-banner" style="background:linear-gradient(135deg,#2e1065,#4c1d95);">
+    <div class="sb-role-icon">🏫</div>
+    <div><div class="sb-role-name" id="sb-role-name">Loading…</div><div class="sb-role-email" id="sb-role-email"></div></div>
+  </div>
+  <span class="nav-sect">Applications</span>
+  <div class="nav-link active" onclick="showSection('pending',this)"><span class="nav-ic">⏳</span>Awaiting Review <span class="nav-bdg" id="sb-pending-count"></span></div>
+  <div class="nav-link" onclick="showSection('all',this)"><span class="nav-ic">📋</span>All Applications</div>
+  <div class="nav-link" onclick="showSection('approved',this)"><span class="nav-ic">✅</span>Approved</div>
+  <div class="nav-link" onclick="showSection('rejected',this)"><span class="nav-ic">❌</span>Rejected</div>
+  <span class="nav-sect" style="margin-top:8px;">System</span>
+  <div class="nav-link" onclick="showSection('stats',this)"><span class="nav-ic">📊</span>Overview</div>
+  <div class="nav-link" onclick="logout()"><span class="nav-ic">🚪</span>Logout</div>
+</aside>
+
+<main class="main-area">
+  <!-- PAGE HEADER -->
+  <div class="page-header" style="background:linear-gradient(135deg,#1e1b4b 0%,#2e1065 60%,#4c1d95 100%);">
+    <div class="ph-inner">
+      <div class="ph-row">
+        <div class="ph-icon" style="background:rgba(196,181,253,.15);border-color:rgba(196,181,253,.3);">🏫</div>
+        <div>
+          <div class="ph-h1">HOD Dashboard</div>
+          <div class="ph-sub">Review clerk-verified applications and provide academic approval with digital signature</div>
+        </div>
+      </div>
+      <div class="ph-stats">
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-total">0</div><div class="ph-stat-l">Forwarded to HOD</div></div>
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-pending">0</div><div class="ph-stat-l">Awaiting Review</div></div>
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-approved">0</div><div class="ph-stat-l">Approved</div></div>
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-rejected">0</div><div class="ph-stat-l">Rejected</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STATS OVERVIEW -->
+    <div class="stat-grid fade-in" id="section-stats" style="display:none;">
+      <div class="stat-card"><div class="stat-ic" style="background:var(--warn-bg,#fef3c7);">⏳</div><div><div class="stat-val" id="sc-pending">0</div><div class="stat-lbl">Awaiting HOD</div></div></div>
+      <div class="stat-card"><div class="stat-ic" style="background:var(--ok-bg);">✅</div><div><div class="stat-val" id="sc-approved">0</div><div class="stat-lbl">Forwarded to Principal</div></div></div>
+      <div class="stat-card"><div class="stat-ic" style="background:var(--err-bg);">❌</div><div><div class="stat-val" id="sc-rejected">0</div><div class="stat-lbl">Rejected</div></div></div>
+      <div class="stat-card"><div class="stat-ic" style="background:var(--info-bg);">📄</div><div><div class="stat-val" id="sc-total">0</div><div class="stat-lbl">Total Received</div></div></div>
+    </div>
+
+    <!-- PENDING -->
+    <div id="section-pending">
+      <div class="card fade-in">
+        <div class="card-head">
+          <div class="ch-icon" style="background:var(--warn-bg,#fef3c7);">⏳</div>
+          <div><div class="ch-title">Applications Awaiting HOD Review</div><div class="ch-sub">Pre-verified by Clerk — ready for your academic review</div></div>
+        </div>
+        <div class="card-body">
+          <div class="filter-bar">
+            <input type="text" id="search-pending" placeholder="🔍  Search by name, ID, document…" oninput="renderTable('pending')">
+          </div>
+          <div id="table-pending"><div style="text-align:center;padding:40px;color:#6b7280;">⏳ Loading…</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL -->
+    <div id="section-all" style="display:none;">
+      <div class="card fade-in">
+        <div class="card-head"><div class="ch-icon" style="background:var(--info-bg);">📋</div><div><div class="ch-title">All HOD Applications</div><div class="ch-sub">All applications forwarded to HOD</div></div></div>
+        <div class="card-body">
+          <div class="filter-bar"><input type="text" id="search-all" placeholder="🔍  Search…" oninput="renderTable('all')"></div>
+          <div id="table-all"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPROVED -->
+    <div id="section-approved" style="display:none;">
+      <div class="card fade-in">
+        <div class="card-head"><div class="ch-icon" style="background:var(--ok-bg);">✅</div><div><div class="ch-title">Approved &amp; Forwarded to Principal</div></div></div>
+        <div class="card-body"><div id="table-approved"></div></div>
+      </div>
+    </div>
+
+    <!-- REJECTED -->
+    <div id="section-rejected" style="display:none;">
+      <div class="card fade-in">
+        <div class="card-head"><div class="ch-icon" style="background:var(--err-bg);">❌</div><div><div class="ch-title">Rejected by HOD</div></div></div>
+        <div class="card-body"><div id="table-rejected"></div></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+</div>
+
+<!-- ══ DETAIL MODAL ══ -->
+<div class="modal-overlay" id="modalDetail">
+  <div class="modal-box wide">
+    <div class="modal-head">
+      <div class="modal-ico">📋</div>
+      <div>
+        <h3 id="modal-app-id">APP-2025-000</h3>
+        <div style="font-size:12px;color:var(--text-3);margin-top:2px;" id="modal-app-status"></div>
+      </div>
+      <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="closeModal('modalDetail')">✕ Close</button>
+    </div>
+    <div id="modal-app-detail"></div>
+    <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);" id="hod-action-area">
+      <div class="section-divider">Your Action</div>
+      <div class="field" style="margin-bottom:14px;">
+        <label>Remarks <span class="req">*</span> <span style="font-size:11px;color:var(--text-3);font-weight:400;">(mandatory — visible to student)</span></label>
+        <textarea id="hod-remarks" placeholder="Academic verification notes, conditions, or reason for rejection…" style="min-height:90px;"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-err" onclick="hodAction('reject')">❌ Reject &amp; Return to Student</button>
+        <button class="btn" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;" onclick="hodAction('approve')">✍️ Approve &amp; Forward to Principal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DIGITAL SIGNATURE MODAL ══ -->
+<div class="modal-overlay" id="modalSign">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-ico">✍️</div>
+      <h3>Apply Digital Signature</h3>
+    </div>
+    <p style="font-size:13px;color:var(--text-2);margin-bottom:16px;">Your digital signature will be embedded in the application record and visible to the student and Principal.</p>
+    <div class="sig-box">
+      <div class="sig-line" id="sig-display">HOD</div>
+      <div class="sig-label">Digital Signature — Head of Department</div>
+      <div class="sig-meta">
+        <span id="sig-name-disp"></span>
+        <span id="sig-date-disp"></span>
+      </div>
+      <div style="margin-top:12px;"><span class="sig-stamp">🔒 DIGITALLY SIGNED</span></div>
+    </div>
+    <div class="notice ok" style="margin:12px 0;"><span class="notice-ico">✅</span><span>Signing confirms academic approval. Application will be forwarded to the Principal.</span></div>
+    <div class="btn-row" style="justify-content:flex-end;margin-top:16px;">
+      <button class="btn btn-outline" onclick="closeModal('modalSign');openModal('modalDetail')">← Back</button>
+      <button class="btn" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;" onclick="executeHODApprove()">✅ Confirm &amp; Sign</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REJECT CONFIRM MODAL ══ -->
+<div class="modal-overlay" id="modalRejectConfirm">
+  <div class="modal-box">
+    <div class="modal-head"><div class="modal-ico">❌</div><h3>Confirm Rejection</h3></div>
+    <p style="font-size:13.5px;color:var(--text-2);margin-bottom:20px;">The application will be <strong>rejected and returned to the student</strong>. It will <strong>not</strong> be forwarded to the Principal. Student will see your remarks.</p>
+    <div class="btn-row" style="justify-content:flex-end;">
+      <button class="btn btn-outline" onclick="closeModal('modalRejectConfirm');openModal('modalDetail')">← Back</button>
+      <button class="btn btn-err" onclick="executeHODReject()">❌ Confirm Reject</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">© 2025 JD College of Engineering &amp; Management, Nagpur · Admin Portal</footer>
+<script src="../js/security.js"></script>
+<script src="hod.js"></script>
+</body>
+</html>

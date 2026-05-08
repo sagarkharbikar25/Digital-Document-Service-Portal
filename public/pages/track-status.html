@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Application Status – JDCOEM Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/track-status.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifList">
+          <div style="padding:20px; text-align:center; color:#9ca3af; font-size:12px;">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-item" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge" id="sideAppBadge"></span>
+    </a>
+    <a class="nav-item active" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+    <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge" id="sideNotifBadge"></span>
+    </a>
+    <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="crumb">
+        <a href="home.html">🏠 Home</a><span class="sep">›</span>
+        <a href="dashboard.html">My Applications</a><span class="sep">›</span>
+        <span class="cur">Track Status</span>
+      </div>
+      <div class="hero-row">
+        <div class="hero-left">
+          <h1>⏳ Track Application Status</h1>
+          <p>Track the progress of your document request in real time.</p>
+        </div>
+      </div>
+
+      <!-- LOOKUP STRIP -->
+      <div class="lookup-strip">
+        <input class="lookup-input" id="lookupInput" type="text"
+          placeholder="Enter Application ID (e.g. APP-2026-000045)"
+          oninput="onLookupInput()"
+          onkeydown="if(event.key==='Enter') handleLookup()">
+        <button class="lookup-btn" onclick="handleLookup()">🔍 Track</button>
+        <div class="lookup-hint">Or select from your recent applications below</div>
+        <div id="quickPicks" style="display:flex;gap:8px;flex-wrap:wrap;width:100%;margin-top:6px;"></div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ALERT BANNER -->
+      <div id="alertBanner" class="alert-banner ab-info fu" style="display:none;">
+        <div class="ab-icon" id="abIcon">ℹ️</div>
+        <div class="ab-body"><strong id="abTitle">—</strong><p id="abMsg">—</p></div>
+      </div>
+
+      <!-- APP IDENTITY CARD -->
+      <div class="id-card fu fd1" id="identityCard" style="display:none;">
+        <div class="id-card-header">
+          <div class="id-doc-icon" id="idDocIcon">📄</div>
+          <div class="id-doc-info">
+            <div class="id-doc-name" id="idDocName">—</div>
+            <div class="id-app-code" id="idAppCode">—</div>
+          </div>
+        </div>
+        <div class="id-card-body">
+          <div class="id-field">
+            <div class="id-field-label">Date Applied</div>
+            <div class="id-field-value">📅 <span id="idDate">—</span></div>
+          </div>
+          <div class="id-field">
+            <div class="id-field-label">Expected Processing</div>
+            <div class="id-field-value">⏱ <span id="idProc">—</span></div>
+          </div>
+          <div class="id-field">
+            <div class="id-field-label">Current Status</div>
+            <div class="id-field-value" id="idStatus">—</div>
+          </div>
+          <div class="id-field">
+            <div class="id-field-label">Last Updated</div>
+            <div class="id-field-value">🕐 <span id="idUpdated">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROGRESS TRACKER -->
+      <div class="tracker-card fu fd2" id="trackerCard" style="display:none;">
+        <div class="tc-head">
+          <span class="tc-head-icon">🗺️</span>
+          <h3>Application Progress</h3>
+        </div>
+        <div class="tc-body">
+          <div class="prog-steps" id="progSteps">
+            <div class="prog-fill" id="progFill" style="width:0%;"></div>
+          </div>
+          <div class="timeline-vert" id="timelineVert"></div>
+        </div>
+      </div>
+
+      <!-- CURRENT STATUS SUMMARY -->
+      <div class="status-summary-card fu fd3" id="statusSummaryCard" style="display:none;">
+        <div class="ss-head">
+          <span style="font-size:18px;">📊</span>
+          <h3>Current Status Summary</h3>
+        </div>
+        <div class="ss-body">
+          <div class="ss-field">
+            <div class="ss-label">Current Status</div>
+            <div class="ss-val" id="ssCurStatus">—</div>
+          </div>
+          <div class="ss-field">
+            <div class="ss-label">Last Updated</div>
+            <div class="ss-val">🕐 <span id="ssUpdated">—</span></div>
+          </div>
+          <div class="ss-field">
+            <div class="ss-label">Responsible Authority</div>
+            <div class="ss-val">🏛 <span id="ssAuthority">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REMARKS -->
+      <div class="remarks-card fu fd3" id="remarksCard" style="display:none;">
+        <div class="rk-head">
+          <span style="font-size:18px;">💬</span>
+          <h3>Remarks &amp; Notes</h3>
+        </div>
+        <div class="rk-body" id="remarksBody">—</div>
+      </div>
+
+      <!-- UPLOADED FILES -->
+      <div class="files-card fu fd4" id="filesCard" style="display:none;">
+        <div class="fc-head">
+          <span style="font-size:18px;">📎</span>
+          <h3>Uploaded Documents</h3>
+        </div>
+        <div class="fc-body" id="filesBody">—</div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="actions-card fu fd4" id="actionsCard" style="display:none;">
+        <h3>Actions</h3>
+        <div class="actions-row" id="actionsRow">—</div>
+      </div>
+
+      <!-- HELP & SUPPORT -->
+      <div class="help-card fu fd5">
+        <div class="help-head">
+          <span style="font-size:18px;">🆘</span>
+          <h3>Help &amp; Support</h3>
+        </div>
+        <div class="help-body">
+          <div class="help-item">
+            <div class="hi-icon" style="background:#dbeafe;">📞</div>
+            <div>
+              <div class="hi-label">Office Phone</div>
+              <div class="hi-val">9011010038</div>
+              <div class="hi-sub">Mon–Sat · 9 AM – 5:30 PM</div>
+            </div>
+          </div>
+          <div class="help-item">
+            <div class="hi-icon" style="background:#d1fae5;">📧</div>
+            <div>
+              <div class="hi-label">Helpdesk Email</div>
+              <div class="hi-val"><a href="mailto:support@jdcoem.ac.in">support@jdcoem.ac.in</a></div>
+              <div class="hi-sub">Response within 1 working day</div>
+            </div>
+          </div>
+          <div class="help-item">
+            <div class="hi-icon" style="background:#fef9c3;">🏢</div>
+            <div>
+              <div class="hi-label">Office Location</div>
+              <div class="hi-val">Admin Block – Room 101</div>
+              <div class="hi-sub">Kalmeshwar Road, Nagpur</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /layout -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>
+
+<script src="../js/track-status.js"></script>
+</body>
+</html>

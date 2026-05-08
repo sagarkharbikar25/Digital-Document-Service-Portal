@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Document – JDCOEM Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/leaving.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifList">
+          <div style="padding:24px;text-align:center;color:#9ca3af;font-size:12px;">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<!-- ── LAYOUT ── -->
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-item active" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge" id="sideAppBadge"></span>
+    </a>
+    <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+    <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge" id="sideNotifBadge"></span>
+    </a>
+    <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="hero-breadcrumb">
+        <a href="home.html">🏠 Home</a>
+        <span class="sep">›</span>
+        <span class="cur">Apply for Document</span>
+      </div>
+      <h1 class="hero-title">📄 Apply for Document</h1>
+      <p class="hero-subtitle">Submit your document request online. All fields marked with * are mandatory.</p>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+
+      <!-- INFO BOX -->
+      <div class="info-box">
+        <div class="info-box-icon">ℹ️</div>
+        <div class="info-box-text">
+          <strong>Important:</strong> Please ensure all information is accurate. Processing time is typically <strong>3-5 working days</strong> for most documents. You will receive email notifications at each stage of processing.
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <form id="applicationForm">
+
+        <!-- 1️⃣ STUDENT DETAILS (READ-ONLY) -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="card-icon">👤</span> Student Details</h2>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label">Student Name</label>
+              <input type="text" class="form-input" id="studentName" readonly>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Roll Number</label>
+              <input type="text" class="form-input" id="rollNumber">
+            </div>
+            <div class="form-field">
+              <label class="form-label">BT / University ID</label>
+              <input type="text" class="form-input" id="btId">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Department</label>
+              <input type="text" class="form-input" id="department">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Programme</label>
+              <input type="text" class="form-input" id="programme">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Year / Semester</label>
+              <input type="text" class="form-input" id="yearSem">
+            </div>
+            <div class="form-field">
+              <label class="form-label">College Email</label>
+              <input type="email" class="form-input" id="email">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Mobile Number</label>
+              <input type="tel" class="form-input" id="mobile">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2️⃣ DOCUMENT TYPE SELECTION -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="card-icon">📋</span> Document Type</h2>
+          </div>
+          <div class="form-field">
+            <label class="form-label required">Select Document Type</label>
+            <select class="form-select" id="docType" required>
+              <option value="">-- Select Document --</option>
+              <option value="tc">Transfer Certificate (TC)</option>
+              <option value="noc">No Objection Certificate (NOC)</option>
+              <option value="transcript">Official Transcript</option>
+              <option value="character">Character Certificate</option>
+            </select>
+            <span class="form-error">Please select a document type</span>
+          </div>
+        </div>
+
+        <!-- 3️⃣ DYNAMIC FIELDS CONTAINER -->
+        <div id="dynamicFieldsContainer"></div>
+
+        <!-- 4️⃣ COMMON UPLOAD SECTION -->
+        <div class="card" id="uploadSection" style="display:none;">
+          <div class="card-header">
+            <h2 class="card-title"><span class="card-icon">📎</span> Supporting Documents</h2>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Upload Supporting Documents (Optional)</label>
+            <input type="file" class="form-input form-file" id="supportingDocs" multiple accept=".pdf,.jpg,.jpeg,.png">
+            <span class="form-help">Accepted formats: PDF, JPG, PNG (Max 5MB per file). You can upload multiple files.</span>
+          </div>
+        </div>
+
+        <!-- 5️⃣ DECLARATION -->
+        <div id="declarationSection" style="display:none;">
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="declaration" required>
+            <label class="checkbox-label" for="declaration">
+              I hereby declare that the information provided above is true and correct to the best of my knowledge. I understand that any false information may lead to rejection of my application or disciplinary action.
+            </label>
+          </div>
+
+          <!-- SUBMIT BUTTONS -->
+          <div class="btn-group">
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+              <span>✓</span> Submit Application
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+              <span>↻</span> Reset Form
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h2>Application Submitted Successfully!</h2>
+    <p>Your document request has been received and is being processed.</p>
+    <p class="app-id">Application ID: <span id="appIdDisplay"></span></p>
+    <p>You can track your application status using this ID. A confirmation email has been sent to your registered email address.</p>
+    <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+      <span>📂</span> View My Applications
+    </button>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>
+
+
+<script src="../js/leaving.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help &amp; Support – JDCOEM Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/help.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative; display:flex; align-items:center;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications" id="notifBell">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span class="notif-badge" style="display:none;"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifListDropdown">
+          <div style="padding:20px; text-align:center; color:#9ca3af; font-size:12px;">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-item" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge" id="sideAppBadge"></span>
+    </a>
+    <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+    <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge" id="sideNotifBadge"></span>
+    </a>
+    <a class="nav-item active" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="crumb">
+        <a href="home.html">🏠 Home</a><span class="sep">›</span>
+        <span class="cur">Help &amp; Support</span>
+      </div>
+      <div class="hero-main">
+        <h1>🆘 Help &amp; Support</h1>
+        <p>We're here to help you with document applications, tracking, and downloads. Find answers below or raise a support ticket.</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- QUICK HELP CARDS -->
+      <div class="quick-grid fu">
+        <div class="qc qc-1" onclick="smoothScroll('#ticket-section')">
+          <div class="qc-ico" style="background:#dbeafe;">📨</div>
+          <div class="qc-title">Contact Support</div>
+          <div class="qc-desc">Get direct assistance from the college office for any application issue or query.</div>
+          <div class="qc-link">Raise a Ticket →</div>
+        </div>
+        <div class="qc qc-2" onclick="smoothScroll('#faq-section')">
+          <div class="qc-ico" style="background:#d1fae5;">📄</div>
+          <div class="qc-title">Document Help</div>
+          <div class="qc-desc">Guidelines on certificates, uploads, valid formats, and approval processes.</div>
+          <div class="qc-link">Read FAQ →</div>
+        </div>
+        <div class="qc qc-3" onclick="window.location.href='track-status.html'">
+          <div class="qc-ico" style="background:#ede9fe;">🔍</div>
+          <div class="qc-title">Track Issues</div>
+          <div class="qc-desc">Help with application tracking IDs, status confusion, and lost application issues.</div>
+          <div class="qc-link">Go to Tracker →</div>
+        </div>
+        <div class="qc qc-4" onclick="smoothScroll('#ticket-section')">
+          <div class="qc-ico" style="background:var(--saffron-pale);">⚙️</div>
+          <div class="qc-title">Technical Support</div>
+          <div class="qc-desc">Login failures, password resets, file upload errors, and portal access issues.</div>
+          <div class="qc-link">Get Help →</div>
+        </div>
+      </div>
+
+      <!-- IMPORTANT NOTICE -->
+      <div class="notice-card fu fd1" id="notice-section">
+        <div class="nc-head">
+          <span style="font-size:24px;">⚠️</span>
+          <h3>Important Notes &amp; Guidelines</h3>
+          <span class="nc-badge">Please Read</span>
+        </div>
+        <div class="nc-grid">
+          <div class="nc-item">
+            <div class="nc-item-ico">📅</div>
+            <div class="nc-item-title">Working Days Only</div>
+            <div class="nc-item-text">Applications are processed only on working days (Mon–Sat). Public holidays may cause delays in processing.</div>
+          </div>
+          <div class="nc-item">
+            <div class="nc-item-ico">🖼️</div>
+            <div class="nc-item-title">Clear Document Uploads</div>
+            <div class="nc-item-text">Ensure all uploaded documents are clear, legible, and valid. Blurry or cropped images will cause rejection.</div>
+          </div>
+          <div class="nc-item">
+            <div class="nc-item-ico">📝</div>
+            <div class="nc-item-title">Accurate Information</div>
+            <div class="nc-item-text">Incorrect name, roll number, or department details may lead to application rejection or document errors.</div>
+          </div>
+          <div class="nc-item">
+            <div class="nc-item-ico">📂</div>
+            <div class="nc-item-title">File Format Requirements</div>
+            <div class="nc-item-text">Accepted formats: PDF, JPG, PNG. Maximum file size: 5MB per file. Password-protected PDFs will be rejected.</div>
+          </div>
+          <div class="nc-item">
+            <div class="nc-item-ico">🔒</div>
+            <div class="nc-item-title">Document Validity</div>
+            <div class="nc-item-text">Issued documents are valid for 6 months unless stated otherwise. Expired documents must be re-requested.</div>
+          </div>
+          <div class="nc-item">
+            <div class="nc-item-ico">📞</div>
+            <div class="nc-item-title">Contact Before Re-Applying</div>
+            <div class="nc-item-text">If rejected, read the remarks carefully. Contact the office if the reason is unclear before submitting again.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div id="faq-section">
+        <div class="sec-title fu fd1"><span>❓</span> Frequently Asked Questions</div>
+        <div style="height:14px;"></div>
+        <div class="faq-list fu fd2" id="faqList">
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">1</div>
+              <div class="faq-q-text">How do I apply for a document?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Applying for a document is simple and takes under 5 minutes:
+                <ul>
+                  <li>Go to <a href="home.html">Dashboard</a> or click <a href="documents.html">Apply for Document</a></li>
+                  <li>Browse and select the document you need (e.g., Bonafide Certificate)</li>
+                  <li>Fill in all required fields accurately</li>
+                  <li>Upload the required supporting documents (College ID, Fee Receipt, etc.)</li>
+                  <li>State your purpose and accept the declaration</li>
+                  <li>Click <strong>Submit Application</strong> — you'll receive a unique Application ID</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">2</div>
+              <div class="faq-q-text">How long does approval take?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Processing times vary by document type:
+                <ul>
+                  <li><strong>Bonafide Certificate:</strong> 2 working days</li>
+                  <li><strong>Character Certificate / NOC:</strong> 3–5 working days</li>
+                  <li><strong>Transfer Certificate:</strong> 7–10 working days</li>
+                  <li><strong>Official Transcript:</strong> 10–15 working days</li>
+                  <li><strong>Degree / Provisional Certificate:</strong> 15–30 working days</li>
+                </ul>
+                Processing happens only on working days. Delays may occur during examination season or holidays.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">3</div>
+              <div class="faq-q-text">What is a Tracking ID / Application ID?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                A <strong>Tracking ID</strong> (also called Application ID) is a unique alphanumeric code like
+                <code style="background:var(--g100);padding:1px 6px;border-radius:4px;font-family:monospace;">APP-2025-4821</code>
+                that is generated automatically when you successfully submit an application. Use this ID on the
+                <a href="track-status.html">Track Status page</a> to monitor your application in real time. Keep it safe — you'll need it if you ever contact the support office about your application.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">4</div>
+              <div class="faq-q-text">What if my application is rejected?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                If your application is rejected:
+                <ul>
+                  <li>You will receive a notification via the portal with the specific reason for rejection</li>
+                  <li>Common reasons: missing documents, blurry scans, incorrect information, incomplete form</li>
+                  <li>Read the admin's remarks carefully on the <a href="track-status.html">Track Status page</a></li>
+                  <li>Correct the issue and re-apply via the <a href="documents.html">Document page</a></li>
+                  <li>If the reason is unclear, raise a support ticket below or call the office</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">5</div>
+              <div class="faq-q-text">Can I download documents multiple times?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Yes! Approved documents can be downloaded as many times as needed from the <a href="download.html">Downloads page</a>.
+                However, the download link is active for <strong>30 days</strong> from the date of issue. After 30 days, you must request a re-issue.
+                All downloads are digitally signed and carry a unique verification ID — they are legally valid without a physical stamp.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">6</div>
+              <div class="faq-q-text">What file formats are accepted for uploads?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Accepted file formats are <strong>PDF, JPG, and PNG</strong>. The maximum file size is <strong>5 MB per file</strong> and <strong>2 MB for passport photos</strong>.
+                Ensure documents are: clear and fully visible, not password-protected, scanned straight (not tilted or cut off).
+                Blurry or invalid files will cause your application to be rejected.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">7</div>
+              <div class="faq-q-text">I forgot my password. How do I reset it?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                To reset your password:
+                <ul>
+                  <li>Go to the <a href="login.html">Login page</a> and click <strong>Forgot Password</strong></li>
+                  <li>Enter your registered college email (e.g., student@jdcoem.ac.in)</li>
+                  <li>A reset link will be sent to your email within a few minutes</li>
+                  <li>If you don't receive it, check your spam/junk folder</li>
+                  <li>Still having trouble? Use the <a href="#ticket-section">support form below</a> or call the office at 9011010038</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">
+              <div class="faq-q-ico">8</div>
+              <div class="faq-q-text">How do I verify the authenticity of my issued document?</div>
+              <div class="faq-chevron">⌄</div>
+            </div>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Every issued document contains a <strong>Digital Signature</strong> and a unique <strong>Verification ID</strong>. To verify:
+                <ul>
+                  <li>Look for the Verification ID on the document (e.g., <code style="background:var(--g100);padding:1px 6px;border-radius:4px;font-family:monospace;">JDCOEM-VER-2025-A8X2K</code>)</li>
+                  <li>Visit <strong>portal.jdcoem.ac.in/verify</strong> and enter the Verification ID</li>
+                  <li>The document details and authenticity will be confirmed instantly</li>
+                </ul>
+                Documents downloaded from this portal are legally valid and do not require a physical stamp or signature.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SUPPORT TICKET + CONTACT -->
+      <div class="ticket-wrap" id="ticket-section">
+
+        <!-- TICKET FORM -->
+        <div class="ticket-form-card fu fd2">
+          <div class="tfc-head">
+            <span style="font-size:18px;">🎫</span>
+            <h3>Raise a Support Ticket</h3>
+          </div>
+          <div class="tfc-body" id="ticketFormBody">
+            <div class="form-row">
+              <div class="field" id="f-name">
+                <label>Full Name <span class="req">*</span></label>
+                <input type="text" id="inp-name" placeholder="As per college records">
+                <div class="field-error">Please enter your full name.</div>
+              </div>
+              <div class="field" id="f-btid">
+                <label>Roll Number / BT ID <span class="req">*</span></label>
+                <input type="text" id="inp-btid" placeholder="e.g. 2022CE047">
+                <div class="field-error">Please enter your Roll Number or BT ID.</div>
+              </div>
+            </div>
+            <div class="field" id="f-email">
+              <label>College Email ID <span class="req">*</span></label>
+              <input type="email" id="inp-email" placeholder="yourname@jdcoem.ac.in">
+              <div class="field-error">Please enter a valid college email.</div>
+            </div>
+            <div class="field" id="f-cat">
+              <label>Issue Category <span class="req">*</span></label>
+              <select id="inp-cat">
+                <option value="">— Select a category —</option>
+                <option value="document">📄 Document Issue (Upload / Approval / Download)</option>
+                <option value="tracking">🔍 Tracking / Application ID Issue</option>
+                <option value="technical">⚙️ Technical Issue (Login / Password / Portal)</option>
+                <option value="payment">💳 Payment / Fee Issue</option>
+                <option value="other">📌 Other</option>
+              </select>
+              <div class="field-error">Please select an issue category.</div>
+            </div>
+            <div class="field" id="f-appid">
+              <label>Application ID (if applicable)</label>
+              <input type="text" id="inp-appid" placeholder="e.g. APP-2025-4821 (leave blank if not applicable)">
+            </div>
+            <div class="field full" id="f-desc">
+              <label>Description of Issue <span class="req">*</span></label>
+              <textarea id="inp-desc" placeholder="Please describe your issue in detail. Include steps you already tried, error messages, and any relevant information." oninput="updateCharCount()"></textarea>
+              <div class="char-count"><span id="charCount">0</span> / 600 characters</div>
+              <div class="field-error">Please describe your issue (minimum 20 characters).</div>
+            </div>
+            <div class="submit-row">
+              <button class="btn-submit" onclick="submitTicket()">🎫 Submit Ticket</button>
+              <button class="btn-reset" onclick="resetForm()">Reset</button>
+            </div>
+          </div>
+          <!-- SUCCESS STATE -->
+          <div class="ticket-success" id="ticketSuccess">
+            <div class="ts-ico">✅</div>
+            <div class="ts-title">Ticket Submitted Successfully!</div>
+            <div class="ts-id" id="ticketId">TKT-2025-0001</div>
+            <div class="ts-msg">Your support request has been received. Our team will respond within <strong>1–2 working days</strong> on your registered email. Keep your Ticket ID handy for follow-up.</div>
+            <button class="btn-submit" style="margin-top:8px;" onclick="newTicket()">+ Raise Another Ticket</button>
+          </div>
+        </div>
+
+        <!-- CONTACT CARD -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="contact-card fu fd2">
+            <div class="cc-head">
+              <h3>🏢 Student Document Service Cell</h3>
+              <p>Official college support for document services</p>
+            </div>
+            <div class="office-status">
+              <div class="os-dot"></div>
+              <div class="os-text">Office Currently Open</div>
+            </div>
+            <div class="cc-body">
+              <div class="cc-row">
+                <div class="cc-ico" style="background:#dbeafe;">📞</div>
+                <div>
+                  <div class="cc-label">Phone</div>
+                  <div class="cc-val"><a href="tel:9011010038">9011010038</a></div>
+                  <div class="cc-sub">Call for urgent queries</div>
+                </div>
+              </div>
+              <div class="cc-row">
+                <div class="cc-ico" style="background:#d1fae5;">📧</div>
+                <div>
+                  <div class="cc-label">Support Email</div>
+                  <div class="cc-val"><a href="mailto:support@jdcoem.ac.in">support@jdcoem.ac.in</a></div>
+                  <div class="cc-sub">Response within 1 working day</div>
+                </div>
+              </div>
+              <div class="cc-row">
+                <div class="cc-ico" style="background:#fef9c3;">🕐</div>
+                <div>
+                  <div class="cc-label">Working Hours</div>
+                  <div class="cc-val">Mon – Sat · 10:00 AM – 4:00 PM</div>
+                  <div class="cc-sub">Closed on public holidays</div>
+                </div>
+              </div>
+              <div class="cc-row">
+                <div class="cc-ico" style="background:#ede9fe;">📍</div>
+                <div>
+                  <div class="cc-label">Office Location</div>
+                  <div class="cc-val">Admin Block – Room 101</div>
+                  <div class="cc-sub">Kalmeshwar Road, Nagpur – 441501</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- QUICK LINKS -->
+          <div style="background:#fff;border:1px solid var(--g200);border-radius:var(--rad-xl);padding:18px 20px;box-shadow:var(--sh-xs);">
+            <div style="font-family:Noto Serif,serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">🔗 Quick Links</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <a href="documents.html" class="quick-link" onmouseover="this.style.background='var(--saffron-pale)';this.style.color='var(--saffron)';" onmouseout="this.style.background='var(--g50)';this.style.color='var(--g700)';" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--g50);border-radius:var(--rad);text-decoration:none;color:var(--g700);font-size:13.5px;font-weight:500;transition:all var(--tr);">📄 Apply for Document</a>
+              <a href="my-applications.html" class="quick-link" onmouseover="this.style.background='var(--saffron-pale)';this.style.color='var(--saffron)';" onmouseout="this.style.background='var(--g50)';this.style.color='var(--g700)';" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--g50);border-radius:var(--rad);text-decoration:none;color:var(--g700);font-size:13.5px;font-weight:500;transition:all var(--tr);">📂 My Applications</a>
+              <a href="track-status.html" class="quick-link" onmouseover="this.style.background='var(--saffron-pale)';this.style.color='var(--saffron)';" onmouseout="this.style.background='var(--g50)';this.style.color='var(--g700)';" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--g50);border-radius:var(--rad);text-decoration:none;color:var(--g700);font-size:13.5px;font-weight:500;transition:all var(--tr);">⏳ Track Application Status</a>
+              <a href="download.html" class="quick-link" onmouseover="this.style.background='var(--saffron-pale)';this.style.color='var(--saffron)';" onmouseout="this.style.background='var(--g50)';this.style.color='var(--g700)';" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--g50);border-radius:var(--rad);text-decoration:none;color:var(--g700);font-size:13.5px;font-weight:500;transition:all var(--tr);">⬇️ Download Documents</a>
+              <a href="profile.html" class="quick-link" onmouseover="this.style.background='var(--saffron-pale)';this.style.color='var(--saffron)';" onmouseout="this.style.background='var(--g50)';this.style.color='var(--g700)';" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--g50);border-radius:var(--rad);text-decoration:none;color:var(--g700);font-size:13.5px;font-weight:500;transition:all var(--tr);">👤 My Profile</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /ticket-wrap -->
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /layout -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>
+
+
+<script src="../js/help.js"></script>
+
+</body>
+</html>

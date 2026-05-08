@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clerk Dashboard | JDCOEM Admin Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="hdr-inner">
+    <a href="index.html" class="logo-link">
+      <div class="logo-em">🏛️</div>
+      <div><div class="logo-title">JDCOEM Admin Portal</div><div class="logo-sub">Document Services</div></div>
+    </a>
+    <div class="hdr-role-tag" id="hdr-role-tag">CLERK</div>
+    <div class="hdr-sp"></div>
+    <div class="hdr-user">
+      <div class="hdr-av" id="hdr-av">?</div>
+      <div><div class="hdr-nm" id="hdr-nm">Loading…</div><div class="hdr-sub" id="hdr-sub"></div></div>
+    </div>
+    <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-role-banner">
+    <div class="sb-role-icon" id="sb-role-icon">🗂️</div>
+    <div>
+      <div class="sb-role-name"  id="sb-role-name">Clerk</div>
+      <div class="sb-role-email" id="sb-role-email"></div>
+    </div>
+  </div>
+  <span class="nav-sect">Applications</span>
+  <div class="nav-link active" onclick="showSection('pending')">
+    <span class="nav-ic">⏳</span> Pending
+    <span class="nav-bdg" id="sb-pending-count"></span>
+  </div>
+  <div class="nav-link" onclick="showSection('all')">
+    <span class="nav-ic">📋</span> All Applications
+  </div>
+  <div class="nav-link" onclick="showSection('approved')">
+    <span class="nav-ic">✅</span> Approved
+  </div>
+  <div class="nav-link" onclick="showSection('rejected')">
+    <span class="nav-ic">❌</span> Rejected
+  </div>
+  <span class="nav-sect" style="margin-top:8px;">System</span>
+  <div class="nav-link" onclick="showSection('stats')">
+    <span class="nav-ic">📊</span> Overview
+  </div>
+  <div class="nav-link" onclick="logout()">
+    <span class="nav-ic">🚪</span> Logout
+  </div>
+</aside>
+
+<main class="main-area">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="ph-inner">
+      <div class="ph-row">
+        <div class="ph-icon">🗂️</div>
+        <div>
+          <div class="ph-h1">Clerk Dashboard</div>
+          <div class="ph-sub">Verify student documents and forward to HOD for approval</div>
+        </div>
+      </div>
+      <div class="ph-stats">
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-total">0</div><div class="ph-stat-l">Total Applications</div></div>
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-pending">0</div><div class="ph-stat-l">Pending Review</div></div>
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-approved">0</div><div class="ph-stat-l">Approved</div></div>
+        <div class="ph-stat"><div class="ph-stat-v" id="stat-rejected">0</div><div class="ph-stat-l">Rejected</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── OVERVIEW / STATS SECTION ──
+         FIX: was missing — showSection('stats') would silently fail -->
+    <div id="section-stats" style="display:none;">
+      <div class="stat-grid fade-in">
+        <div class="stat-card">
+          <div class="stat-ic" style="background:#fef3c7;">⏳</div>
+          <div><div class="stat-val" id="sc-pending">0</div><div class="stat-lbl">Pending at Clerk</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:var(--ok-bg);">✅</div>
+          <div><div class="stat-val" id="sc-approved">0</div><div class="stat-lbl">Forwarded to HOD</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:var(--err-bg);">❌</div>
+          <div><div class="stat-val" id="sc-rejected">0</div><div class="stat-lbl">Rejected</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:var(--info-bg);">📄</div>
+          <div><div class="stat-val" id="sc-total">0</div><div class="stat-lbl">Total Applications</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PENDING SECTION ── -->
+    <div id="section-pending">
+      <div class="card fade-in">
+        <div class="card-head">
+          <div class="ch-icon" style="background:#fef3c7;">⏳</div>
+          <div>
+            <div class="ch-title">Pending Applications</div>
+            <div class="ch-sub">Applications awaiting your verification</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="filter-bar">
+            <input type="text" id="search-pending"
+                   placeholder="🔍  Search by name, ID, document type…"
+                   oninput="renderTable('pending')">
+            <select id="filter-doc" onchange="renderTable('pending')">
+              <option value="">All Document Types</option>
+              <option value="bonafide">Bonafide Certificate</option>
+              <option value="character">Character Certificate</option>
+              <option value="transcript">Official Transcript</option>
+              <option value="noc">No Objection Certificate</option>
+              <option value="leaving">Transfer Certificate</option>
+              <option value="provisional">Provisional Certificate</option>
+            </select>
+          </div>
+          <div id="table-pending"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ALL APPLICATIONS SECTION ── -->
+    <div id="section-all" style="display:none;">
+      <div class="card fade-in">
+        <div class="card-head">
+          <div class="ch-icon" style="background:var(--info-bg);">📋</div>
+          <div>
+            <div class="ch-title">All Applications</div>
+            <div class="ch-sub">Complete application history</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="filter-bar">
+            <input type="text" id="search-all"
+                   placeholder="🔍  Search…"
+                   oninput="renderTable('all')">
+          </div>
+          <div id="table-all"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── APPROVED SECTION ── -->
+    <div id="section-approved" style="display:none;">
+      <div class="card fade-in">
+        <div class="card-head">
+          <div class="ch-icon" style="background:var(--ok-bg);">✅</div>
+          <div>
+            <div class="ch-title">Approved &amp; Forwarded</div>
+            <div class="ch-sub">Applications forwarded to HOD</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="table-approved"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REJECTED SECTION ── -->
+    <div id="section-rejected" style="display:none;">
+      <div class="card fade-in">
+        <div class="card-head">
+          <div class="ch-icon" style="background:var(--err-bg);">❌</div>
+          <div>
+            <div class="ch-title">Rejected Applications</div>
+            <div class="ch-sub">Applications sent back to students</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="table-rejected"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+</div>
+
+<!-- ════ APPLICATION DETAIL MODAL ════ -->
+<div class="modal-overlay" id="modalDetail">
+  <div class="modal-box wide">
+    <div class="modal-head">
+      <div class="modal-ico">📋</div>
+      <div>
+        <h3 id="modal-app-id">APP-2025-000</h3>
+        <div style="font-size:12px;color:var(--text-3);margin-top:2px;" id="modal-app-status"></div>
+      </div>
+      <button class="btn btn-outline btn-sm" style="margin-left:auto;"
+              onclick="closeModal('modalDetail')">✕ Close</button>
+    </div>
+    <div id="modal-app-detail"></div>
+    <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);"
+         id="clerk-action-area">
+      <div class="section-divider">Your Action</div>
+      <div class="field" style="margin-bottom:14px;">
+        <label>Remarks <span class="req">*</span>
+          <span style="font-weight:400;color:var(--text-3);">
+            (mandatory — will be visible to student)
+          </span>
+        </label>
+        <textarea id="clerk-remarks"
+                  placeholder="Describe your verification findings, any issues found, or reason for action…"
+                  style="min-height:90px;"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-err" onclick="clerkAction('reject')">❌ Reject &amp; Return to Student</button>
+        <button class="btn btn-ok"  onclick="clerkAction('approve')">✅ Approve &amp; Forward to HOD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ CONFIRMATION MODAL ════ -->
+<div class="modal-overlay" id="modalConfirm">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-ico" id="conf-ico">⚠️</div>
+      <h3 id="conf-title">Confirm Action</h3>
+    </div>
+    <p id="conf-msg"
+       style="font-size:13.5px;color:var(--text-2);line-height:1.6;margin-bottom:20px;"></p>
+    <div class="btn-row" style="justify-content:flex-end;">
+      <button class="btn btn-outline" onclick="closeModal('modalConfirm')">Cancel</button>
+      <button class="btn" id="conf-btn" onclick="executeAction()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  © 2025 JD College of Engineering &amp; Management, Nagpur · Admin Portal
+</footer>
+
+<script src="../js/security.js"></script>
+<script src="clerk.js"></script>
+</body>
+</html>

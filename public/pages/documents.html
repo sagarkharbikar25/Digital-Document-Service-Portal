@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Available Documents – JDCOEM Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/documents.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifList">
+          <div style="padding:20px; text-align:center; color:#9ca3af; font-size:12px;">Loading notifications...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Chip -->
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-item active" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge" id="sideAppBadge"></span>
+    </a>
+    <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+    <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge" id="sideNotifBadge"></span>
+    </a>
+    <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="hero-breadcrumb">
+        <a href="home.html">🏠 Home</a>
+        <span class="sep">›</span>
+        <span class="cur">Available Documents</span>
+      </div>
+      <div class="hero-top">
+        <div class="hero-left">
+          <h1>📄 Apply for a Document</h1>
+          <p>Browse all available academic and administrative documents. Click <strong style="color:var(--saffron-light)">Apply Now</strong> on any document to start your application — takes less than 5 minutes.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="h-stat">
+            <div class="h-stat-num">13</div>
+            <div class="h-stat-label">Documents Available</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num">2</div>
+            <div class="h-stat-label">Days Avg. Processing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH + FILTER BAR -->
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search documents…" oninput="filterCards()">
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all"     onclick="setFilter(this,'all')">All</button>
+        <button class="filter-tab"        data-filter="academic" onclick="setFilter(this,'academic')">🎓 Academic</button>
+        <button class="filter-tab"        data-filter="conduct"  onclick="setFilter(this,'conduct')">🧾 Verification</button>
+        <button class="filter-tab"        data-filter="free"     onclick="setFilter(this,'free')">✅ Free</button>
+      </div>
+      <div class="results-count">Showing <span id="visibleCount">13</span> documents</div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+      <div class="info-banner">
+        <div class="info-banner-icon">ℹ️</div>
+        <div class="info-banner-text">
+          <strong>How it works:</strong> Select a document → Fill the online form → Upload required files → Submit. Your document will be processed within the stated time and available to download from <strong>My Applications</strong>.
+        </div>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🔍</div>
+        <h3>No documents found</h3>
+        <p>Try a different search term or clear the filter.</p>
+      </div>
+
+      <!-- ACADEMIC DOCUMENTS -->
+      <div class="category-section" id="cat-academic">
+        <div class="cat-header">
+          <div class="cat-icon-wrap" style="background:#dbeafe;">🎓</div>
+          <div class="cat-title">Academic Documents</div>
+          <div class="cat-count" id="count-academic">8 documents</div>
+          <div class="cat-line"></div>
+        </div>
+        <div class="cards-grid" id="grid-academic">
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="paid" data-keywords="admission letter course year roll enrollment">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#fef3c7;">📩</div>
+              <div>
+                <div class="card-title">Admission Letter</div>
+                <div class="card-desc">Confirms course, year, roll number &amp; student details after admission.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 3–5 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">Admission Application Form</div>
+                  <div class="card-req-item">Fee Receipt</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('admission')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="paid" data-keywords="identity card college id campus library lab mandatory">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#dbeafe;">🪪</div>
+              <div>
+                <div class="card-title">Identity Card (College ID)</div>
+                <div class="card-desc">Mandatory for campus entry, exams, library &amp; lab access.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 2–3 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">Passport Size Photo</div>
+                  <div class="card-req-item">Admission Proof</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('idcard')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="paid" data-keywords="bonafide certificate enrollment proof scholarship bank loan internship passport">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#d1fae5;">📜</div>
+              <div>
+                <div class="card-title">Bonafide Certificate</div>
+                <div class="card-desc">Proof of current enrollment. Used for bank loans, scholarships, internships &amp; passport.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 2 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">Passport Size Photo</div>
+                  <div class="card-req-item">Fee Receipt</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('bonafide')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="free" data-keywords="fee receipt structure payment proof semester yearly accounts">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#fae8ff;">🧾</div>
+              <div>
+                <div class="card-title">Fee Receipt / Fee Structure</div>
+                <div class="card-desc">Semester-wise or yearly fee payment proof for official records.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 1–2 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">College ID Card</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('feereceipt')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="free" data-keywords="hall ticket admit card exam internal university entry">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#fef9c3;">🎟️</div>
+              <div>
+                <div class="card-title">Hall Ticket / Admit Card</div>
+                <div class="card-desc">Issued before internal &amp; university exams. Required for exam entry.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 1 Day</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">Fee Clearance Certificate</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('hallticket')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="paid" data-keywords="mark sheet marks semester academic performance grades university">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#e0f2fe;">📊</div>
+              <div>
+                <div class="card-title">Mark Sheet</div>
+                <div class="card-desc">Semester-wise academic performance records issued by the institute or university.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 7–10 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">College ID Card</div>
+                  <div class="card-req-item">Examination Form</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('marksheet')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="paid" data-keywords="provisional certificate temporary completion degree before final">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#f0fdf4;">🏅</div>
+              <div>
+                <div class="card-title">Provisional Certificate</div>
+                <div class="card-desc">Temporary proof of course completion before the final degree certificate is issued.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 5–7 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">All Semester Marksheets</div>
+                  <div class="card-req-item">Fee Clearance Certificate</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('provisional')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-academic" data-cat="academic" data-fee="paid" data-keywords="degree certificate final qualification RTM nagpur university">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#fef3c7;">🎓</div>
+              <div>
+                <div class="card-title">Degree Certificate</div>
+                <div class="card-desc">Final qualification certificate issued by RTM Nagpur University upon course completion.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 15–30 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">All Semester Marksheets</div>
+                  <div class="card-req-item">Fee Clearance + TC</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('degree')">Apply Now →</button>
+            </div>
+          </div>
+
+        </div><!-- /grid-academic -->
+      </div><!-- /cat-academic -->
+
+      <!-- VERIFICATION & CONDUCT -->
+      <div class="category-section" id="cat-conduct">
+        <div class="cat-header">
+          <div class="cat-icon-wrap" style="background:#fff7ed;">🧾</div>
+          <div class="cat-title">Verification &amp; Conduct Documents</div>
+          <div class="cat-count" id="count-conduct">5 documents</div>
+          <div class="cat-line"></div>
+        </div>
+        <div class="cards-grid" id="grid-conduct">
+
+          <div class="doc-card accent-conduct" data-cat="conduct" data-fee="paid" data-keywords="transfer certificate tc leaving institution higher education mandatory">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#fee2e2;">🚪</div>
+              <div>
+                <div class="card-title">Transfer Certificate (TC)</div>
+                <div class="card-desc">Issued when leaving the institution. Mandatory for higher education admissions.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 7–10 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">Fee Clearance Certificate</div>
+                  <div class="card-req-item">Library No-Dues</div>
+                  <div class="card-req-item">All Semester Marksheets</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('leaving')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-conduct" data-cat="conduct" data-fee="paid" data-keywords="migration certificate university another move higher">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#ede9fe;">🔀</div>
+              <div>
+                <div class="card-title">Migration Certificate</div>
+                <div class="card-desc">Required when moving to another university after course completion.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 10–15 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">Transfer Certificate (TC)</div>
+                  <div class="card-req-item">Degree / Provisional Certificate</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('migration')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-conduct" data-cat="conduct" data-fee="paid" data-keywords="character conduct certificate behavior discipline good standing">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#ecfdf5;">⭐</div>
+              <div>
+                <div class="card-title">Character / Conduct Certificate</div>
+                <div class="card-desc">Confirms student's good behavior and discipline throughout the course.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 5–7 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">College ID Card</div>
+                  <div class="card-req-item">Attendance Record</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('character')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-conduct" data-cat="conduct" data-fee="paid" data-keywords="noc no objection certificate internship project passport visa external exam">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#fff7ed;">✅</div>
+              <div>
+                <div class="card-title">No Objection Certificate (NOC)</div>
+                <div class="card-desc">For internships, external projects, passport, visa &amp; other official purposes.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 3–5 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">College ID Card</div>
+                  <div class="card-req-item">Purpose / Request Letter</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('noc')">Apply Now →</button>
+            </div>
+          </div>
+
+          <div class="doc-card accent-conduct" data-cat="conduct" data-fee="paid" data-keywords="transcript official academic records grades all semesters employment higher education">
+            <div class="card-top">
+              <div class="card-icon-wrap" style="background:#e0f2fe;">📋</div>
+              <div>
+                <div class="card-title">Official Transcript</div>
+                <div class="card-desc">Complete academic records with all semester marks. Required for employment &amp; higher studies.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-tag tag-time">⏱ 10–15 Days</span>
+              </div>
+              <div class="card-reqs">
+                <div class="card-reqs-label">Required Documents</div>
+                <div class="card-reqs-list">
+                  <div class="card-req-item">College ID Card</div>
+                  <div class="card-req-item">All Semester Marksheets</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn" onclick="applyFor('transcript')">Apply Now →</button>
+            </div>
+          </div>
+
+        </div><!-- /grid-conduct -->
+      </div><!-- /cat-conduct -->
+
+    </div><!-- /content-area -->
+  </main>
+</div>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">JD College of Engineering and Management</div>
+        <p>Education to Eternity</p>
+        <div class="f-contact">
+          📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+          Kalmeshwar Road, Nagpur – 441501<br>
+          📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+          📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+          🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+          📞 7774041329 / 7888018373
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="home.html">Dashboard</a></li>
+          <li><a href="documents.html">Apply for Document</a></li>
+          <li><a href="dashboard.html">My Applications</a></li>
+          <li><a href="track-status.html">Track Application</a></li>
+          <li><a href="download.html">Download Documents</a></li>
+          <li><a href="profile.html">My Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Governing Bodies</h4>
+        <ul>
+          <li>Dr. Babasaheb Ambedkar Technological University</li>
+          <li>University Grants Commission (UGC)</li>
+          <li>AICTE – All India Council for Technical Education</li>
+          <li>NAAC Accredited</li>
+          <li>Govt. of Maharashtra Recognized</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+      &nbsp;|&nbsp; Student Digital Document Services Portal
+    </div>
+  </footer>
+
+<script src="../js/documents.js"></script>
+</body>
+</html>

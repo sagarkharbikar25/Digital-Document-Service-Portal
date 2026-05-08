@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply – Admission Letter | JDCOEM Portal</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/variable.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/admission.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifList">
+          <div style="padding:20px; text-align:center; color:#9ca3af; font-size:12px;">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-item active" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge" id="sideAppBadge"></span>
+    </a>
+    <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+    <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge" id="sideNotifBadge"></span>
+    </a>
+    <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+  </aside>
+
+    <!-- ════════ MAIN ════════ -->
+    <main class="main">
+
+        <!-- PAGE HERO -->
+        <div class="page-hero">
+            <div class="breadcrumb">
+                <a href="home.html">🏠 Home</a>
+                <span class="sep">›</span>
+                <a href="documents.html">Documents</a>
+                <span class="sep">›</span>
+                <span class="cur">Admission Letter</span>
+            </div>
+            <div class="hero-row">
+                <div class="hero-left">
+                    <div class="doc-icon-hero">📩</div>
+                    <div class="hero-info">
+                        <h1>Admission Letter Application</h1>
+                        <p>Official letter confirming your course, year, roll number &amp; student details issued after admission confirmation.</p>
+                        <div class="hero-tags">
+                            <div class="hero-tag">⏱ 3–5 Working Days</div>
+                            <div class="hero-tag">📎 Documents Required</div>
+                            <div class="hero-tag">🎓 Academic Document</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-status">
+                    <div class="hero-status-label">Processing Time</div>
+                    <div class="hero-status-val">3–5 Days</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEPPER -->
+        <div class="stepper-wrap">
+            <div class="stepper">
+                <div class="step">
+                    <div class="step-circle active" id="sc1">1</div>
+                    <div class="step-info">
+                        <div class="s-label">Step 1</div>
+                        <div class="s-title active" id="st1">Student Details</div>
+                    </div>
+                </div>
+                <div class="step-line" id="sl1"></div>
+                <div class="step">
+                    <div class="step-circle pending" id="sc2">2</div>
+                    <div class="step-info">
+                        <div class="s-label">Step 2</div>
+                        <div class="s-title" id="st2">Upload Documents</div>
+                    </div>
+                </div>
+                <div class="step-line" id="sl2"></div>
+                <div class="step">
+                    <div class="step-circle pending" id="sc3">3</div>
+                    <div class="step-info">
+                        <div class="s-label">Step 3</div>
+                        <div class="s-title" id="st3">Review &amp; Submit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ CONTENT AREA ════ -->
+        <div class="content-area">
+
+            <!-- FORM COLUMN -->
+            <div class="form-col">
+
+                <!-- ─── STEP 1: STUDENT DETAILS ─── -->
+                <div id="step1-content">
+
+                    <div class="card fade-in">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#dbeafe;">🧑‍🎓</div>
+                            <div>
+                                <h3>Personal Information</h3>
+                                <p>Your basic identity details</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid">
+
+                                <div class="form-section-label">👤 Personal Details</div>
+
+                                <div class="field">
+                                    <label>Full Name <span class="req">*</span></label>
+                                    <input type="text" id="fullName" placeholder="As per Aadhaar / SSC Certificate">
+                                </div>
+                                <div class="field">
+                                    <label>Date of Birth <span class="req">*</span></label>
+                                    <input type="date" id="dob">
+                                </div>
+                                <div class="field">
+                                    <label>Gender <span class="req">*</span></label>
+                                    <select id="gender">
+                                        <option value="">Select gender</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Aadhaar Number <span class="req">*</span></label>
+                                    <input type="text" id="aadhaar" placeholder="XXXX XXXX XXXX" maxlength="14">
+                                </div>
+                                <div class="field">
+                                    <label>Mobile Number <span class="req">*</span></label>
+                                    <input type="tel" id="mobile" placeholder="+91 XXXXXXXXXX">
+                                </div>
+                                <div class="field">
+                                    <label>Email Address <span class="req">*</span></label>
+                                    <input type="email" id="email" placeholder="student@example.com">
+                                </div>
+
+                                <div class="form-section-label">🎓 Academic Details</div>
+
+                                <div class="field">
+                                    <label>BTID / Student ID <span class="req">*</span></label>
+                                    <input type="text" id="btid" placeholder="e.g. BT21CS001">
+                                </div>
+                                <div class="field">
+                                    <label>Roll Number</label>
+                                    <input type="text" id="rollno" placeholder="Exam roll number (if assigned)">
+                                </div>
+                                <div class="field">
+                                    <label>Branch / Department <span class="req">*</span></label>
+                                    <select id="branch">
+                                        <option value=" ">Select branch</option>
+                                        <option>Computer Science &amp; Engineering (CSE)</option>
+                                        <option>Information Technology (IT)</option>
+                                        <option>Electronics &amp; Telecommunication (ENTC)</option>
+                                        <option>Mechanical Engineering (ME)</option>
+                                        <option>Civil Engineering (CE)</option>
+                                        <option>Electrical Engineering (EE)</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Current Year <span class="req">*</span></label>
+                                    <select id="year">
+                                        <option value="">Select year</option>
+                                        <option>First Year (FY)</option>
+                                        <option>Second Year (SY)</option>
+                                        <option>Third Year (TY)</option>
+                                        <option>Fourth Year (Final Year)</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Academic Year <span class="req">*</span></label>
+                                    <select id="acYear">
+                                        <option value="">Select</option>
+                                        <option>2024–2025</option>
+                                        <option>2025–2026</option>
+                                        <option>2026–2027</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Admission Type <span class="req">*</span></label>
+                                    <select id="admType">
+                                        <option value="">Select</option>
+                                        <option>Direct Admission (CAP)</option>
+                                        <option>Management Quota</option>
+                                        <option>NRI Quota</option>
+                                        <option>Lateral Entry (2nd Year)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-section-label">🏷️ Category &amp; Reservation</div>
+
+                                <div class="field">
+                                    <label>Category</label>
+                                    <select id="category">
+                                        <option value="">Select category</option>
+                                        <option>General / Open</option>
+                                        <option>OBC</option>
+                                        <option>SC</option>
+                                        <option>ST</option>
+                                        <option>NT-A</option><option>NT-B</option><option>NT-C</option><option>NT-D</option>
+                                        <option>SBC</option>
+                                        <option>VJ/DT</option>
+                                        <option>EWS</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>PWD Status</label>
+                                    <select id="pwd">
+                                        <option value="">Not Applicable</option>
+                                        <option>Yes – PWD Certificate Available</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-section-label">💬 Purpose of Admission Letter</div>
+
+                                <div class="field" style="grid-column:1/-1;">
+                                    <label>Purpose / Reason <span class="req">*</span></label>
+                                    <select id="purpose">
+                                        <option value="">Select purpose</option>
+                                        <option>Scholarship Application</option>
+                                        <option>Bank Loan / Account Opening</option>
+                                        <option>Passport / Visa Application</option>
+                                        <option>Hostel / PG Accommodation</option>
+                                        <option>Government Record / Official Use</option>
+                                        <option>Other (please specify below)</option>
+                                    </select>
+                                </div>
+                                <div class="field" style="grid-column:1/-1;">
+                                    <label>Additional Remarks</label>
+                                    <textarea id="remarks" placeholder="Any special instructions or additional information for the administration…"></textarea>
+                                    <span class="field-hint">Optional — only fill if the purpose requires specific wording.</span>
+                                </div>
+
+                            </div><!-- /form-grid -->
+                        </div><!-- /card-body -->
+                    </div><!-- /card -->
+
+                    <div style="display:flex;justify-content:flex-end;margin-top:4px;">
+                        <button class="btn btn-primary" onclick="goStep(2)">Continue to Documents →</button>
+                    </div>
+
+                </div><!-- /step1-content -->
+
+                <!-- ─── STEP 2: UPLOAD DOCUMENTS ─── -->
+                <div id="step2-content" style="display:none;">
+
+                    <div class="notice info fade-in" style="margin-bottom:4px;">
+                        <div class="notice-icon">ℹ️</div>
+                        <div class="notice-text"><strong>Accepted formats:</strong> PDF, JPG, PNG — max 5 MB per file. Ensure all documents are clearly legible before uploading.</div>
+                    </div>
+
+                    <!-- Personal & Identity -->
+                    <div class="card fade-in">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#fef3c7;">🧑‍🎓</div>
+                            <div>
+                                <h3>Personal &amp; Identity Documents</h3>
+                                <p>Government-issued identity and personal records</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="doc-items">
+                                <div class="upload-item" id="ui-regform">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-regform',this)">
+                                    <div class="ui-icon">📋</div>
+                                    <div class="ui-info"><div class="ui-name">Application / Registration Form</div><div class="ui-sub">Online or offline filled form — PDF or scan</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-regform',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-photos">
+                                    <input type="file" class="file-input" accept=".jpg,.png" multiple onchange="markUploaded('ui-photos',this)">
+                                    <div class="ui-icon">📸</div>
+                                    <div class="ui-info"><div class="ui-name">Passport-size Photographs (2–6 copies)</div><div class="ui-sub">Clear, white background, recent photo — JPG or PNG</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-photos',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-aadhaar">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-aadhaar',this)">
+                                    <div class="ui-icon">🪪</div>
+                                    <div class="ui-info"><div class="ui-name">Aadhaar Card</div><div class="ui-sub">Or any valid government-issued ID proof</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-aadhaar',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-dob">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-dob',this)">
+                                    <div class="ui-icon">🎂</div>
+                                    <div class="ui-info"><div class="ui-name">Birth Certificate / 10th Marksheet (DOB Proof)</div><div class="ui-sub">10th marksheet is acceptable as date of birth proof</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-dob',event)">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Documents -->
+                    <div class="card fade-in fade-in-1">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#d1fae5;">🎓</div>
+                            <div>
+                                <h3>Academic Documents</h3>
+                                <p>Educational qualifications and certificates</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="doc-items">
+                                <div class="upload-item" id="ui-10th">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-10th',this)">
+                                    <div class="ui-icon">📄</div>
+                                    <div class="ui-info"><div class="ui-name">10th Marksheet &amp; Passing Certificate</div><div class="ui-sub">SSC / Equivalent board marksheet</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-10th',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-12th">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-12th',this)">
+                                    <div class="ui-icon">📄</div>
+                                    <div class="ui-info"><div class="ui-name">12th Marksheet &amp; Passing Certificate</div><div class="ui-sub">HSC / Diploma / ITI or equivalent, if applicable</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-12th',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-tc">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-tc',this)">
+                                    <div class="ui-icon">🚪</div>
+                                    <div class="ui-info"><div class="ui-name">Transfer Certificate (TC)</div><div class="ui-sub">From last attended institution</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-tc',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-migration">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-migration',this)">
+                                    <div class="ui-icon">🔀</div>
+                                    <div class="ui-info"><div class="ui-name">Migration Certificate</div><div class="ui-sub">Required only if from another board / university</div></div>
+                                    <span class="ui-badge badge-opt">Optional</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-migration',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-character-prev">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-character-prev',this)">
+                                    <div class="ui-icon">⭐</div>
+                                    <div class="ui-info"><div class="ui-name">Character / Conduct Certificate</div><div class="ui-sub">From last attended institution</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-character-prev',event)">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admission-Specific -->
+                    <div class="card fade-in fade-in-2">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#ede9fe;">🏫</div>
+                            <div>
+                                <h3>Admission-Specific Documents</h3>
+                                <p>Counseling and entrance-related records</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="doc-items">
+                                <div class="upload-item optional" id="ui-offer">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-offer',this)">
+                                    <div class="ui-icon">📩</div>
+                                    <div class="ui-info"><div class="ui-name">Provisional Admission Letter / Offer Letter</div><div class="ui-sub">If already issued by the institute</div></div>
+                                    <span class="ui-badge badge-opt">If Available</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-offer',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-entrance">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-entrance',this)">
+                                    <div class="ui-icon">📝</div>
+                                    <div class="ui-info"><div class="ui-name">Entrance Exam Scorecard</div><div class="ui-sub">JEE, MHT-CET, NEET, CUET, etc. — if applicable</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-entrance',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-allotment">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-allotment',this)">
+                                    <div class="ui-icon">📋</div>
+                                    <div class="ui-info"><div class="ui-name">Allotment Letter</div><div class="ui-sub">From counseling authority (CAP / DTE)</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-allotment',event)">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category & Reservation -->
+                    <div class="card fade-in fade-in-2">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#fef3c7;">🏷️</div>
+                            <div>
+                                <h3>Category &amp; Reservation Documents</h3>
+                                <p>Required only if applying under reserved category</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="doc-items">
+                                <div class="upload-item optional" id="ui-caste">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-caste',this)">
+                                    <div class="ui-icon">📜</div>
+                                    <div class="ui-info"><div class="ui-name">Caste Certificate</div><div class="ui-sub">SC / ST / OBC / NT / VJ / SBC</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-caste',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-caste-validity">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-caste-validity',this)">
+                                    <div class="ui-icon">✅</div>
+                                    <div class="ui-info"><div class="ui-name">Caste Validity Certificate</div><div class="ui-sub">Issued by Caste Validity Scrutiny Committee</div></div>
+                                    <span class="ui-badge badge-opt">If Available</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-caste-validity',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-ncl">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-ncl',this)">
+                                    <div class="ui-icon">📃</div>
+                                    <div class="ui-info"><div class="ui-name">Non-Creamy Layer Certificate (NCL)</div><div class="ui-sub">Required for OBC category</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-ncl',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-ews">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-ews',this)">
+                                    <div class="ui-icon">📃</div>
+                                    <div class="ui-info"><div class="ui-name">EWS Certificate</div><div class="ui-sub">Economically Weaker Section certificate</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-ews',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-pwd">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-pwd',this)">
+                                    <div class="ui-icon">♿</div>
+                                    <div class="ui-info"><div class="ui-name">PWD Certificate</div><div class="ui-sub">Person with Disability — only if applicable</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-pwd',event)">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financial -->
+                    <div class="card fade-in fade-in-3">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#fae8ff;">💰</div>
+                            <div>
+                                <h3>Financial Documents</h3>
+                                <p>Fee payment and scholarship records</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="doc-items">
+                                <div class="upload-item optional" id="ui-income">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-income',this)">
+                                    <div class="ui-icon">💵</div>
+                                    <div class="ui-info"><div class="ui-name">Income Certificate</div><div class="ui-sub">Required for scholarship / fee waiver applications</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-income',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-feereceipt">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-feereceipt',this)">
+                                    <div class="ui-icon">🧾</div>
+                                    <div class="ui-info"><div class="ui-name">Fee Receipt / Payment Proof</div><div class="ui-sub">Bank challan or college fee receipt</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-feereceipt',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-scholarship">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-scholarship',this)">
+                                    <div class="ui-icon">🎁</div>
+                                    <div class="ui-info"><div class="ui-name">Scholarship Form</div><div class="ui-sub">If applying for any government / private scholarship</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-scholarship',event)">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other Supporting -->
+                    <div class="card fade-in fade-in-3">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#f0fdf4;">🏠</div>
+                            <div>
+                                <h3>Other Supporting Documents</h3>
+                                <p>Domicile, gap certificate and undertakings</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="doc-items">
+                                <div class="upload-item optional" id="ui-domicile">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-domicile',this)">
+                                    <div class="ui-icon">🏠</div>
+                                    <div class="ui-info"><div class="ui-name">Domicile Certificate</div><div class="ui-sub">State domicile / residence proof</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-domicile',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-gap">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-gap',this)">
+                                    <div class="ui-icon">📅</div>
+                                    <div class="ui-info"><div class="ui-name">Gap Certificate</div><div class="ui-sub">Required only if there is a gap in education</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-gap',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-medical">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-medical',this)">
+                                    <div class="ui-icon">🏥</div>
+                                    <div class="ui-info"><div class="ui-name">Medical Fitness Certificate</div><div class="ui-sub">From a registered medical practitioner</div></div>
+                                    <span class="ui-badge badge-opt">If Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-medical',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-antiragging">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-antiragging',this)">
+                                    <div class="ui-icon">🛡️</div>
+                                    <div class="ui-info"><div class="ui-name">Anti-Ragging Undertaking</div><div class="ui-sub">Signed by student and parent / guardian</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-antiragging',event)">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Institute-Specific -->
+                    <div class="card fade-in fade-in-3">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#fff7ed;">🆔</div>
+                            <div>
+                                <h3>Institute-Specific Documents</h3>
+                                <p>College forms and declarations</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="doc-items">
+                                <div class="upload-item" id="ui-collegeform">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-collegeform',this)">
+                                    <div class="ui-icon">📝</div>
+                                    <div class="ui-info"><div class="ui-name">College Admission Form</div><div class="ui-sub">Filled and signed JDCOEM admission form</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-collegeform',event)">Upload</button>
+                                </div>
+                                <div class="upload-item" id="ui-undertaking">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-undertaking',this)">
+                                    <div class="ui-icon">✍️</div>
+                                    <div class="ui-info"><div class="ui-name">Undertaking / Declaration Forms</div><div class="ui-sub">All signed declarations as required by the institute</div></div>
+                                    <span class="ui-badge badge-req">Required</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-undertaking',event)">Upload</button>
+                                </div>
+                                <div class="upload-item optional" id="ui-bankdetails">
+                                    <input type="file" class="file-input" accept=".pdf,.jpg,.png" onchange="markUploaded('ui-bankdetails',this)">
+                                    <div class="ui-icon">🏦</div>
+                                    <div class="ui-info"><div class="ui-name">Student Bank Account Details</div><div class="ui-sub">Passbook front page or cancelled cheque</div></div>
+                                    <span class="ui-badge badge-opt">If Applicable</span>
+                                    <button class="ui-btn" onclick="triggerUpload('ui-bankdetails',event)">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                        <button class="btn btn-outline" onclick="goStep(1)">← Back</button>
+                        <button class="btn btn-primary" onclick="goStep(3)">Review &amp; Submit →</button>
+                    </div>
+
+                </div><!-- /step2-content -->
+
+                <!-- ─── STEP 3: REVIEW & SUBMIT ─── -->
+                <div id="step3-content" style="display:none;">
+
+                    <div class="card fade-in">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#f0fdf4;">✅</div>
+                            <div>
+                                <h3>Review Your Application</h3>
+                                <p>Please verify all information before final submission</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="reviewSummary" style="display:flex;flex-direction:column;gap:12px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in fade-in-1">
+                        <div class="card-head">
+                            <div class="card-head-icon" style="background:#ede9fe;">📋</div>
+                            <div>
+                                <h3>Uploaded Documents Summary</h3>
+                                <p>Documents you have uploaded for this application</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="docsSummary" style="display:flex;flex-direction:column;gap:8px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="notice warn fade-in fade-in-2">
+                        <div class="notice-icon">⚠️</div>
+                        <div class="notice-text">By submitting, you confirm all information provided is accurate and complete. False information may result in rejection of application or disciplinary action.</div>
+                    </div>
+
+                    <!-- Declarations -->
+                    <div class="card fade-in fade-in-2">
+                        <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+                            <label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
+                                <input type="checkbox" id="decl1" style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--navy);">
+                                <span style="font-size:13.5px;color:var(--g700);line-height:1.55;">I confirm that all information provided in this application is true and correct to the best of my knowledge.</span>
+                            </label>
+                            <label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
+                                <input type="checkbox" id="decl2" style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--navy);">
+                                <span style="font-size:13.5px;color:var(--g700);line-height:1.55;">I understand that the Admission Letter is issued for official purposes and misuse may lead to disciplinary action.</span>
+                            </label>
+                            <label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
+                                <input type="checkbox" id="decl3" style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--navy);">
+                                <span style="font-size:13.5px;color:var(--g700);line-height:1.55;">I have uploaded all required documents and understand that incomplete submissions may delay processing.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                        <button class="btn btn-outline" onclick="goStep(2)">← Back to Documents</button>
+                        <button class="btn btn-success" onclick="submitApplication()">🚀 Submit Application</button>
+                    </div>
+
+                </div><!-- /step3-content -->
+
+            </div><!-- /form-col -->
+
+            <!-- ════ ASIDE COLUMN ════ -->
+            <div class="aside-col">
+
+                <!-- Application Progress -->
+                <div class="info-panel">
+                    <div class="info-panel-head"><span>📊</span><h4>Application Progress</h4></div>
+                    <div class="info-panel-body">
+                        <div class="progress-ring-wrap">
+                            <div class="progress-ring">
+                                <svg width="60" height="60" viewBox="0 0 60 60">
+                                    <circle class="ring-bg"   cx="30" cy="30" r="24"/>
+                                    <circle class="ring-fill" id="ringFill" cx="30" cy="30" r="24"
+                                        stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+                                </svg>
+                                <div class="ring-text" id="ringText">0%</div>
+                            </div>
+                            <div class="progress-info">
+                                <div class="pi-title" id="progressTitle">Not Started</div>
+                                <div class="pi-sub"   id="progressSub">Fill in your details to begin</div>
+                            </div>
+                        </div>
+                        <div class="req-checklist" id="reqChecklist">
+                            <div class="chk-item"><div class="chk-dot pending" id="chk-details"></div><span class="chk-label pending" id="chkl-details">Student details filled</span></div>
+                            <div class="chk-item"><div class="chk-dot pending" id="chk-reqDocs"></div><span class="chk-label pending" id="chkl-reqDocs">Required docs uploaded</span></div>
+                            <div class="chk-item"><div class="chk-dot pending" id="chk-decl"></div><span class="chk-label pending" id="chkl-decl">Declarations confirmed</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Timeline -->
+                <div class="info-panel">
+                    <div class="info-panel-head"><span>⏱</span><h4>Processing Timeline</h4></div>
+                    <div class="info-panel-body">
+                        <div class="timeline">
+                            <div class="tl-item">
+                                <div class="tl-dot" style="background:#dbeafe;">📥</div>
+                                <div class="tl-line"></div>
+                                <div class="tl-content"><div class="tl-title">Application Submitted</div><div class="tl-desc">Your application is received and queued for review.</div><div class="tl-time">Day 0</div></div>
+                            </div>
+                            <div class="tl-item">
+                                <div class="tl-dot" style="background:#fef3c7;">🔍</div>
+                                <div class="tl-line"></div>
+                                <div class="tl-content"><div class="tl-title">Document Verification</div><div class="tl-desc">Clerk verifies uploaded documents for completeness.</div><div class="tl-time">Day 1–2</div></div>
+                            </div>
+                            <div class="tl-item">
+                                <div class="tl-dot" style="background:#ede9fe;">✍️</div>
+                                <div class="tl-line"></div>
+                                <div class="tl-content"><div class="tl-title">Administrative Approval</div><div class="tl-desc">Letter is drafted and approved by administration.</div><div class="tl-time">Day 2–4</div></div>
+                            </div>
+                            <div class="tl-item">
+                                <div class="tl-dot" style="background:#d1fae5;">📩</div>
+                                <div class="tl-line"></div>
+                                <div class="tl-content"><div class="tl-title">Ready for Download</div><div class="tl-desc">Signed PDF available in My Applications.</div><div class="tl-time">Day 3–5</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help -->
+                <div class="info-panel">
+                    <div class="info-panel-head"><span>❓</span><h4>Need Help?</h4></div>
+                    <div class="info-panel-body" style="display:flex;flex-direction:column;gap:10px;">
+                        <div class="notice info">
+                            <div class="notice-icon">📞</div>
+                            <div class="notice-text"><strong>Academic Section:</strong> Block A, Room 101<br>Mon–Sat, 9:00 AM – 5:30 PM</div>
+                        </div>
+                        <div class="notice info">
+                            <div class="notice-icon">📧</div>
+                            <div class="notice-text"><strong>Email:</strong> info@jdcoem.ac.in<br><strong>Phone:</strong> 9011010038</div>
+                        </div>
+                        <div class="notice warn">
+                            <div class="notice-icon">💡</div>
+                            <div class="notice-text">Ensure all documents are <strong>clearly scanned</strong> (300 DPI or higher) and under 5 MB each.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /aside-col -->
+
+        </div><!-- /content-area -->
+
+    </main>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal">
+        <div class="modal-icon">🎉</div>
+        <h2>Application Submitted!</h2>
+        <p>Your Admission Letter application has been successfully submitted. You will be notified once it is processed.</p>
+        <div class="app-id" id="appIdDisplay">APP-2025-XXX</div>
+        <p style="font-size:12.5px;color:var(--g400);">Save this Application ID to track your request status.</p>
+        <div class="modal-btns">
+            <button class="btn btn-outline" onclick="window.location.href='dashboard.html'">📂 My Applications</button>
+            <button class="btn btn-primary"  onclick="window.location.href='home.html'">🏠 Dashboard</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="../js/admission.js"></script>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>

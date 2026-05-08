@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JDCOEM Document Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="verify.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../pages/home.html" class="logo-wrap">
+                <img src="../assets/logo_left.png" alt="JDCOEM Logo" style="width:46px;height:46px;object-fit:contain;border-radius:4px;">
+                <div class="logo-text">
+                    <div class="college-name">JD College of Engineering & Management</div>
+                    <div class="portal-name">Document Verification System</div>
+                </div>
+            </a>
+            <div class="header-spacer" style="flex:1;"></div>
+            <div class="secure-badge">
+                <span class="secure-icon">🛡️</span>
+                <span>SECURE PORTAL</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="panel" id="mainPanel">
+            <h2>Verify Authenticity</h2>
+            <p>Upload the digital PDF certificate or enter the Application ID to verify its cryptographic integrity against the college database.</p>
+
+            <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Click to Upload PDF</div>
+                <div class="upload-sub">or Drag & Drop file here</div>
+                <input type="file" id="fileInput" accept="application/pdf">
+            </div>
+
+            <div class="or-divider">OR</div>
+
+            <div class="manual-entry">
+                <input type="text" id="certInput" placeholder="Certificate No. (e.g. CERT-2026-...)">
+                <button class="btn" onclick="verifyQR()">Verify Status</button>
+            </div>
+        </div>
+
+        <!-- AUTHENTIC / VALID -->
+        <div class="result-box" id="authenticBox">
+            <div class="result-header">
+                <div class="result-icon">✅</div>
+                <div>
+                    <div class="result-title">Authentic Document</div>
+                    <div class="result-sub" id="authMsg">Cryptographic Hash perfectly matches our secure database.</div>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-tile">
+                    <span class="tile-label">STUDENT</span>
+                    <span class="tile-val" id="valName">...</span>
+                </div>
+                <div class="info-tile">
+                    <span class="tile-label">DOCUMENT TYPE</span>
+                    <span class="tile-val" id="valType">...</span>
+                </div>
+                <div class="info-tile">
+                    <span class="tile-label">APPLICATION ID</span>
+                    <span class="tile-val" id="valCert">...</span>
+                </div>
+                <div class="info-tile">
+                    <span class="tile-label">STATUS</span>
+                    <span id="valStatusPill">...</span>
+                </div>
+                <div class="info-tile">
+                    <span class="tile-label">ISSUED ON</span>
+                    <span class="tile-val" id="valDate">...</span>
+                </div>
+                <div class="info-tile">
+                    <span class="tile-label">VERIFIED AT</span>
+                    <span class="tile-val" id="valVerifiedAt">...</span>
+                </div>
+
+                <div class="hash-strip" style="grid-column: span 2;">
+                    <span class="tile-label" style="opacity:0.6;">CRYPTOGRAPHIC SIGNATURE</span>
+                    <span class="tile-val" id="valHash" style="font-family:monospace; font-size:11px; word-break:break-all;">...</span>
+                </div>
+            </div>
+
+            <div class="timeline-section">
+                <h3>APPROVAL TIMELINE</h3>
+                <div id="timelineContainer" class="timeline-container">
+                    <!-- Timeline items injected here -->
+                </div>
+            </div>
+
+            <button class="btn reset-btn" onclick="resetUI()">Verify Another Document</button>
+        </div>
+
+        <!-- TAMPERED / INVALID -->
+        <div class="result-box" id="tamperedBox">
+            <div class="result-icon" style="margin-bottom:15px; font-size:60px;">❌</div>
+            <div class="result-title" style="color:var(--err); margin-bottom:10px;">Tampered / Fake Document</div>
+            <p style="color:var(--text-1);" id="tamperMsg">The Cryptographic Hash of this file does not match any record. The document has been mathematically proven to be altered, forged, or fake.</p>
+            
+            <button class="btn reset-btn" onclick="resetUI()">Try Again</button>
+        </div>
+
+        <!-- MODIFIED / WARNING -->
+        <div class="result-box" id="modifiedBox">
+            <div class="result-icon" style="margin-bottom:15px; font-size:60px;">⚠️</div>
+            <div class="result-title" style="color:var(--warn); margin-bottom:10px;">Document Modified</div>
+            <p style="color:var(--text-1); margin-bottom:20px;">We found a matching record for this Certificate Number, but the file's mathematical hash has changed.</p>
+            
+            <div class="info-grid">
+                <div class="info-tile">
+                    <span class="tile-label">STUDENT</span>
+                    <span class="tile-val" id="modName">...</span>
+                </div>
+                <div class="info-tile">
+                    <span class="tile-label">CERTIFICATE NO.</span>
+                    <span class="tile-val" id="modCert">...</span>
+                </div>
+                <div class="hash-strip" style="grid-column: span 2;">
+                    <span class="tile-label" style="opacity:0.6;">CURRENT FILE HASH (MISMATCH)</span>
+                    <span class="tile-val" id="modHash" style="font-family:monospace; font-size:11px; word-break:break-all;">...</span>
+                </div>
+            </div>
+
+            <div style="background:rgba(217,119,6,0.1); border:1px solid var(--warn); color:var(--warn); padding:15px; border-radius:8px; font-size:13px; text-align:left; line-height:1.5;">
+                <strong>Reason:</strong> This usually happens if the PDF was "Saved As" from a browser, shared via WhatsApp, or slightly edited. While the identity matches, the structural integrity check failed.
+            </div>
+
+            <button class="btn reset-btn" onclick="resetUI()">Verify Another</button>
+        </div>
+
+    </div>
+
+    <script src="../js/security.js"></script>
+    <script src="verify.js"></script>
+
+</body>
+</html>

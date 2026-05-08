@@ -1,0 +1,29 @@
+DirectoryIndex index.php index.html
+RewriteEngine On
+
+# Set base path
+# RewriteBase /
+
+# Allow Authorization Header (for API auth)
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Allow access to uploaded documents and verification page
+RewriteCond %{REQUEST_URI} storage/uploads/ [OR]
+RewriteCond %{REQUEST_URI} /verify/
+RewriteRule .* - [L]
+
+# ------------------------------------------------
+# If file exists, serve directly
+# ------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# If directory exists, serve directly
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ------------------------------------------------
+# Otherwise route to index.php (API router)
+# ------------------------------------------------
+RewriteRule ^ index.php [QSA,L]

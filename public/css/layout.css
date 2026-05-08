@@ -1,0 +1,430 @@
+/* ================================================
+   layout.css — Shared Layout Components
+   JDCOEM Digital Document Services Portal
+   PLACE IN: public/css/layout.css
+   ================================================ */
+
+/* ══════════════════════════════════════════════
+   CSS VARIABLES — defined here so ALL pages
+   (login, home, documents, bonafide…) get them
+   even before login.css loads
+══════════════════════════════════════════════ */
+:root {
+  --navy:           #0a1628;
+  --navy-mid:       #122040;
+  --navy-light:     #1e3a5f;
+  --saffron:        #d4781a;
+  --saffron-light:  #f4a83a;
+  --saffron-pale:   #fff4e6;
+  --gold:           #c8a84b;
+
+  --white:          #ffffff;
+  --cream:          #faf8f3;
+  --cream-dark:     #f0ede3;
+
+  --gray-50:        #f9fafb;
+  --gray-100:       #f3f4f6;
+  --gray-200:       #e5e7eb;
+  --gray-300:       #d1d5db;
+  --gray-400:       #9ca3af;
+  --gray-500:       #6b7280;
+  --gray-600:       #4b5563;
+  --gray-700:       #374151;
+  --gray-900:       #111827;
+
+  --g50:            #f9fafb;
+  --g100:           #f3f4f6;
+  --g200:           #e5e7eb;
+  --g300:           #d1d5db;
+  --g400:           #9ca3af;
+  --g500:           #6b7280;
+  --g600:           #4b5563;
+  --g700:           #374151;
+  --g900:           #111827;
+
+  --success:        #16a34a;
+  --success-bg:     #f0fdf4;
+  --success-border: #86efac;
+  --warn:           #d97706;
+  --warn-bg:        #fffbeb;
+  --warn-border:    #fcd34d;
+  --error:          #dc2626;
+  --error-bg:       #fef2f2;
+  --info:           #2563eb;
+  --info-bg:        #eff6ff;
+
+  --radius:         8px;
+  --radius-lg:      12px;
+  --radius-xl:      16px;
+
+  --shadow-sm:      0 1px 3px rgba(0,0,0,0.08);
+  --shadow:         0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg:      0 12px 40px rgba(0,0,0,0.14);
+  --shadow-hover:   0 16px 48px rgba(0,0,0,0.18);
+
+  --header:         68px;
+  --sidebar:        260px;
+}
+
+/* BASE */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+    font-family: 'Source Sans 3', 'DM Sans', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--gray-700);
+}
+
+/* ── TOP STRIP ── */
+.top-strip {
+    background: var(--navy);
+    padding: 6px 0;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.5px;
+}
+
+/* ════════════════════════════════════════════
+   LOGIN PAGE HEADER  (white background)
+   Used by: login.html only
+════════════════════════════════════════════ */
+.login-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: 3px solid var(--saffron);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.login-header .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.college-logo {
+    width: 76px;
+    height: 76px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.college-text { flex: 1; }
+
+.college-text h1 {
+    font-family: 'Noto Serif', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);      /* white on dark navy header */
+    line-height: 1.2;
+    margin: 0;
+}
+
+.college-text .subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 2px;
+}
+
+.college-text .autonomous-tag {
+    display: inline-block;
+    margin-top: 4px;
+    background: var(--saffron);
+    color: var(--white);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+.header-right {
+    text-align: right;
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+}
+
+.header-right strong {
+    display: block;
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 600;
+}
+
+/* ── NAVIGATION (login page) ── */
+.nav-bar {
+    background: var(--navy);
+    padding: 0 32px;
+    position: sticky;
+    top: 108px; /* height of login header */
+    z-index: 99;
+}
+
+.nav-bar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 11px 18px;
+    display: block;
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: var(--white);
+    background: rgba(255,255,255,0.06);
+}
+
+.nav-link.active {
+    color: var(--saffron-light);
+    border-bottom-color: var(--saffron-light);
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb-bar {
+    background: var(--cream-dark);
+    border-bottom: 1px solid var(--gray-300);
+    padding: 8px 32px;
+    font-size: 12.5px;
+    color: var(--gray-500);
+}
+
+.breadcrumb-bar span {
+    color: var(--navy);
+    font-weight: 500;
+}
+
+/* ── SITE FOOTER ── */
+.site-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    padding: 18px 32px;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.site-footer a {
+    color: var(--saffron-light);
+    text-decoration: none;
+}
+
+.site-footer .footer-top {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ════════════════════════════════════════════
+   STUDENT PORTAL HEADER  (dark navy)
+   Used by: home.html, bonafide.html, documents.html etc.
+════════════════════════════════════════════ */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    height: var(--header);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+
+.site-header .header-inner {
+    width: 100%;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.logo-wrap img,
+.college-logo-sm {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.logo-text .college-name {
+    font-family: 'Noto Serif', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.logo-text .portal-name {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 1px;
+}
+
+.header-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 4px;
+    flex-shrink: 0;
+}
+
+.header-spacer { flex: 1; }
+
+.user-chip-link { text-decoration: none; }
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 40px;
+    padding: 6px 14px 6px 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    flex-shrink: 0;
+}
+
+.user-name-text { font-size: 13px; font-weight: 600; color: var(--white); }
+.user-id-text   { font-size: 11px; color: rgba(255,255,255,0.5); }
+
+.logout-btn {
+    background: rgba(220,38,38,0.15);
+    border: 1px solid rgba(220,38,38,0.3);
+    color: #fca5a5;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+}
+.logout-btn:hover { background: rgba(220,38,38,0.25); color: var(--white); }
+
+/* ════════════════════════════════════════════
+   STUDENT PORTAL LAYOUT WRAPPER
+════════════════════════════════════════════ */
+.layout { display: flex; flex: 1; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+    width: var(--sidebar);
+    flex-shrink: 0;
+    background: var(--white);
+    border-right: 1px solid var(--g200);
+    position: sticky;
+    top: var(--header);
+    height: calc(100vh - var(--header));
+    overflow-y: auto;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nav-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--g400);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 12px 20px 4px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    margin: 0 8px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--g600);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    width: calc(100% - 16px);
+    text-align: left;
+}
+.nav-item:hover  { background: var(--g50);         color: var(--g900); }
+.nav-item.active { background: var(--saffron-pale); color: var(--saffron); font-weight: 600; }
+
+.nav-icon {
+    font-size: 17px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.nav-badge {
+    margin-left: auto;
+    background: var(--saffron);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 20px;
+}
+
+/* ── MAIN AREA ── */
+.main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+    .sidebar { display: none; }
+}
+@media (max-width: 768px) {
+    .login-header .header-inner { padding: 12px 16px; }
+    .college-text h1 { font-size: 16px; }
+    .header-right    { display: none; }
+    .nav-bar         { padding: 0 16px; top: 90px; }
+    .nav-link        { padding: 10px 12px; font-size: 12px; }
+}

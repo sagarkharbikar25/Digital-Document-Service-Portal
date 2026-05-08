@@ -1,0 +1,29 @@
+RewriteEngine On
+
+# Base path
+RewriteBase /college-portal/public/
+
+# Allow Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# ------------------------------------------------
+# Allow direct access to uploaded files
+# ------------------------------------------------
+RewriteCond %{REQUEST_URI} ^/college-portal/storage/uploads/
+RewriteRule ^ - [L]
+
+# ------------------------------------------------
+# Serve existing files directly
+# ------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Serve existing directories directly
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ------------------------------------------------
+# Route API requests to index.php
+# ------------------------------------------------
+RewriteRule ^ index.php [QSA,L]

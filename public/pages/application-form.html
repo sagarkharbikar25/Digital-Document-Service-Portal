@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Document – JDCOEM Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/variable.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/application-form.css">
+</head>
+
+<body>
+
+    <!-- ── HEADER ── -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="home.html" class="logo-wrap">
+                <img src="../assets/logo_left.png" alt="JDCOEM Logo"
+                    style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+                    onerror="this.style.display='none'">
+                <div class="logo-text">
+                    <div class="college-name">JD College of Engineering &amp; Management</div>
+                    <div class="portal-name">Student Digital Document Services</div>
+                </div>
+            </a>
+            <div class="header-divider"></div>
+            <div class="header-spacer"></div>
+
+            <!-- Notification Bell -->
+            <div style="position:relative;">
+                <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+                    🔔
+                    <span class="notif-badge"></span>
+                </button>
+                <div class="notif-dropdown" id="notifDropdown">
+                    <div class="nd-header">
+                        Notifications
+                        <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+                    </div>
+                    <div id="notifList">
+                        <div style="padding:20px;text-align:center;color:#9ca3af;font-size:12px;">No new notifications
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Chip -->
+            <a href="profile.html" class="user-chip-link">
+                <div class="user-chip">
+                    <div class="user-avatar" id="userInitials">?</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Loading…</div>
+                        <div class="user-id" id="userId">--</div>
+                    </div>
+                </div>
+            </a>
+
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+    </header>
+
+
+    <div class="layout">
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="sidebar">
+            <span class="nav-section-label">Main Menu</span>
+            <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+            <a class="nav-item" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+            <a class="nav-item" href="dashboard.html">
+                <span class="nav-icon">📂</span> My Applications
+                <span class="nav-badge" id="sideAppBadge"></span>
+            </a>
+            <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+            <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+            <span class="nav-section-label" style="margin-top:8px;">Account</span>
+            <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+            <a class="nav-item" href="notification.html">
+                <span class="nav-icon">🔔</span> Notifications
+                <span class="nav-badge" id="sideNotifBadge"></span>
+            </a>
+            <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+        </aside>
+
+        <!-- ════════ MAIN ════════ -->
+        <main class="main">
+
+            <!-- BREADCRUMB -->
+            <div class="breadcrumb">
+                <a href="home.html">🏠 Home</a>
+                <span class="sep">›</span>
+                <a href="home.html">Available Documents</a>
+                <span class="sep">›</span>
+                <span class="current" id="breadcrumbDoc">Apply for Document</span>
+            </div>
+
+            <!-- STEP INDICATOR -->
+            <div class="steps-bar fade-up">
+                <div class="step-node">
+                    <div class="step-circle done">✓</div>
+                    <span class="step-label done">Select Document</span>
+                </div>
+                <div class="step-line done"></div>
+                <div class="step-node">
+                    <div class="step-circle active">2</div>
+                    <span class="step-label active">Fill Application</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-node">
+                    <div class="step-circle todo">3</div>
+                    <span class="step-label todo">Review &amp; Submit</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-node">
+                    <div class="step-circle todo">4</div>
+                    <span class="step-label todo">Track Status</span>
+                </div>
+            </div>
+
+            <!-- FORM ALERT -->
+            <div class="form-alert alert-error" id="formAlert">
+                <span>⚠️</span>
+                <span id="formAlertMsg">Please fix the errors before submitting.</span>
+            </div>
+
+            <!-- ① DOCUMENT INFO CARD -->
+            <div class="doc-info-card fade-up fade-up-1">
+                <div class="doc-info-header">
+                    <div class="doc-big-icon" id="docIcon">📄</div>
+                    <div class="doc-header-text">
+                        <h2 id="docTitle">Document Application</h2>
+                        <p id="docDesc">Loading document details...</p>
+                        <div class="doc-meta-pills">
+                            <div class="doc-pill">⏱ Processing: <strong id="docTime">–</strong></div>
+                            <div class="doc-pill">🏛 Issued by: <strong id="docAuthority">College Office</strong></div>
+                            <div class="doc-pill">💰 Fee: <strong id="docFee">–</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ② STUDENT DETAILS (READ-ONLY) -->
+            <div class="form-card fade-up fade-up-2">
+                <div class="form-card-header">
+                    <span class="fch-icon">👤</span>
+                    <h3>Student Details</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="readonly-note">🔒 These details are auto-filled from your profile and cannot be edited
+                        here.</div>
+                    <div style="height:16px;"></div>
+                    <div class="student-grid">
+                        <div class="info-field">
+                            <label>Full Name</label>
+                            <div class="info-value"><span class="val-icon">👤</span><span id="sName">–</span></div>
+                        </div>
+                        <div class="info-field">
+                            <label>BT ID / Roll Number</label>
+                            <div class="info-value"><span class="val-icon">🎓</span><span id="sBtid">–</span></div>
+                        </div>
+                        <div class="info-field">
+                            <label>Department / Branch</label>
+                            <div class="info-value"><span class="val-icon">🏫</span><span id="sBranch">–</span></div>
+                        </div>
+                        <div class="info-field">
+                            <label>Year / Semester</label>
+                            <div class="info-value"><span class="val-icon">📅</span><span id="sYear">–</span></div>
+                        </div>
+                        <div class="info-field">
+                            <label>Email ID</label>
+                            <div class="info-value"><span class="val-icon">📧</span><span id="sEmail">–</span></div>
+                        </div>
+                        <div class="info-field">
+                            <label>Academic Year</label>
+                            <div class="info-value"><span class="val-icon">📅</span>2024 – 2025</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ③ REQUIRED DOCUMENTS LIST -->
+            <div class="form-card fade-up fade-up-3">
+                <div class="form-card-header">
+                    <span class="fch-icon">📋</span>
+                    <h3>Required Documents</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="req-docs-list" id="reqDocsList"></div>
+                </div>
+            </div>
+
+            <!-- ④ UPLOAD SECTION -->
+            <div class="form-card fade-up fade-up-3">
+                <div class="form-card-header">
+                    <span class="fch-icon">📤</span>
+                    <h3>Upload Documents</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="upload-grid" id="uploadGrid"></div>
+                </div>
+            </div>
+
+            <!-- ⑤ PURPOSE FIELD -->
+            <div class="form-card fade-up fade-up-4">
+                <div class="form-card-header">
+                    <span class="fch-icon">✏️</span>
+                    <h3>Purpose / Reason for Application</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="purpose-field">
+                        <label for="purposeText">
+                            State the reason for applying <span style="color:var(--error);">*</span>
+                        </label>
+                        <textarea id="purposeText" maxlength="400"
+                            placeholder="e.g. Required for bank loan application / internship at XYZ company / passport application / scholarship form..."
+                            oninput="updateCharCount()"></textarea>
+                        <div class="char-count"><span id="charCount">0</span> / 400</div>
+                        <div style="margin-top:8px;font-size:12.5px;color:var(--g500);margin-bottom:6px;">Quick select:
+                        </div>
+                        <div class="purpose-chips">
+                            <span class="purpose-chip" onclick="setPurpose('Bank Loan Application')">🏦 Bank Loan</span>
+                            <span class="purpose-chip" onclick="setPurpose('Internship at a Company')">💼
+                                Internship</span>
+                            <span class="purpose-chip" onclick="setPurpose('Passport Application')">🛂 Passport</span>
+                            <span class="purpose-chip" onclick="setPurpose('Scholarship Application')">🎓
+                                Scholarship</span>
+                            <span class="purpose-chip" onclick="setPurpose('Higher Education / Admission')">📚 Higher
+                                Education</span>
+                            <span class="purpose-chip" onclick="setPurpose('Visa Application')">✈️ Visa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⑥ DECLARATION -->
+            <div class="form-card fade-up fade-up-5">
+                <div class="form-card-header">
+                    <span class="fch-icon">📝</span>
+                    <h3>Declaration</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="declaration-box" onclick="toggleDeclaration()">
+                        <input type="checkbox" id="declarationCheck">
+                        <div class="declaration-text">
+                            <h4>I confirm the accuracy of the above information</h4>
+                            <p>I, the undersigned student of JD College of Engineering and Management, hereby declare
+                                that all the information provided in this application is true and correct to the best of
+                                my knowledge. I understand that providing false information may lead to rejection of my
+                                application or disciplinary action as per college rules.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⑦ SUBMIT AREA -->
+            <div class="submit-area fade-up fade-up-5">
+                <div class="submit-summary">
+                    <div class="ss-item"><span class="ss-dot ok" id="dot-info"></span> Student Info</div>
+                    <div class="ss-item"><span class="ss-dot" id="dot-uploads"></span> Documents Uploaded</div>
+                    <div class="ss-item"><span class="ss-dot" id="dot-purpose"></span> Purpose Filled</div>
+                    <div class="ss-item"><span class="ss-dot" id="dot-declaration"></span> Declaration Signed</div>
+                </div>
+                <div class="submit-row">
+                    <button class="btn-primary" id="submitBtn" onclick="submitApplication()">
+                        🚀 Submit Application
+                    </button>
+                    <button class="btn-secondary" onclick="window.location.href='home.html'">
+                        ← Cancel
+                    </button>
+                    <div class="submit-note">🔒 Your data is encrypted and secure</div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <span class="modal-icon">🎉</span>
+            <h3>Application Submitted!</h3>
+            <p>Your application for <strong id="modalDocName">–</strong> has been received.</p>
+            <p style="margin-top:6px;">Your Application ID is:</p>
+            <div class="modal-app-id" id="modalAppId">APP-000000</div>
+            <p>Save this ID to track your application status. You will be notified once it is processed.</p>
+            <div class="modal-actions">
+                <button class="modal-btn-primary" onclick="goToMyApplications()">📂 My Applications</button>
+                <button class="modal-btn-sec" onclick="goToHome()">🏠 Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        &copy; 2025 JD College of Engineering and Management, Nagpur &nbsp;|&nbsp; Student Digital Document Services
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/application-form.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JDCOEM – Student Document Services Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     STICKY HEADER
+══════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+
+    <!-- Logo -->
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+     style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+     onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div class="nd-item">
+          <div class="nd-icon">📢</div>
+          <div class="nd-text">
+            <div class="nd-title">Sem VI Hall Tickets Released</div>
+            <div class="nd-desc">Download from the Hall Ticket section now.</div>
+            <div class="nd-time">2 hours ago</div>
+          </div>
+        </div>
+        <div class="nd-item">
+          <div class="nd-icon">⚡</div>
+          <div class="nd-text">
+            <div class="nd-title">Bonafide Processing: Now 2 Days</div>
+            <div class="nd-desc">Processing time reduced effective immediately.</div>
+            <div class="nd-time">Yesterday</div>
+          </div>
+        </div>
+        <div class="nd-item">
+          <div class="nd-icon">🏖️</div>
+          <div class="nd-text">
+            <div class="nd-title">Office Holiday – 26 Jan</div>
+            <div class="nd-desc">Document section closed on Republic Day.</div>
+            <div class="nd-time">3 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Chip -->
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     LAYOUT
+══════════════════════════════════════════ -->
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item active" href="home.html">
+      <span class="nav-icon">🏠</span> Dashboard
+    </a>
+    <a class="nav-item" href="documents.html">
+      <span class="nav-icon">📄</span> Apply for Document
+    </a>
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge">2</span>
+    </a>
+    <a class="nav-item" href="track-status.html">
+      <span class="nav-icon">⏳</span> Track Status
+    </a>
+    <a class="nav-item" href="download.html">
+      <span class="nav-icon">⬇️</span> Downloads
+    </a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html">
+      <span class="nav-icon">👤</span> My Profile
+    </a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge">3</span>
+    </a>
+    <a class="nav-item" href="help.html">
+      <span class="nav-icon">❓</span> Help &amp; Support
+    </a>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- HERO -->
+    <div class="hero fade-up">
+      <div class="hero-text">
+        <div class="hero-greeting">Welcome back, <span id="heroName">Student</span> 👋</div>
+        <div class="hero-sub">Manage all your academic documents from one place. Apply, track, and download — fully online.</div>
+        <div class="hero-meta">
+          <div class="hero-pill">🎓 <span id="heroBranch">--</span></div>
+          <div class="hero-pill">📅 <span id="heroYear">--</span></div>
+          <div class="hero-pill">🆔 <span id="heroId">--</span></div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">2</div>
+          <div class="hero-stat-label">Active Apps</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">1</div>
+          <div class="hero-stat-label">Ready to DL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="fade-up fade-up-1">
+      <div class="section-title">⚡ Quick Actions</div>
+      <div class="quick-grid">
+        <a class="quick-card q1" href="documents.html">
+          <div class="quick-icon">📄</div>
+          <div class="quick-label">Apply for Document</div>
+          <div class="quick-sub">Submit a new request</div>
+        </a>
+        <a class="quick-card q2" href="dashboard.html">
+          <div class="quick-icon">📂</div>
+          <div class="quick-label">My Applications</div>
+          <div class="quick-sub">View all submissions</div>
+        </a>
+        <a class="quick-card q3" href="track-status.html">
+          <div class="quick-icon">⏳</div>
+          <div class="quick-label">Track Status</div>
+          <div class="quick-sub">Check progress live</div>
+        </a>
+        <a class="quick-card q4" href="download.html">
+          <div class="quick-icon">⬇️</div>
+          <div class="quick-label">Downloads</div>
+          <div class="quick-sub">Get approved docs</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- AVAILABLE DOCUMENTS -->
+    <div class="available-docs-wrapper fade-up fade-up-2">
+
+      <div class="available-docs-header">
+        <div class="section-title">📋 Available Documents</div>
+        <a href="documents.html" class="view-all-link">View All →</a>
+      </div>
+
+      <!-- ① ACADEMIC DOCUMENTS -->
+      <div class="category-section">
+        <div class="cat-header">
+          <div class="cat-icon academic">🎓</div>
+          <div class="cat-title">Academic Documents</div>
+          <div class="cat-count">8 documents</div>
+          <div class="cat-rule"></div>
+        </div>
+
+        <div class="docs-cards-grid">
+
+          <!-- Admission Letter -->
+          <div class="doc-card" onclick="applyFor('admission')">
+            <div class="doc-card-stripe stripe-academic"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-yellow">📩</div>
+              <div>
+                <div class="card-doc-name">Admission Letter</div>
+                <div class="card-doc-desc">Course, year, roll no. &amp; student details after admission confirmation.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 3–5 Days</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· ID Card + Fee Receipt</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+          <!-- Identity Card -->
+          <div class="doc-card" onclick="applyFor('idcard')">
+            <div class="doc-card-stripe stripe-academic"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-blue">🪪</div>
+              <div>
+                <div class="card-doc-name">Identity Card (College ID)</div>
+                <div class="card-doc-desc">Mandatory for campus entry, exams, library &amp; labs.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 2–3 Days</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· Photo + Admission Proof</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+          <!-- Bonafide Certificate -->
+          <div class="doc-card" onclick="applyFor('bonafide')">
+            <div class="doc-card-stripe stripe-academic"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-green">📜</div>
+              <div>
+                <div class="card-doc-name">Bonafide Certificate</div>
+                <div class="card-doc-desc">Proof of enrollment. Used for scholarships, bank loans, internships, passport.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 2 Days</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· ID + Fee Receipt</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+          <!-- Hall Ticket -->
+          <div class="doc-card" onclick="applyFor('hallticket')">
+            <div class="doc-card-stripe stripe-academic"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-lemon">🎟️</div>
+              <div>
+                <div class="card-doc-name">Hall Ticket / Admit Card</div>
+                <div class="card-doc-desc">Issued before internal &amp; university exams. Required for exam entry.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 1 Day</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· Fee Clearance</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+        </div><!-- /docs-cards-grid -->
+      </div><!-- /category-section academic -->
+
+      <!-- ② VERIFICATION & CONDUCT -->
+      <div class="category-section">
+        <div class="cat-header">
+          <div class="cat-icon conduct">🧾</div>
+          <div class="cat-title">Verification &amp; Conduct</div>
+          <div class="cat-count">4 documents</div>
+          <div class="cat-rule"></div>
+        </div>
+
+        <div class="docs-cards-grid">
+
+          <!-- Transfer Certificate -->
+          <div class="doc-card" onclick="applyFor('leaving')">
+            <div class="doc-card-stripe stripe-conduct"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-red">🚪</div>
+              <div>
+                <div class="card-doc-name">Transfer Certificate (TC)</div>
+                <div class="card-doc-desc">Issued when leaving the institution. Mandatory for higher education admissions.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 7–10 Days</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· No-Dues + All Marksheets</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+          <!-- Character Certificate -->
+          <div class="doc-card" onclick="applyFor('character')">
+            <div class="doc-card-stripe stripe-conduct"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-mint">⭐</div>
+              <div>
+                <div class="card-doc-name">Character / Conduct Certificate</div>
+                <div class="card-doc-desc">Confirms student behavior and discipline throughout the course.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 5–7 Days</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· ID + Attendance Record</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+          <!-- NOC -->
+          <div class="doc-card" onclick="applyFor('noc')">
+            <div class="doc-card-stripe stripe-conduct"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-orange">✅</div>
+              <div>
+                <div class="card-doc-name">No Objection Certificate (NOC)</div>
+                <div class="card-doc-desc">For internships, projects, external exams, passport &amp; other purposes.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 3–5 Days</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· ID + Purpose Letter</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+          <!-- Transcript -->
+          <div class="doc-card" onclick="applyFor('transcript')">
+            <div class="doc-card-stripe stripe-conduct"></div>
+            <div class="card-top">
+              <div class="card-doc-icon icon-bg-sky">📋</div>
+              <div>
+                <div class="card-doc-name">Official Transcript</div>
+                <div class="card-doc-desc">Complete academic records with all semester marks. Required for employment &amp; higher studies.</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="card-time-badge">⏱ 10–15 Days</span>
+              <div class="card-docs-required">
+                <div class="card-docs-label">Required Documents</div>
+                <div class="card-docs-item">· ID + All Marksheets</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-apply-btn">Apply Now →</button>
+            </div>
+          </div>
+
+        </div><!-- /docs-cards-grid -->
+      </div><!-- /category-section conduct -->
+
+    </div><!-- /available-docs-wrapper -->
+
+    <!-- APPLICATION STATUS -->
+    <div class="status-section fade-up fade-up-3">
+      <div class="status-header">
+        <h3>📊 My Application Status</h3>
+        <a href="dashboard.html" class="view-all-link">View All →</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>App ID</th>
+            <th>Document Type</th>
+            <th>Date Applied</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="statusTableBody">
+          <tr>
+            <td>APP-2025-001</td>
+            <td>Bonafide Certificate</td>
+            <td>18 Feb 2025</td>
+            <td><span class="status-pill s-approved">✅ Approved</span></td>
+            <td><button class="action-btn">⬇ Download</button></td>
+          </tr>
+          <tr>
+            <td>APP-2025-002</td>
+            <td>Character Certificate</td>
+            <td>20 Feb 2025</td>
+            <td><span class="status-pill s-pending">⏳ Pending</span></td>
+            <td><button class="action-btn">👁 View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TWO COLUMN: Announcements + Help -->
+    <div class="two-col fade-up fade-up-4" id="help">
+
+      <!-- Announcements Panel -->
+      <div class="notif-panel">
+        <div class="notif-panel-header">
+          <h3>🔔 Announcements</h3>
+          <a href="notification.html" class="view-all-link" style="font-size:13px;">See all</a>
+        </div>
+        <div class="notif-item">
+          <span class="notif-dot nd-info"></span>
+          <div class="notif-body">
+            <div class="notif-title">Semester VI Hall Tickets Released</div>
+            <div class="notif-time">📅 Today, 10:00 AM</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <span class="notif-dot nd-success"></span>
+          <div class="notif-body">
+            <div class="notif-title">Bonafide Processing Time: Now 2 Days</div>
+            <div class="notif-time">📅 Yesterday, 3:30 PM</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <span class="notif-dot nd-warn"></span>
+          <div class="notif-body">
+            <div class="notif-title">Office Closed – Public Holiday (26 Jan)</div>
+            <div class="notif-time">📅 3 days ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <span class="notif-dot nd-info"></span>
+          <div class="notif-body">
+            <div class="notif-title">Transcript Requests: Online Only from Feb 1</div>
+            <div class="notif-time">📅 5 days ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Help Panel -->
+      <div class="help-panel">
+        <h3>❓ Help &amp; Support</h3>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <h5>Choose Document</h5>
+              <p>Select from the available documents above</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <h5>Fill &amp; Upload</h5>
+              <p>Complete the form and upload required files</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <h5>Track Status</h5>
+              <p>Monitor progress with your Application ID</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <h5>Download</h5>
+              <p>Get your approved document as a PDF</p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="c-label">Admin Office</div>
+            <div class="c-name">College Administration</div>
+            <div class="c-detail">📞 9011010038</div>
+          </div>
+        </div>
+        <div class="hours-badge">🕘 Office Hours: Mon–Sat &nbsp;|&nbsp; 9:00 AM – 5:30 PM</div>
+      </div>
+
+    </div><!-- /two-col -->
+
+  </main>
+</div><!-- /layout -->
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>
+
+<script src="../js/home.js"></script>
+</body>
+</html>

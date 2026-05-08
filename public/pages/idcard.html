@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply – Identity Card | JDCOEM Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/idcard.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifList">
+          <div style="padding:24px;text-align:center;color:#9ca3af;font-size:12px;">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <span class="nav-section-label">Main Menu</span>
+    <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+    <a class="nav-item active" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">📂</span> My Applications
+      <span class="nav-badge" id="sideAppBadge"></span>
+    </a>
+    <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+    <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+    <span class="nav-section-label" style="margin-top:8px;">Account</span>
+    <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+    <a class="nav-item" href="notification.html">
+      <span class="nav-icon">🔔</span> Notifications
+      <span class="nav-badge" id="sideNotifBadge"></span>
+    </a>
+    <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+  </aside>
+
+  <main class="main-area">
+
+    <!-- ── HERO ── -->
+    <div class="hero">
+      <div class="hero-deco">
+        <div class="hero-deco-circle"></div>
+        <div class="hero-deco-lines">
+          <div class="hero-deco-line" style="width:60px;"></div>
+          <div class="hero-deco-line" style="width:44px;"></div>
+          <div class="hero-deco-line" style="width:52px;"></div>
+        </div>
+      </div>
+      <div class="bc">
+        <a href="home.html">🏠 Home</a>
+        <span class="sep">&rsaquo;</span>
+        <a href="documents.html">Documents</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="cur">Identity Card</span>
+      </div>
+      <div class="hero-content">
+        <div class="hero-row">
+          <div class="hero-icon">🪪</div>
+          <div>
+            <div class="hero-h1">Identity Card Application</div>
+            <p class="hero-p">Request a new, duplicate, or replacement college identity card.</p>
+            <div class="hero-chips">
+              <span class="hero-chip">⏱ 2–3 Working Days</span>
+              <span class="hero-chip">🎓 Admin Office</span>
+              <span class="hero-chip">📷 Photo Required</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEPPER ── -->
+    <div class="stepper-bar">
+      <div class="stepper">
+        <div class="stp-node">
+          <div class="stp-left">
+            <div class="stp-circle active" id="sc1">1</div>
+            <div class="stp-meta">
+              <div class="stp-lbl">Step 1</div>
+              <div class="stp-title act" id="st1">Request Details</div>
+            </div>
+          </div>
+        </div>
+        <div class="stp-line" id="sl1"></div>
+        <div class="stp-node">
+          <div class="stp-left">
+            <div class="stp-circle pending" id="sc2">2</div>
+            <div class="stp-meta">
+              <div class="stp-lbl">Step 2</div>
+              <div class="stp-title" id="st2">Upload Documents</div>
+            </div>
+          </div>
+        </div>
+        <div class="stp-line" id="sl2"></div>
+        <div class="stp-node">
+          <div class="stp-left">
+            <div class="stp-circle pending" id="sc3">3</div>
+            <div class="stp-meta">
+              <div class="stp-lbl">Step 3</div>
+              <div class="stp-title" id="st3">Review &amp; Submit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTENT ── -->
+    <div class="content-wrap">
+      <div class="form-col">
+
+        <!-- ════ STEP 1 ════ -->
+        <div id="step1">
+
+          <!-- Student Details -->
+          <div class="card fade-in fade-in-1">
+            <div class="card-head">
+              <div class="card-head-ico" style="background:#dbeafe;">👤</div>
+              <div class="card-head-text">
+                <h3>Student Details</h3>
+                <p>Auto-filled from your profile – read only</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="info-notice">
+                🔒&nbsp;<span>These details are pulled from your registered profile. To update, visit <a href="profile.html" style="color:var(--info);font-weight:600;">My Profile</a>.</span>
+              </div>
+              <div class="info-grid">
+                <div class="info-field">
+                  <label>Student Name</label>
+                  <div class="info-val"><span class="info-val-ic">👤</span><span id="f-name">—</span></div>
+                </div>
+                <div class="info-field">
+                  <label>Roll Number</label>
+                  <div class="info-val"><span class="info-val-ic">🎲</span><span id="f-roll">—</span></div>
+                </div>
+                <div class="info-field">
+                  <label>BT / University ID</label>
+                  <div class="info-val"><span class="info-val-ic">🎓</span><span id="f-btid">—</span></div>
+                </div>
+                <div class="info-field">
+                  <label>Department</label>
+                  <div class="info-val"><span class="info-val-ic">🏫</span><span id="f-dept">—</span></div>
+                </div>
+                <div class="info-field">
+                  <label>Programme</label>
+                  <div class="info-val"><span class="info-val-ic">📚</span><span id="f-prog">B.E. (Bachelor of Engineering)</span></div>
+                </div>
+                <div class="info-field">
+                  <label>Year / Semester</label>
+                  <div class="info-val"><span class="info-val-ic">📅</span><span id="f-year">—</span></div>
+                </div>
+                <div class="info-field">
+                  <label>College Email</label>
+                  <div class="info-val"><span class="info-val-ic">📧</span><span id="f-email">—</span></div>
+                </div>
+                <div class="info-field">
+                  <label>Mobile Number</label>
+                  <div class="info-val"><span class="info-val-ic">📱</span><span id="f-mobile">—</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Request Type -->
+          <div class="card fade-in fade-in-2">
+            <div class="card-head">
+              <div class="card-head-ico" style="background:#fef3c7;">🪪</div>
+              <div class="card-head-text">
+                <h3>Type of Request</h3>
+                <p>Select what kind of ID card you need</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="option-grid" id="reqTypeGrid">
+                <div class="opt-card selected" onclick="selectOption('reqType','new',this)">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">🆕</div>
+                  <div class="opt-label"><h4>New Identity Card</h4><p>First-time card for newly admitted students</p></div>
+                </div>
+                <div class="opt-card" onclick="selectOption('reqType','duplicate',this)">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">🔄</div>
+                  <div class="opt-label"><h4>Duplicate Identity Card</h4><p>Replacement copy for lost card</p></div>
+                </div>
+                <div class="opt-card" onclick="selectOption('reqType','replacement',this)">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">🔃</div>
+                  <div class="opt-label"><h4>Replacement (Damaged)</h4><p>Renewed card for damaged or worn-out card</p></div>
+                </div>
+                <div class="opt-card" onclick="selectOption('reqType','correction',this)">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">✏️</div>
+                  <div class="opt-label"><h4>Correction in Details</h4><p>Name, photo, or information update</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reason -->
+          <div class="card fade-in fade-in-3">
+            <div class="card-head">
+              <div class="card-head-ico" style="background:#f0fdf4;">📝</div>
+              <div class="card-head-text">
+                <h3>Reason for Application</h3>
+                <p>Tell us why you need a new identity card</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="option-grid" id="reasonGrid">
+                <div class="opt-card selected" onclick="selectOption('reason','new_admission',this);updateFIRVisibility()">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">🎓</div>
+                  <div class="opt-label"><h4>New Admission</h4><p>Enrolled this academic year</p></div>
+                </div>
+                <div class="opt-card" onclick="selectOption('reason','lost',this);updateFIRVisibility()">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">🕵️</div>
+                  <div class="opt-label"><h4>Lost ID Card</h4><p>Card is missing or misplaced</p></div>
+                </div>
+                <div class="opt-card" onclick="selectOption('reason','damaged',this);updateFIRVisibility()">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">🚧</div>
+                  <div class="opt-label"><h4>Damaged / Unreadable</h4><p>Card is torn, faded or unreadable</p></div>
+                </div>
+                <div class="opt-card" onclick="selectOption('reason','correction',this);updateFIRVisibility()">
+                  <div class="opt-radio"></div>
+                  <div class="opt-icon">✏️</div>
+                  <div class="opt-label"><h4>Correction in Details</h4><p>Incorrect name, photo, or other info</p></div>
+                </div>
+              </div>
+
+              <!-- FIR Warning (conditional) -->
+              <div style="margin-top:14px;">
+                <div class="notice warn fir-notice" id="fir-notice">
+                  <span class="notice-ico">⚠️</span>
+                  <span>FIR copy is <strong>mandatory</strong> for lost ID card requests. Please upload the FIR from the nearest police station. Proceed to Step 2 to upload it.</span>
+                </div>
+              </div>
+
+              <!-- Remarks -->
+              <div class="form-grid" style="margin-top:14px;">
+                <div class="field full">
+                  <label>Additional Remarks <span style="color:var(--text-3);font-weight:400;">(Optional)</span></label>
+                  <textarea id="remarks" placeholder="Any specific details about your request…"></textarea>
+                  <span class="field-hint">Max 300 characters. Use this for any special instructions.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-outline" onclick="location.href='documents.html'">← Back</button>
+            <button class="btn btn-primary" onclick="goStep(2)">Continue to Documents →</button>
+          </div>
+
+        </div><!-- /step1 -->
+
+        <!-- ════ STEP 2 ════ -->
+        <div id="step2" style="display:none;">
+
+          <div class="notice info fade-in">
+            <span class="notice-ico">ℹ️</span>
+            <span>Upload clear, high-quality scans or photos. Max file size: <strong>2 MB</strong>. Accepted formats: <strong>JPG, PNG, PDF</strong>.</span>
+          </div>
+
+          <div class="card fade-in fade-in-1">
+            <div class="card-head">
+              <div class="card-head-ico" style="background:#fae8ff;">📷</div>
+              <div class="card-head-text">
+                <h3>Upload Required Documents</h3>
+                <p>All required documents must be uploaded before submitting</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="upload-list">
+
+                <!-- Photograph -->
+                <div class="upload-item" id="up-photo" onclick="trigUp('photo')">
+                  <div class="up-icon" id="up-icon-photo">📷</div>
+                  <div class="up-info">
+                    <div class="up-name">Passport-Size Photograph</div>
+                    <div class="up-sub" id="up-sub-photo">Recent, white background, formal attire – JPG or PNG</div>
+                  </div>
+                  <span class="up-badge badge-req" id="up-badge-photo">Required</span>
+                  <button class="up-btn" id="up-btn-photo" onclick="trigUp('photo');event.stopPropagation();">Upload</button>
+                  <input type="file" id="file-photo" class="up-file-input" accept=".jpg,.jpeg,.png"
+                         onchange="handleUpload('photo',this,2,['jpg','jpeg','png'])">
+                </div>
+
+                <!-- Fee Receipt -->
+                <div class="upload-item" id="up-fee" onclick="trigUp('fee')">
+                  <div class="up-icon" id="up-icon-fee">🧾</div>
+                  <div class="up-info">
+                    <div class="up-name">College Fee Receipt (Current Year)</div>
+                    <div class="up-sub" id="up-sub-fee">Original or scanned copy of current academic year fee receipt</div>
+                  </div>
+                  <span class="up-badge badge-req" id="up-badge-fee">Required</span>
+                  <button class="up-btn" id="up-btn-fee" onclick="trigUp('fee');event.stopPropagation();">Upload</button>
+                  <input type="file" id="file-fee" class="up-file-input" accept=".jpg,.jpeg,.png,.pdf"
+                         onchange="handleUpload('fee',this,2,['jpg','jpeg','png','pdf'])">
+                </div>
+
+                <!-- FIR (conditional) -->
+                <div id="fir-row">
+                  <div class="notice warn" style="margin-bottom:10px;">
+                    <span class="notice-ico">⚠️</span>
+                    <span>Since you selected <strong>Lost ID Card</strong>, an FIR copy is mandatory. Upload below.</span>
+                  </div>
+                  <div class="upload-item" id="up-fir" onclick="trigUp('fir')">
+                    <div class="up-icon" id="up-icon-fir">📜</div>
+                    <div class="up-info">
+                      <div class="up-name">FIR Copy</div>
+                      <div class="up-sub" id="up-sub-fir">First Information Report from the nearest police station</div>
+                    </div>
+                    <span class="up-badge badge-req" id="up-badge-fir">Required</span>
+                    <button class="up-btn" id="up-btn-fir" onclick="trigUp('fir');event.stopPropagation();">Upload</button>
+                    <input type="file" id="file-fir" class="up-file-input" accept=".jpg,.jpeg,.png,.pdf"
+                           onchange="handleUpload('fir',this,2,['jpg','jpeg','png','pdf'])">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="notice info" style="margin-top:16px;">
+                <span class="notice-ico">📌</span>
+                <div>
+                  <strong>Upload Rules:</strong>
+                  Max file size: 2 MB per file &nbsp;|&nbsp; Allowed: JPG, PNG, PDF &nbsp;|&nbsp;
+                  Photograph must be JPG or PNG only.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-outline" onclick="goStep(1)">← Back</button>
+            <button class="btn btn-primary" onclick="goStep(3)">Review &amp; Submit →</button>
+          </div>
+
+        </div><!-- /step2 -->
+
+        <!-- ════ STEP 3 ════ -->
+        <div id="step3" style="display:none;">
+
+          <!-- Review Summary -->
+          <div class="card fade-in fade-in-1">
+            <div class="card-head">
+              <div class="card-head-ico" style="background:#dbeafe;">📋</div>
+              <div class="card-head-text">
+                <h3>Review – Application Summary</h3>
+                <p>Confirm details before final submission</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="info-grid">
+                <div class="info-field"><label>Student Name</label><div class="info-val" id="rv-name" style="font-size:13px;">—</div></div>
+                <div class="info-field"><label>BT / University ID</label><div class="info-val" id="rv-btid" style="font-size:13px;">—</div></div>
+                <div class="info-field"><label>Department</label><div class="info-val" id="rv-dept" style="font-size:13px;">—</div></div>
+                <div class="info-field"><label>Year / Semester</label><div class="info-val" id="rv-year" style="font-size:13px;">—</div></div>
+                <div class="info-field"><label>Request Type</label><div class="info-val" id="rv-type" style="font-size:13px;">—</div></div>
+                <div class="info-field"><label>Reason</label><div class="info-val" id="rv-reason" style="font-size:13px;">—</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Docs Review -->
+          <div class="card fade-in fade-in-2">
+            <div class="card-head">
+              <div class="card-head-ico" style="background:#ede9fe;">📂</div>
+              <div class="card-head-text">
+                <h3>Review – Uploaded Documents</h3>
+                <p>All required files must show ✓</p>
+              </div>
+            </div>
+            <div class="card-body"><div id="rv-docs"></div></div>
+          </div>
+
+          <div class="notice warn fade-in fade-in-2">
+            <span class="notice-ico">⚠️</span>
+            <span>By submitting this application, you confirm that all details are accurate. Providing false information may lead to disciplinary action as per college rules.</span>
+          </div>
+
+          <!-- Declaration -->
+          <div class="card fade-in fade-in-3">
+            <div class="card-head">
+              <div class="card-head-ico" style="background:#fef3c7;">📝</div>
+              <div class="card-head-text">
+                <h3>Declaration</h3>
+                <p>Read and sign before submitting</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <label class="decl-wrap" onclick="toggleDecl()">
+                <input type="checkbox" id="decl1" class="decl-cb" onchange="updateProgress()">
+                <div class="decl-text">
+                  <h4>✅ I confirm the accuracy of the above information</h4>
+                  <p>I, the undersigned student of JD College of Engineering and Management, hereby declare that all information provided in this application is true and correct to the best of my knowledge. I understand that misuse or providing false information may lead to rejection of my application and/or disciplinary action as per the institute's rules.</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-outline" onclick="goStep(2)">← Back to Documents</button>
+            <button class="btn btn-gold" onclick="submitApp()">🚀 Submit Application</button>
+          </div>
+
+        </div><!-- /step3 -->
+
+      </div><!-- /form-col -->
+
+      <!-- ── ASIDE ── -->
+      <div class="aside-col">
+
+        <!-- ID Card Preview -->
+        <div class="panel">
+          <div class="panel-head"><span>🪪</span><h4>ID Card Preview</h4></div>
+          <div class="panel-body">
+            <div class="id-preview-card">
+              <div class="id-card-logo">
+                <strong>JDCOEM</strong>
+                JD College of Engineering &amp; Management, Nagpur
+              </div>
+              <div class="id-card-body">
+                <div class="id-photo-slot" id="previewPhotoSlot">
+                  <span id="previewPhotoIco">👤</span>
+                </div>
+                <div class="id-card-info">
+                  <div class="id-name" id="preview-name">Student Name</div>
+                  <div class="id-line"><strong>ID:</strong> <span id="preview-btid">BT00CS000</span></div>
+                  <div class="id-line"><strong>Dept:</strong> <span id="preview-dept">—</span></div>
+                  <div class="id-line"><strong>Year:</strong> <span id="preview-year">—</span></div>
+                </div>
+              </div>
+              <div class="id-card-foot">
+                <span class="id-badge">STUDENT</span>
+                <span class="id-year">2024–2025</span>
+              </div>
+            </div>
+            <p style="font-size:11px;color:var(--text-3);margin-top:10px;text-align:center;">Preview updates as you fill in details</p>
+          </div>
+        </div>
+
+        <!-- Application Progress -->
+        <div class="panel">
+          <div class="panel-head"><span>📊</span><h4>Application Progress</h4></div>
+          <div class="panel-body">
+            <div class="prog-row">
+              <div class="ring-wrap">
+                <svg width="56" height="56" viewBox="0 0 56 56">
+                  <circle class="ring-bg" cx="28" cy="28" r="22"></circle>
+                  <circle class="ring-fill" id="ringFill" cx="28" cy="28" r="22"
+                          stroke-dasharray="138.2" stroke-dashoffset="138.2"></circle>
+                </svg>
+                <div class="ring-pct" id="ringPct">0%</div>
+              </div>
+              <div>
+                <div class="prog-ttl" id="progTitle">Not Started</div>
+                <div class="prog-sub" id="progSub">Select request type to begin</div>
+              </div>
+            </div>
+            <div class="chk-list">
+              <div class="chk-item"><div class="chk-dot pend" id="ck1"></div><span class="chk-lbl pend" id="cl1">Request type selected</span></div>
+              <div class="chk-item"><div class="chk-dot pend" id="ck2"></div><span class="chk-lbl pend" id="cl2">Reason selected</span></div>
+              <div class="chk-item"><div class="chk-dot pend" id="ck3"></div><span class="chk-lbl pend" id="cl3">Photo uploaded</span></div>
+              <div class="chk-item"><div class="chk-dot pend" id="ck4"></div><span class="chk-lbl pend" id="cl4">Fee receipt uploaded</span></div>
+              <div class="chk-item"><div class="chk-dot pend" id="ck5"></div><span class="chk-lbl pend" id="cl5">Declaration signed</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- What Happens Next -->
+        <div class="panel">
+          <div class="panel-head"><span>⏱</span><h4>What Happens Next?</h4></div>
+          <div class="panel-body">
+            <div class="timeline">
+              <div class="tl-row">
+                <div class="tl-dot" style="background:#dbeafe;">📥</div>
+                <div class="tl-line"></div>
+                <div class="tl-body">
+                  <div class="tl-title">Application Received</div>
+                  <div class="tl-desc">Unique application ID generated, status set to Under Verification</div>
+                  <div class="tl-time">Day 0 – Immediate</div>
+                </div>
+              </div>
+              <div class="tl-row">
+                <div class="tl-dot" style="background:#fef3c7;">🔍</div>
+                <div class="tl-line"></div>
+                <div class="tl-body">
+                  <div class="tl-title">Document Verification</div>
+                  <div class="tl-desc">Admin verifies your photo, fee receipt, and any additional documents</div>
+                  <div class="tl-time">Day 1</div>
+                </div>
+              </div>
+              <div class="tl-row">
+                <div class="tl-dot" style="background:#ede9fe;">📷</div>
+                <div class="tl-line"></div>
+                <div class="tl-body">
+                  <div class="tl-title">Card Printing</div>
+                  <div class="tl-desc">Identity card is printed with your latest photo and details</div>
+                  <div class="tl-time">Day 1–2</div>
+                </div>
+              </div>
+              <div class="tl-row">
+                <div class="tl-dot" style="background:#d1fae5;">🪪</div>
+                <div class="tl-line"></div>
+                <div class="tl-body">
+                  <div class="tl-title">Ready for Collection</div>
+                  <div class="tl-desc">Notification sent. Collect from Admin Office, Block A, Room 105</div>
+                  <div class="tl-time">Day 2–3</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Help -->
+        <div class="panel">
+          <div class="panel-head"><span>❓</span><h4>Need Help?</h4></div>
+          <div class="panel-body" style="display:flex;flex-direction:column;gap:10px;">
+            <div class="notice info"><span class="notice-ico">🏢</span><span>Admin Office, Block A, Room 105<br>Mon–Sat &nbsp;9:00 AM – 5:30 PM</span></div>
+            <div class="notice info"><span class="notice-ico">📧</span><span>admin@jdcoem.ac.in<br>📞 9011010038</span></div>
+          </div>
+        </div>
+
+      </div><!-- /aside-col -->
+    </div><!-- /content-wrap -->
+
+  </main>
+</div><!-- /layout -->
+
+<!-- ── SUCCESS MODAL ── -->
+<div class="modal-overlay" id="successModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-confetti">🎉 🪪 ✅</div>
+    <h2>Application Submitted!</h2>
+    <p>Your Identity Card request has been successfully submitted.</p>
+    <div class="modal-app-id" id="modalAppId">IDC-2025-000</div>
+    <div class="modal-status">
+      <div class="modal-status-dot"></div>
+      Under Verification
+    </div>
+    <p style="font-size:12px;">A notification has been sent to your college email. You can track the status of your application anytime.</p>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="location.href='track-status.html'">⏳ Track Status</button>
+      <button class="btn btn-primary" onclick="location.href='dashboard.html'">📂 My Applications</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>
+
+
+<script src="../js/idcard.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | JDCOEM Document Portal</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* LOGIN PAGE SPECIFIC */
+body { background: var(--navy); display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none;
+  background: radial-gradient(ellipse at 20% 50%, rgba(200,146,42,.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(21,45,96,.6) 0%, transparent 50%);
+}
+.login-wrap { width:100%; max-width:980px; display:grid; grid-template-columns:1fr 1fr; gap:0; border-radius:24px; overflow:hidden; box-shadow:0 32px 80px rgba(0,0,0,.5); position:relative; z-index:1; }
+
+/* LEFT PANEL */
+.login-left {
+  background: linear-gradient(160deg, var(--navy-2) 0%, var(--navy-3) 50%, #1a3570 100%);
+  padding: 52px 44px; display:flex; flex-direction:column; justify-content:space-between;
+  position:relative; overflow:hidden;
+}
+.login-left::before {
+  content:''; position:absolute; right:-60px; bottom:-60px;
+  width:280px; height:280px; border-radius:50%;
+  background:rgba(200,146,42,.08);
+}
+.login-left::after {
+  content:''; position:absolute; left:-40px; top:40%;
+  width:180px; height:180px; border-radius:50%;
+  background:rgba(255,255,255,.03);
+}
+.ll-logo { position:relative; z-index:1; }
+.ll-emblem {
+  width:56px; height:56px; border-radius:14px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-lt));
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; margin-bottom:18px;
+  box-shadow:0 4px 16px rgba(200,146,42,.4);
+}
+.ll-college { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:#fff; line-height:1.35; margin-bottom:6px; }
+.ll-portal  { font-size:12px; color:rgba(255,255,255,.45); letter-spacing:.5px; text-transform:uppercase; }
+.ll-body { position:relative; z-index:1; }
+.ll-title { font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:#fff; margin-bottom:12px; line-height:1.25; }
+.ll-desc { font-size:13.5px; color:rgba(255,255,255,.55); line-height:1.7; margin-bottom:28px; }
+.role-pills { display:flex; flex-direction:column; gap:10px; }
+.role-pill {
+  display:flex; align-items:center; gap:12px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+  border-radius:12px; padding:12px 16px; transition:all .2s;
+}
+.role-pill:hover { background:rgba(255,255,255,.1); }
+.rp-ic { font-size:20px; }
+.rp-name { font-size:13px; font-weight:700; color:#fff; }
+.rp-desc { font-size:11px; color:rgba(255,255,255,.45); margin-top:1px; }
+.ll-foot { position:relative; z-index:1; font-size:11px; color:rgba(255,255,255,.3); }
+
+/* RIGHT PANEL */
+.login-right { background:#fff; padding:52px 44px; display:flex; flex-direction:column; justify-content:center; }
+.login-right h2 { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+.login-right p  { font-size:13.5px; color:var(--text-3); margin-bottom:32px; }
+.login-form { display:flex; flex-direction:column; gap:18px; }
+.form-field { display:flex; flex-direction:column; gap:6px; }
+.form-field label { font-size:12px; font-weight:700; color:var(--text-2); text-transform:uppercase; letter-spacing:.6px; }
+.form-field input {
+  padding:12px 16px; border:1.5px solid var(--border-2); border-radius:var(--rl);
+  font-family:'Sora',sans-serif; font-size:14px; color:var(--text);
+  background:#fff; outline:none; transition:all .2s;
+}
+.form-field input:focus { border-color:var(--navy); box-shadow:0 0 0 3px rgba(6,18,42,.07); }
+.pw-wrap { position:relative; }
+.pw-wrap input { padding-right:44px; }
+.pw-toggle {
+  position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer; font-size:16px; color:var(--text-3);
+  padding:4px;
+}
+.login-err {
+  background:var(--err-bg); border:1px solid var(--err-bd); border-radius:var(--rl);
+  padding:11px 14px; font-size:12.5px; color:var(--err);
+  display:none; align-items:center; gap:8px;
+}
+.login-err.show { display:flex; }
+.btn-login {
+  background:linear-gradient(135deg,var(--navy),var(--navy-3));
+  color:#fff; border:none; border-radius:var(--rl); padding:13px 20px;
+  font-size:14px; font-weight:700; cursor:pointer; font-family:'Sora',sans-serif;
+  transition:all .2s; width:100%; display:flex; align-items:center; justify-content:center; gap:9px;
+  box-shadow:0 4px 16px rgba(6,18,42,.25);
+}
+.btn-login:hover { box-shadow:0 6px 22px rgba(6,18,42,.35); transform:translateY(-1px); }
+.btn-login:active { transform:none; }
+.demo-creds {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--rl);
+  padding:16px; margin-top:4px;
+}
+.demo-creds h4 { font-size:11px; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:.6px; margin-bottom:10px; }
+.cred-item {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 0; border-bottom:1px solid var(--border); cursor:pointer;
+  transition:background .15s; border-radius:4px; padding:6px 8px;
+}
+.cred-item:last-child { border-bottom:none; }
+.cred-item:hover { background:var(--gold-pale); }
+.cred-role { font-size:12px; font-weight:700; color:var(--text-2); display:flex; align-items:center; gap:7px; }
+.cred-email { font-size:11.5px; color:var(--text-3); font-family:monospace; }
+.cred-hint { font-size:10px; color:var(--text-3); margin-top:8px; text-align:center; }
+
+@media(max-width:740px) {
+  .login-wrap { grid-template-columns:1fr; }
+  .login-left { padding:36px 28px 32px; }
+  .login-right { padding:36px 28px; }
+  .ll-title { font-size:22px; }
+  .role-pills { display:none; }
+}
+</style>
+</head>
+<body>
+<div class="login-wrap">
+
+  <!-- LEFT -->
+  <div class="login-left">
+    <div class="ll-logo">
+      <div class="ll-emblem"></div>
+      <div class="ll-college">JD College of Engineering<br>&amp; Management, Nagpur</div>
+      <div class="ll-portal">Admin Document Portal</div>
+    </div>
+    <div class="ll-body">
+      <div class="ll-title">Multi-Level Approval Workflow</div>
+      <div class="ll-desc">A secure, role-based system for processing student document applications — from initial verification to final approval and digital signing.</div>
+      <div class="role-pills">
+        <div class="role-pill">
+          <div class="rp-ic"></div>
+          <div><div class="rp-name">Clerk</div><div class="rp-desc">Verify documents &amp; forward to HOD</div></div>
+        </div>
+        <div class="role-pill">
+          <div class="rp-ic"></div>
+          <div><div class="rp-name">Head of Department (HOD)</div><div class="rp-desc">Academic review &amp; digital signature</div></div>
+        </div>
+        <div class="role-pill">
+          <div class="rp-ic"></div>
+          <div><div class="rp-name">Principal</div><div class="rp-desc">Final authority &amp; document issuance</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="ll-foot">© 2025 JDCOEM. All rights reserved.</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="login-right">
+    <h2>Welcome Back</h2>
+    <p>Sign in with your official college admin email to continue.</p>
+    <div class="login-form">
+      <div class="form-field">
+        <label>Official Email Address</label>
+        <input type="email" id="emailInput" placeholder="yourname@jdcoem.ac.in" autocomplete="email">
+      </div>
+      <div class="form-field">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="pwInput" placeholder="Enter your password" autocomplete="current-password">
+            <button class="pw-toggle" onclick="togglePw()" id="pwToggle">Show</button>
+        </div>
+      </div>
+      <div class="login-err" id="loginErr">Invalid credentials. Please check your email and password.</div>
+  <button class="btn-login" onclick="doLogin()">Sign In to Portal</button>
+
+      <div class="demo-creds">
+        <h4>Demo Credentials — click to auto-fill</h4>
+        <div class="cred-item" onclick="fillCreds('clerk@jdcoem.ac.in','Clerk@123')">
+          <div class="cred-role">Clerk</div>
+          <div class="cred-email">clerk@jdcoem.ac.in</div>
+        </div>
+        <div class="cred-item" onclick="fillCreds('hod@jdcoem.ac.in','Hod@123')">
+          <div class="cred-role">HOD</div>
+          <div class="cred-email">hod@jdcoem.ac.in</div>
+        </div>
+        <div class="cred-item" onclick="fillCreds('principal@jdcoem.ac.in','Principal@123')">
+          <div class="cred-role">Principal</div>
+          <div class="cred-email">principal@jdcoem.ac.in</div>
+        </div>
+        <div class="cred-hint">Click any row above to auto-fill credentials, then press Sign In.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="db.js"></script>
+<script src="login.js"></script>
+
+</body>
+</html>

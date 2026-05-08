@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provisional Certificate Request – JDCOEM Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/bonafide.css">
+</head>
+
+<body>
+
+    <!-- ── HEADER ── -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="home.html" class="logo-wrap">
+                <img src="../assets/logo_left.png" alt="JDCOEM Logo"
+                    onerror="this.style.display='none'">
+                <div class="logo-text">
+                    <div class="college-name">JD College of Engineering &amp; Management</div>
+                    <div class="portal-name">Student Digital Document Services</div>
+                </div>
+            </a>
+            <div class="header-divider"></div>
+            <div class="header-spacer"></div>
+
+            <!-- Notification Bell -->
+            <div style="position:relative;">
+                <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+                    🔔
+                    <span class="notif-badge"></span>
+                </button>
+                <div class="notif-dropdown" id="notifDropdown">
+                    <div class="nd-header">
+                        Notifications
+                        <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+                    </div>
+                    <div id="notifList">
+                        <div style="padding:24px;text-align:center;color:#9ca3af;font-size:12px;">No new notifications</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Chip -->
+            <a href="profile.html" class="user-chip-link">
+                <div class="user-chip">
+                    <div class="user-avatar" id="userInitials">?</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Loading…</div>
+                        <div class="user-id" id="userId">--</div>
+                    </div>
+                </div>
+            </a>
+
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+    </header>
+
+    <div class="layout">
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="sidebar">
+            <span class="nav-section-label">Main Menu</span>
+            <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+            <a class="nav-item active" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+            <a class="nav-item" href="dashboard.html">
+                <span class="nav-icon">📂</span> My Applications
+                <span class="nav-badge" id="sideAppBadge"></span>
+            </a>
+            <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+            <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+            <span class="nav-section-label" style="margin-top:8px;">Account</span>
+            <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+            <a class="nav-item" href="notification.html">
+                <span class="nav-icon">🔔</span> Notifications
+                <span class="nav-badge" id="sideNotifBadge"></span>
+            </a>
+            <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+        </aside>
+
+        <main class="main">
+            <div class="breadcrumb fu">
+                <a href="home.html">🏠 Home</a>
+                <span class="sep">›</span>
+                <a href="documents.html">Documents</a>
+                <span class="sep">›</span>
+                <span class="current">🎓 Provisional Certificate</span>
+            </div>
+
+            <div class="doc-banner fu fu1">
+                <div class="banner-icon">📜</div>
+                <div class="banner-text">
+                    <h2>Provisional Degree Certificate</h2>
+                    <p>Issued to students who have completed their degree requirements but haven't received their
+                        original degree in the convocation yet.</p>
+                    <div class="banner-pills">
+                        <div class="banner-pill">⏱ Processing: <strong>5 Working Days</strong></div>
+                        <div class="banner-pill">🏛 Issued by: <strong>Registrar Office</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card fu fu2">
+                <div class="form-card-header">
+                    <span class="fch-icon">🎓</span>
+                    <h3>Completion Details</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="input-grid-2">
+                        <div class="field-group">
+                            <label>Passing Month <span class="req">*</span></label>
+                            <select id="passingMonth">
+                                <option value="">Select Month</option>
+                                <option>June</option>
+                                <option>December</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label>Passing Year <span class="req">*</span></label>
+                            <input type="number" id="passingYear" placeholder="e.g. 2024">
+                        </div>
+                    </div>
+                    <div class="input-grid-2">
+                        <div class="field-group">
+                            <label>CGPA / Percentage <span class="req">*</span></label>
+                            <input type="text" id="resultPointer" placeholder="e.g. 8.45">
+                        </div>
+                        <div class="field-group">
+                            <label>Division/Grade <span class="req">*</span></label>
+                            <select id="grade">
+                                <option value="">Select Grade</option>
+                                <option>First Division with Distinction</option>
+                                <option>First Division</option>
+                                <option>Second Division</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>Reason for Urgent Requirement <span class="req">*</span></label>
+                        <textarea id="purpose"
+                            placeholder="e.g. For higher studies admission, for job joining..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card fu fu3">
+                <div class="form-card-header">
+                    <span class="fch-icon">📂</span>
+                    <h3>Required Uploads</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="upload-group">
+                        <label>Final Semester Mark Sheet (Self-Attested) <span class="req">*</span></label>
+                        <div class="drop-zone" id="dz-finalMarksheet" ondragover="onDragOver(event,'finalMarksheet')"
+                            ondragleave="onDragLeave('finalMarksheet')"
+                            ondrop="onDrop(event,'finalMarksheet',5,['application/pdf'])">
+                            <div class="dz-default-content" id="dzd-finalMarksheet">
+                                <span class="dz-icon">📕</span>
+                                <div class="dz-text">Upload PDF</div>
+                            </div>
+                            <input type="file" accept=".pdf"
+                                onchange="onFileInput(this,'finalMarksheet',5,['application/pdf'])">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-card fu fu4">
+                <button class="btn-primary" onclick="submitForm()">🚀 Apply for Provisional</button>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <span class="modal-icon">✅</span>
+            <h3>Application Submitted!</h3>
+            <p>Your Provisional Certificate application is under review.</p>
+            <div class="modal-app-id" id="modalAppId">APP-000000</div>
+            <button class="mbtn-p" onclick="window.location.href='dashboard.html'">Check Status</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand-name">JD College of Engineering and Management</div>
+                <p>Education to Eternity</p>
+                <div class="f-contact">
+                    📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+                    Kalmeshwar Road, Nagpur – 441501<br>
+                    📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+                    📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+                    🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+                    📞 7774041329 / 7888018373
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Dashboard</a></li>
+                    <li><a href="documents.html">Apply for Document</a></li>
+                    <li><a href="dashboard.html">My Applications</a></li>
+                    <li><a href="track-status.html">Track Application</a></li>
+                    <li><a href="download.html">Download Documents</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Governing Bodies</h4>
+                <ul>
+                    <li>Dr. Babasaheb Ambedkar Technological University</li>
+                    <li>University Grants Commission (UGC)</li>
+                    <li>AICTE – All India Council for Technical Education</li>
+                    <li>NAAC Accredited</li>
+                    <li>Govt. of Maharashtra Recognized</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+            &nbsp;|&nbsp; Student Digital Document Services Portal
+        </div>
+    </footer>
+
+    <script src="../js/provisional.js"></script>
+</body>
+
+</html>

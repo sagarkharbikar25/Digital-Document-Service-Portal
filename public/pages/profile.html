@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile – JDCOEM Portal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/profile.css">
+</head>
+
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="home.html" class="logo-wrap">
+        <img src="../assets/logo_left.png" alt="JDCOEM Logo"
+          style="width:46px;height:46px;object-fit:contain;border-radius:4px;" onerror="this.style.display='none'">
+        <div class="logo-text">
+          <div class="college-name">JD College of Engineering &amp; Management</div>
+          <div class="portal-name">Student Digital Document Services</div>
+        </div>
+      </a>
+      <div class="header-divider"></div>
+      <div class="header-spacer"></div>
+
+      <!-- Notification Bell -->
+      <div style="position:relative;">
+        <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+          🔔
+          <span class="notif-badge"></span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="nd-header">
+            Notifications
+            <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+          </div>
+          <div id="notifList">
+            <div style="padding:20px;text-align:center;color:#9ca3af;font-size:12px;">No new notifications</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Chip -->
+      <a href="profile.html" class="user-chip-link">
+        <div class="user-chip">
+          <div class="user-avatar" id="userInitials">?</div>
+          <div class="user-info">
+            <div class="user-name" id="userName">Loading…</div>
+            <div class="user-id" id="userId">--</div>
+          </div>
+        </div>
+      </a>
+
+      <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+  </header>
+
+
+  <!-- ══════════════════════════════════════════
+     LAYOUT
+══════════════════════════════════════════ -->
+  <div class="layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <span class="nav-section-label">Main Menu</span>
+      <a class="nav-item" href="home.html">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" href="documents.html">
+        <span class="nav-icon">📄</span> Apply for Document
+      </a>
+      <a class="nav-item" href="dashboard.html">
+        <span class="nav-icon">📂</span> My Applications
+        <span class="nav-badge" id="sideAppBadge"></span>
+      </a>
+      <a class="nav-item" href="track-status.html">
+        <span class="nav-icon">⏳</span> Track Status
+      </a>
+      <a class="nav-item" href="download.html">
+        <span class="nav-icon">⬇️</span> Downloads
+      </a>
+      <span class="nav-section-label" style="margin-top:8px;">Account</span>
+      <a class="nav-item active" href="profile.html">
+        <span class="nav-icon">👤</span> My Profile
+      </a>
+      <a class="nav-item" href="notification.html">
+        <span class="nav-icon">🔔</span> Notifications
+        <span class="nav-badge" id="sideNotifBadge"></span>
+      </a>
+      <a class="nav-item" href="help.html">
+        <span class="nav-icon">❓</span> Help &amp; Support
+      </a>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="main">
+
+      <!-- BREADCRUMB -->
+      <div class="breadcrumb">
+        <a href="home.html">🏠 Home</a>
+        <span class="sep">›</span>
+        <span class="cur">My Profile</span>
+      </div>
+
+      <!-- ① PROFILE HEADER CARD -->
+      <div class="profile-header-card fu">
+        <div class="ph-cover"></div>
+        <div class="ph-body">
+          <div class="ph-avatar-wrap">
+            <div class="ph-avatar" id="phAvatar">
+              <span id="phInitials">?</span>
+              <label class="avatar-edit-btn" title="Upload photo">
+                📷
+                <input type="file" accept="image/*" onchange="previewAvatar(this)" style="display:none;">
+              </label>
+            </div>
+          </div>
+          <div class="ph-info">
+            <div class="ph-name" id="phName">Loading…</div>
+            <div class="ph-meta">
+              <span class="ph-pill">🎓 <span id="phBtid">—</span></span>
+              <span class="ph-status active">● Active Student</span>
+            </div>
+            <div class="ph-sub" id="phSub">JD College of Engineering and Management, Nagpur</div>
+          </div>
+          <div class="ph-actions">
+            <button class="btn-outline-sm" onclick="window.location.href='documents.html'">📄 Apply Document</button>
+            <button class="btn-outline-sm" onclick="window.location.href='dashboard.html'">📂 My Applications</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② APP SUMMARY STRIP -->
+      <div class="app-strip fu fu1">
+        <a class="app-stat-card" href="dashboard.html">
+          <div class="asc-num" id="totalApps">—</div>
+          <div class="asc-label">Total Applications</div>
+          <div class="asc-icon">📋</div>
+        </a>
+        <a class="app-stat-card" href="dashboard.html">
+          <div class="asc-num pending" id="pendingApps">—</div>
+          <div class="asc-label">Pending</div>
+          <div class="asc-icon">⏳</div>
+        </a>
+        <a class="app-stat-card" href="dashboard.html">
+          <div class="asc-num approved" id="approvedApps">—</div>
+          <div class="asc-label">Approved</div>
+          <div class="asc-icon">✅</div>
+        </a>
+        <a class="app-stat-card" href="dashboard.html">
+          <div class="asc-num rejected" id="rejectedApps">—</div>
+          <div class="asc-label">Rejected</div>
+          <div class="asc-icon">❌</div>
+        </a>
+      </div>
+
+      <!-- ③ TWO-COLUMN LAYOUT -->
+      <div class="two-col">
+
+        <!-- ═══ LEFT COLUMN ═══ -->
+        <div class="left-col">
+
+          <!-- PERSONAL INFORMATION -->
+          <div class="section-card fu fu2" id="sec-personal">
+            <div class="sc-header">
+              <span class="sc-icon">👤</span>
+              <h3>Personal Information</h3>
+              <button class="edit-toggle-btn" id="editPersonalBtn" onclick="toggleEdit('personal')">✏️ Edit</button>
+            </div>
+            <div class="sc-body">
+              <div class="fields-grid">
+                <div class="field-item">
+                  <div class="fi-label">Full Name <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-fullname">—</div>
+                  <input class="fi-input hidden" type="text" id="inp-fullname" placeholder="Enter full name">
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Date of Birth <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-dob">—</div>
+                  <input class="fi-input hidden" type="date" id="inp-dob">
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Gender <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-gender">—</div>
+                  <select class="fi-input hidden" id="inp-gender">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">College Email ID</div>
+                  <div class="fi-value" id="disp-email">—</div>
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Mobile Number <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-mobile">—</div>
+                  <input class="fi-input hidden" type="tel" id="inp-mobile" placeholder="10-digit number"
+                    maxlength="10">
+                </div>
+                <div class="field-item full-width">
+                  <div class="fi-label">Address <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-address">—</div>
+                  <textarea class="fi-input hidden" id="inp-address" placeholder="Your full residential address"
+                    rows="2"></textarea>
+                </div>
+              </div>
+              <div class="save-row hidden" id="save-personal">
+                <button class="btn-save" onclick="savePersonal()">💾 Save Changes</button>
+                <button class="btn-cancel" onclick="cancelEdit('personal')">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACADEMIC INFORMATION -->
+          <div class="section-card fu fu2">
+            <div class="sc-header">
+              <span class="sc-icon">🎓</span>
+              <h3>Academic Information</h3>
+              <button class="edit-toggle-btn" id="editAcademicBtn" onclick="toggleEdit('academic')">✏️ Edit</button>
+            </div>
+            <div class="sc-body">
+              <div class="fields-grid">
+                <div class="field-item">
+                  <div class="fi-label">Department / Branch <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-branch">—</div>
+                  <select class="fi-input hidden" id="inp-branch">
+                    <option value="">-- Select Branch --</option>
+                    <option value="CS">Computer Science &amp; Engineering</option>
+                    <option value="IT">Information Technology</option>
+                    <option value="DS">Data Science</option>
+                    <option value="AI">Artificial Intelligence</option>
+                    <option value="ME">Mechanical Engineering</option>
+                    <option value="CE">Civil Engineering</option>
+                    <option value="EE">Electrical Engineering</option>
+                    <option value="ETC">Electronics &amp; Telecommunication</option>
+                  </select>
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Course / Programme <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-programme">—</div>
+                  <input class="fi-input hidden" type="text" id="inp-programme" placeholder="e.g. B.Tech">
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Current Year <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-year">—</div>
+                  <select class="fi-input hidden" id="inp-year">
+                    <option value="">-- Select Year --</option>
+                    <option value="First Year">First Year</option>
+                    <option value="Second Year">Second Year</option>
+                    <option value="Third Year">Third Year</option>
+                    <option value="Fourth Year">Fourth Year</option>
+                  </select>
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Current Semester <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-semester">—</div>
+                  <select class="fi-input hidden" id="inp-semester">
+                    <option value="">-- Select Sem --</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                  </select>
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Admission Year <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-adm-year">—</div>
+                  <input class="fi-input hidden" type="number" id="inp-adm-year" placeholder="YYYY">
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">Section / Batch <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-section">—</div>
+                  <input class="fi-input hidden" type="text" id="inp-section" placeholder="e.g. A2">
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">BT ID / Roll Number <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-btid2">—</div>
+                  <input class="fi-input hidden" type="text" id="inp-btid" placeholder="BTxxXXXXxx">
+                </div>
+                <div class="field-item">
+                  <div class="fi-label">JBTECH ID <span class="editable-badge">Editable</span></div>
+                  <div class="fi-value" id="disp-prn">—</div>
+                  <input class="fi-input hidden" type="text" id="inp-prn" placeholder="JBTECH24XXX">
+                </div>
+              </div>
+              <div class="save-row hidden" id="save-academic">
+                <button class="btn-save" onclick="saveAcademic()">💾 Save Changes</button>
+                <button class="btn-cancel" onclick="cancelEdit('academic')">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- COLLEGE INFORMATION -->
+          <div class="section-card fu fu3">
+            <div class="sc-header">
+              <span class="sc-icon">🏛</span>
+              <h3>College Information</h3>
+              <span class="auto-badge">Read-only</span>
+            </div>
+            <div class="sc-body">
+              <div class="college-info-grid">
+                <div class="ci-row">
+                  <div class="ci-key">Institution</div>
+                  <div class="ci-val">JD College of Engineering and Management</div>
+                </div>
+                <div class="ci-row">
+                  <div class="ci-key">Status</div>
+                  <div class="ci-val"><span class="status-tag auto">Autonomous Institute</span></div>
+                </div>
+                <div class="ci-row">
+                  <div class="ci-key">Affiliated To</div>
+                  <div class="ci-val">Dr. Babasaheb Ambedkar Technological University</div>
+                </div>
+                <div class="ci-row">
+                  <div class="ci-key">Approved By</div>
+                  <div class="ci-val">
+                    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:2px;">
+                      <span class="status-tag ugc">UGC</span>
+                      <span class="status-tag aicte">AICTE</span>
+                      <span class="status-tag naac">NAAC Accredited</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ci-row">
+                  <div class="ci-key">State</div>
+                  <div class="ci-val">Maharashtra, India</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /left-col -->
+
+        <!-- ═══ RIGHT COLUMN ═══ -->
+        <div class="right-col">
+
+          <!-- KYC / UPLOADED DOCUMENTS -->
+          <div class="section-card fu fu2">
+            <div class="sc-header">
+              <span class="sc-icon">📁</span>
+              <h3>Uploaded Documents</h3>
+              <span class="kyc-note">KYC</span>
+            </div>
+            <div class="sc-body" style="padding-top:4px;">
+              <div class="kyc-list">
+                <div class="kyc-item">
+                  <div class="kyc-icon" style="background:#dbeafe;">🪪</div>
+                  <div class="kyc-text">
+                    <div class="kyc-name">College ID Card</div>
+                    <div class="kyc-sub">Issued by Admin Office</div>
+                  </div>
+                  <div class="kyc-right"><span class="kyc-status verified">✓ Verified</span><button
+                      class="kyc-view-btn">View</button></div>
+                </div>
+                <div class="kyc-item">
+                  <div class="kyc-icon" style="background:#fef3c7;">🪪</div>
+                  <div class="kyc-text">
+                    <div class="kyc-name">Aadhaar Card</div>
+                    <div class="kyc-sub">Government Identity Proof</div>
+                  </div>
+                  <div class="kyc-right">
+                    <span class="kyc-status pending">⏳ Pending</span>
+                    <button class="kyc-view-btn" onclick="triggerUpload('aadhaar')">Upload</button>
+                    <input type="file" id="aadhaar-upload" accept=".pdf,.jpg,.png" style="display:none;"
+                      onchange="handleKycUpload(this,'aadhaar')">
+                  </div>
+                </div>
+                <div class="kyc-item">
+                  <div class="kyc-icon" style="background:#d1fae5;">📜</div>
+                  <div class="kyc-text">
+                    <div class="kyc-name">10th Marksheet</div>
+                    <div class="kyc-sub">SSC / Board Certificate</div>
+                  </div>
+                  <div class="kyc-right"><span class="kyc-status verified">✓ Verified</span><button
+                      class="kyc-view-btn">View</button></div>
+                </div>
+                <div class="kyc-item">
+                  <div class="kyc-icon" style="background:#fae8ff;">📜</div>
+                  <div class="kyc-text">
+                    <div class="kyc-name">12th / Diploma Marksheet</div>
+                    <div class="kyc-sub">HSC / Diploma Certificate</div>
+                  </div>
+                  <div class="kyc-right"><span class="kyc-status verified">✓ Verified</span><button
+                      class="kyc-view-btn">View</button></div>
+                </div>
+                <div class="kyc-item">
+                  <div class="kyc-icon" style="background:#fef9c3;">🖼️</div>
+                  <div class="kyc-text">
+                    <div class="kyc-name">Passport Size Photo</div>
+                    <div class="kyc-sub">Recent white-background photo</div>
+                  </div>
+                  <div class="kyc-right">
+                    <span class="kyc-status pending">⏳ Pending</span>
+                    <button class="kyc-view-btn" onclick="triggerUpload('photo-kyc')">Upload</button>
+                    <input type="file" id="photo-kyc-upload" accept=".jpg,.jpeg,.png" style="display:none;"
+                      onchange="handleKycUpload(this,'photo-kyc')">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECURITY & ACCOUNT -->
+          <div class="section-card fu fu3">
+            <div class="sc-header">
+              <span class="sc-icon">🔐</span>
+              <h3>Security &amp; Account</h3>
+            </div>
+            <div class="sc-body" style="padding-top:4px;">
+              <div class="security-list">
+                <div class="sec-item" onclick="openModal('changePassword')">
+                  <div class="sec-item-left">
+                    <div class="sec-item-icon" style="background:#dbeafe;">🔑</div>
+                    <div>
+                      <div class="sec-item-title">Change Password</div>
+                      <div class="sec-item-sub">Update your login password</div>
+                    </div>
+                  </div>
+                  <span class="sec-arrow">›</span>
+                </div>
+                <div class="sec-item"
+                  onclick="toggleEdit('personal'); setTimeout(function(){ var m=document.getElementById('inp-mobile'); if(m) m.focus(); }, 200);">
+                  <div class="sec-item-left">
+                    <div class="sec-item-icon" style="background:#dcfce7;">📱</div>
+                    <div>
+                      <div class="sec-item-title">Update Mobile Number</div>
+                      <div class="sec-item-sub">Change your registered phone</div>
+                    </div>
+                  </div>
+                  <span class="sec-arrow">›</span>
+                </div>
+                <div class="sec-item" onclick="confirmLogoutAll()">
+                  <div class="sec-item-left">
+                    <div class="sec-item-icon" style="background:#fee2e2;">🚪</div>
+                    <div>
+                      <div class="sec-item-title" style="color:var(--error);">Logout from All Devices</div>
+                      <div class="sec-item-sub">Terminate all active sessions</div>
+                    </div>
+                  </div>
+                  <span class="sec-arrow">›</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /right-col -->
+      </div><!-- /two-col -->
+
+    </main>
+  </div><!-- /layout -->
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">JD College of Engineering and Management</div>
+        <p>Education to Eternity</p>
+        <div class="f-contact">
+          📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+          Kalmeshwar Road, Nagpur – 441501<br>
+          📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+          📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+          🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+          📞 7774041329 / 7888018373
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="home.html">Dashboard</a></li>
+          <li><a href="documents.html">Apply for Document</a></li>
+          <li><a href="dashboard.html">My Applications</a></li>
+          <li><a href="track-status.html">Track Application</a></li>
+          <li><a href="download.html">Download Documents</a></li>
+          <li><a href="profile.html">My Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Governing Bodies</h4>
+        <ul>
+          <li>Dr. Babasaheb Ambedkar Technological University</li>
+          <li>University Grants Commission (UGC)</li>
+          <li>AICTE – All India Council for Technical Education</li>
+          <li>NAAC Accredited</li>
+          <li>Govt. of Maharashtra Recognized</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+      &nbsp;|&nbsp; Student Digital Document Services Portal
+    </div>
+  </footer>
+
+  <!-- CHANGE PASSWORD MODAL -->
+  <div class="modal-overlay" id="modal-changePassword">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>🔑 Change Password</h3>
+        <button class="modal-close" onclick="closeModal('changePassword')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-field">
+          <label>Current Password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="cur-pass" placeholder="Enter current password">
+            <button class="eye-btn" onclick="togglePw('cur-pass',this)">👁</button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>New Password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="new-pass" placeholder="Min 8 characters" oninput="checkPwStrength(this.value)">
+            <button class="eye-btn" onclick="togglePw('new-pass',this)">👁</button>
+          </div>
+          <div class="pw-strength">
+            <div class="pw-bar">
+              <div class="pw-fill" id="pw-fill"></div>
+            </div>
+            <span class="pw-label" id="pw-label">–</span>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Confirm New Password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="conf-pass" placeholder="Re-enter new password">
+            <button class="eye-btn" onclick="togglePw('conf-pass',this)">👁</button>
+          </div>
+        </div>
+        <div class="modal-alert" id="pw-alert" style="display:none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-modal-primary" onclick="changePassword()">Update Password</button>
+        <button class="btn-modal-sec" onclick="closeModal('changePassword')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="../js/profile.js"></script>
+</body>
+
+</html>

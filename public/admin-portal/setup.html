@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Portal Setup | JDCOEM Admin Portal</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{background:var(--navy);min-height:100vh;padding:0;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 20% 50%,rgba(200,146,42,.1) 0%,transparent 55%)}
+
+.setup-shell{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:36px 20px 60px;position:relative;z-index:1}
+
+.setup-topbar{display:flex;align-items:center;gap:14px;margin-bottom:36px;width:100%;max-width:960px}
+.st-emblem{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-lt));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 12px rgba(200,146,42,.4)}
+.st-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff}
+.st-sub{font-size:11px;color:rgba(255,255,255,.45)}
+.st-sp{flex:1}
+.st-back{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);border-radius:var(--r);padding:7px 16px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;transition:all .18s}
+.st-back:hover{background:rgba(255,255,255,.14);color:#fff}
+
+.setup-hero{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--rxl);padding:28px 36px;width:100%;max-width:960px;margin-bottom:28px;display:flex;align-items:center;gap:20px}
+.sh-ic{width:54px;height:54px;border-radius:14px;background:rgba(200,146,42,.15);border:1px solid rgba(200,146,42,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.sh-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:5px}
+.sh-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6}
+
+.setup-grid{width:100%;max-width:960px;display:grid;grid-template-columns:1.1fr 1fr;gap:22px;align-items:start}
+
+.sc{background:#fff;border-radius:var(--rxl);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.35)}
+.sc-head{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px}
+.sc-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy)}
+.sc-sub{font-size:11.5px;color:var(--text-3);margin-top:1px}
+.sc-body{padding:22px}
+
+.role-pills{display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.rpill{display:flex;align-items:center;gap:12px;background:var(--surface);border:2px solid var(--border);border-radius:var(--rl);padding:13px 16px;cursor:pointer;transition:all .18s;width:100%;text-align:left}
+.rpill:hover{border-color:var(--border-2);background:var(--gold-pale2)}
+.rpill.active{border-color:var(--navy);background:var(--gold-pale)}
+.rp-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border-2);margin-left:auto;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all .18s}
+.rpill.active .rp-dot{background:var(--navy);border-color:var(--navy);color:#fff}
+.rp-ic{font-size:20px}
+.rp-name{font-size:13.5px;font-weight:700;color:var(--text)}
+.rp-desc{font-size:11.5px;color:var(--text-3);margin-top:1px}
+
+.fg2{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fg2 label{font-size:11.5px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.6px}
+.fg2 input,.fg2 select{width:100%;padding:9px 13px;border:1.5px solid var(--border-2);border-radius:var(--rl);font-family:'Sora',sans-serif;font-size:13.5px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+.fg2 input:focus,.fg2 select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(6,18,42,.07)}
+.fg2 input.e{border-color:var(--err)}
+.pw-s{position:relative}
+.pw-s input{padding-right:42px}
+.pw-s button{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-3);padding:4px}
+.pw-s button:hover{color:var(--navy)}
+.pw-bar{height:4px;border-radius:4px;background:var(--border);overflow:hidden;margin-top:6px}
+.pw-bar-fill{height:100%;border-radius:4px;width:0;transition:width .3s,background .3s}
+.pw-lbl{font-size:11px;color:var(--text-3);margin-top:4px}
+
+.btn-add-user{width:100%;padding:11px;border:none;border-radius:var(--rl);background:linear-gradient(135deg,var(--navy),var(--navy-3));color:#fff;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:box-shadow .2s,transform .15s;box-shadow:0 4px 14px rgba(6,18,42,.22);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+.btn-add-user:hover:not(:disabled){box-shadow:0 6px 20px rgba(6,18,42,.3);transform:translateY(-1px)}
+.btn-add-user:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.fn{border-radius:var(--rl);padding:11px 14px;margin-bottom:14px;font-size:12.5px;display:none;align-items:center;gap:8px}
+.fn.e{background:var(--err-bg);border:1px solid var(--err-bd);color:var(--err)}
+.fn.s{background:var(--ok-bg);border:1px solid var(--ok-bd);color:var(--ok)}
+.fn.show{display:flex}
+
+.user-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--rl);border:1px solid var(--border);margin-bottom:8px;background:var(--surface);transition:background .15s}
+.user-item:last-child{margin-bottom:0}
+.user-item:hover{background:var(--gold-pale2)}
+.ui-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--navy-2),var(--navy-3));display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff}
+.ui-info{flex:1;min-width:0}
+.ui-name{font-size:13px;font-weight:700;color:var(--text)}
+.ui-email{font-size:11px;color:var(--text-3);margin-top:1px;word-break:break-all}
+.ui-role{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.r-clerk{background:var(--clerk-bg);color:var(--clerk-c)}
+.r-hod{background:var(--hod-bg);color:var(--hod-c)}
+.r-principal{background:var(--principal-bg);color:var(--principal-c)}
+.ui-del{background:none;border:none;cursor:pointer;color:var(--text-3);padding:6px 9px;border-radius:var(--r);transition:all .15s;font-size:14px}
+.ui-del:hover{background:var(--err-bg);color:var(--err)}
+
+.user-empty{text-align:center;padding:32px;color:var(--text-3)}
+.user-empty .ue-ic{font-size:36px;margin-bottom:8px}
+.user-empty p{font-size:12.5px}
+
+.finish-bar{background:linear-gradient(135deg,var(--ok-bg),#e0f9ed);border:1.5px solid var(--ok-bd);border-radius:var(--rxl);padding:20px 24px;margin-top:20px;display:none;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.finish-bar.show{display:flex}
+.fb-text h4{font-size:15px;font-weight:700;color:var(--ok);margin-bottom:4px}
+.fb-text p{font-size:12.5px;color:var(--text-3)}
+.btn-go{background:var(--ok);color:#fff;border:none;border-radius:var(--rl);padding:11px 26px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 4px 14px rgba(10,124,78,.28);transition:all .2s;white-space:nowrap}
+.btn-go:hover{background:var(--ok-dark);box-shadow:0 6px 20px rgba(10,124,78,.4);transform:translateY(-1px)}
+
+.info-strip{background:rgba(200,146,42,.12);border:1px solid rgba(200,146,42,.25);border-radius:var(--rl);padding:12px 16px;font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:22px;width:100%;max-width:960px}
+.info-strip strong{color:var(--gold-lt)}
+
+/* Loading spinner */
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:760px){.setup-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="setup-shell">
+  <div class="setup-topbar">
+    <div class="st-emblem"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="none"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg></div>
+    <div><div class="st-title">JDCOEM Admin Portal</div><div class="st-sub">First-Run Setup</div></div>
+    <div class="st-sp"></div>
+    <a class="st-back" href="index.html">← Sign In</a>
+  </div>
+
+  <div class="info-strip">
+    <strong>IT Administrator Only</strong> — This page registers admin accounts (Clerk, HOD, Principal) directly into the college database via the backend API. Accounts are managed server-side and persist across all devices.
+  </div>
+
+  <div class="setup-hero">
+    <div class="sh-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="rgba(232,184,75,.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+    <div>
+      <div class="sh-title">Portal Administrator Setup</div>
+      <div class="sh-desc">Register one account for each role. Accounts are saved to the server database — no need to redo this after clearing browser data.</div>
+    </div>
+  </div>
+
+  <div class="setup-grid">
+    <!-- LEFT: Form -->
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-ico" style="background:#dbeafe;color:#1d4ed8;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="sc-title">Add Admin Account</div><div class="sc-sub">Select a role, then fill in the details</div></div>
+      </div>
+      <div class="sc-body">
+        <div class="role-pills">
+          <button class="rpill" data-role="clerk" onclick="selRole('clerk',this)">
+            <div class="rp-ic" style="color:var(--navy-2)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div><div class="rp-name">Clerk</div><div class="rp-desc">Document verification &amp; forwarding</div></div>
+            <div class="rp-dot" id="dot-clerk"></div>
+          </button>
+          <button class="rpill" data-role="hod" onclick="selRole('hod',this)">
+            <div class="rp-ic" style="color:var(--navy-2)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div><div class="rp-name">Head of Department (HOD)</div><div class="rp-desc">Academic review &amp; digital signature</div></div>
+            <div class="rp-dot" id="dot-hod"></div>
+          </button>
+          <button class="rpill" data-role="principal" onclick="selRole('principal',this)">
+            <div class="rp-ic" style="color:var(--navy-2)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div><div class="rp-name">Principal</div><div class="rp-desc">Final authority &amp; document issuance</div></div>
+            <div class="rp-dot" id="dot-principal"></div>
+          </button>
+        </div>
+
+        <div class="fg2"><label>Full Name</label><input type="text" id="f-name" placeholder="e.g. Dr. Priya Mehta"></div>
+        <div class="fg2"><label>Official Email</label><input type="email" id="f-email" placeholder="name@jdcoem.ac.in" spellcheck="false" autocomplete="off"></div>
+        <div class="fg2"><label>Designation</label><input type="text" id="f-desig" placeholder="e.g. Head of Department – CSE"></div>
+        <div class="fg2"><label>Department / Office</label><input type="text" id="f-dept" placeholder="e.g. Computer Science &amp; Engineering"></div>
+        <div class="fg2">
+          <label>Password</label>
+          <div class="pw-s">
+            <input type="password" id="f-pw" placeholder="Set a strong password" oninput="updatePwBar()">
+            <button type="button" onclick="toggleSetupPw()" title="Show/hide"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          </div>
+          <div class="pw-bar"><div class="pw-bar-fill" id="pwBarFill"></div></div>
+          <div class="pw-lbl" id="pwBarLbl">Min. 6 characters</div>
+        </div>
+
+        <div class="fn e" id="addErr"><span id="addErrTxt"></span></div>
+        <div class="fn s" id="addOk"><span id="addOkTxt"></span></div>
+
+        <button class="btn-add-user" id="addBtn" onclick="addUser()">＋ Register Account</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Registered users -->
+    <div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ico" style="background:#d1fae5;color:#065f39;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="sc-title">Registered Accounts</div><div class="sc-sub" id="regSubtitle">Loading…</div></div>
+        </div>
+        <div class="sc-body">
+          <div id="userList"><div style="text-align:center;padding:24px;color:var(--text-3);font-size:13px;">⏳ Loading from server…</div></div>
+        </div>
+      </div>
+
+      <div class="finish-bar" id="finishBar">
+        <div class="fb-text">
+          <h4>Setup Complete</h4>
+          <p>All three accounts are registered. The portal is ready to use.</p>
+        </div>
+        <button class="btn-go" onclick="window.location.href='index.html'">Go to Sign In →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="db.js"></script>
+<script>
+'use strict';
+
+const API = 'http://localhost/college-portal/public/index.php/api';
+let selRoleVal  = null;
+let serverUsers = []; /* authoritative list from backend */
+
+/* ── INIT: load existing admin users from server ── */
+window.addEventListener('DOMContentLoaded', () => {
+  loadUsersFromServer();
+});
+
+function loadUsersFromServer() {
+  fetch(API + '/admin/users', { credentials: 'include' })
+  .then(r => r.json())
+  .then(res => {
+    serverUsers = (res.success && Array.isArray(res.data)) ? res.data : [];
+    renderUsers();
+  })
+  .catch(() => {
+    /* Server unreachable — fall back to localStorage display list */
+    serverUsers = getAdminUsers();
+    renderUsers();
+  });
+}
+
+/* ── ROLE SELECTION ── */
+function selRole(role, el) {
+  document.querySelectorAll('.rpill').forEach(b => b.classList.remove('active'));
+  ['clerk','hod','principal'].forEach(r => {
+    const d = document.getElementById('dot-'+r);
+    if (d) d.innerHTML = '';
+  });
+  el.classList.add('active');
+  const dot = document.getElementById('dot-'+role);
+  if (dot) dot.innerHTML = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+  selRoleVal = role;
+  clearNotices();
+}
+
+/* ── ADD USER → backend ── */
+function addUser() {
+  clearNotices();
+  const name  = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const desig = document.getElementById('f-desig').value.trim();
+  const dept  = document.getElementById('f-dept').value.trim();
+  const pw    = document.getElementById('f-pw').value;
+
+  /* Client-side validation */
+  if (!selRoleVal)                    { showAddErr('Please select a role.'); return; }
+  if (!name)                          { showAddErr('Full name is required.'); return; }
+  if (!email || !email.includes('@')) { showAddErr('Valid email is required.'); return; }
+  if (!desig)                         { showAddErr('Designation is required.'); return; }
+  if (!dept)                          { showAddErr('Department is required.'); return; }
+  if (pw.length < 6)                  { showAddErr('Password must be at least 6 characters.'); return; }
+
+  /* Disable button while request is in flight */
+  const btn = document.getElementById('addBtn');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Registering…'; }
+
+  fetch(API + '/admin/users/create', {
+    method:      'POST',
+    credentials: 'include',
+    headers:     { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name,
+      email,
+      password:    pw,
+      role:        selRoleVal,
+      designation: desig,
+      department:  dept
+    })
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (btn) { btn.disabled = false; btn.innerHTML = '＋ Register Account'; }
+
+    if (res.success || res.status === 'success') {
+      showAddOk('✅ ' + name + ' (' + selRoleVal.toUpperCase() + ') registered successfully!');
+      resetForm();
+      loadUsersFromServer(); /* refresh list from server */
+    } else {
+      showAddErr(res.message || 'Failed to register account. Try again.');
+    }
+  })
+  .catch(err => {
+    if (btn) { btn.disabled = false; btn.innerHTML = '＋ Register Account'; }
+    console.error('[Setup] createAdminUser error:', err);
+    showAddErr('❌ Cannot reach server. Make sure XAMPP is running.');
+  });
+}
+
+/* ── DELETE USER → backend ── */
+function delUser(id) {
+  if (!confirm('Remove this admin account? They will no longer be able to sign in.')) return;
+
+  fetch(API + '/admin/users/delete', {
+    method:      'POST',
+    credentials: 'include',
+    headers:     { 'Content-Type': 'application/json' },
+    body:        JSON.stringify({ id })
+  })
+  .then(r => r.json())
+  .then(() => {
+    showToast('Account removed.', 'warn');
+    loadUsersFromServer();
+  })
+  .catch(() => {
+    /* Even if API fails, remove from local display */
+    serverUsers = serverUsers.filter(u => String(u.id) !== String(id));
+    renderUsers();
+    showToast('Account removed from display.', 'warn');
+  });
+}
+
+/* ── RENDER USER LIST ── */
+function renderUsers() {
+  const users = serverUsers;
+  const list  = document.getElementById('userList');
+  const sub   = document.getElementById('regSubtitle');
+  const fin   = document.getElementById('finishBar');
+
+  const roles = ['clerk','hod','principal'];
+  const registered = roles.filter(r => users.some(u => (u.role||'').toLowerCase() === r));
+  sub.textContent = registered.length + ' of 3 roles set up';
+  fin.classList.toggle('show', registered.length >= 3);
+
+  if (!users.length) {
+    list.innerHTML = `
+      <div class="user-empty">
+        <div class="ue-ic"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <p>No accounts registered yet.<br>Use the form to add Clerk, HOD, and Principal.</p>
+      </div>`;
+    return;
+  }
+
+  const rClass = { clerk:'r-clerk', hod:'r-hod', principal:'r-principal' };
+  const rLabel = { clerk:'Clerk', hod:'HOD', principal:'Principal' };
+
+  list.innerHTML = users.map(u => `
+    <div class="user-item">
+      <div class="ui-av">${initials(u.name || u.full_name)}</div>
+      <div class="ui-info">
+        <div class="ui-name">${esc(u.name || u.full_name || '')}</div>
+        <div class="ui-email">${esc(u.email || '')}</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${esc(u.designation || u.department || '')}</div>
+      </div>
+      <span class="ui-role ${rClass[u.role]||''}">${rLabel[u.role]||u.role||''}</span>
+      <button class="ui-del" onclick="delUser('${u.id}')" title="Remove">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+      </button>
+    </div>`).join('');
+}
+
+/* ── FORM HELPERS ── */
+function updatePwBar() {
+  const pw = document.getElementById('f-pw').value;
+  const s  = pwStrength(pw);
+  document.getElementById('pwBarFill').style.width      = s.pct + '%';
+  document.getElementById('pwBarFill').style.background = s.color;
+  document.getElementById('pwBarLbl').textContent       = pw ? s.label : 'Min. 6 characters';
+}
+
+function toggleSetupPw() {
+  const inp = document.getElementById('f-pw');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function resetForm() {
+  ['f-name','f-email','f-desig','f-dept','f-pw'].forEach(id => {
+    const e = document.getElementById(id); if (e) e.value = '';
+  });
+  document.getElementById('pwBarFill').style.width = '0';
+  document.getElementById('pwBarLbl').textContent  = 'Min. 6 characters';
+  document.querySelectorAll('.rpill').forEach(b => b.classList.remove('active'));
+  ['clerk','hod','principal'].forEach(r => {
+    const d = document.getElementById('dot-'+r); if (d) d.innerHTML = '';
+  });
+  selRoleVal = null;
+}
+
+function clearNotices() {
+  document.getElementById('addErr').classList.remove('show');
+  document.getElementById('addOk').classList.remove('show');
+}
+function showAddErr(msg) {
+  document.getElementById('addErrTxt').textContent = msg;
+  document.getElementById('addErr').classList.add('show');
+}
+function showAddOk(msg) {
+  document.getElementById('addOkTxt').textContent = msg;
+  document.getElementById('addOk').classList.add('show');
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function initials(n) {
+  return (n||'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+}
+</script>
+</body>
+</html>

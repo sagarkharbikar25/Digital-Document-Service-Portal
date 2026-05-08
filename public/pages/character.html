@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Certificate – JDCOEM Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bonafide.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="home.html" class="logo-wrap">
+      <img src="../assets/logo_left.png" alt="JDCOEM Logo" 
+           style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+           onerror="this.style.display='none'">
+      <div class="logo-text">
+        <div class="college-name">JD College of Engineering &amp; Management</div>
+        <div class="portal-name">Student Digital Document Services</div>
+      </div>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-spacer"></div>
+
+    <!-- Notification Bell -->
+    <div style="position:relative;">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        🔔
+        <span class="notif-badge"></span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="nd-header">
+          Notifications
+          <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+        </div>
+        <div id="notifList">
+          <div style="padding:24px;text-align:center;color:#9ca3af;font-size:12px;">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="profile.html" class="user-chip-link">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Loading…</div>
+          <div class="user-id" id="userId">--</div>
+        </div>
+      </div>
+    </a>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <span class="nav-section-label">Main Menu</span>
+      <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item active" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+      <a class="nav-item" href="dashboard.html">
+        <span class="nav-icon">📂</span> My Applications
+        <span class="nav-badge" id="sideAppBadge"></span>
+      </a>
+      <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+      <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+      <span class="nav-section-label" style="margin-top:8px;">Account</span>
+      <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+      <a class="nav-item" href="notification.html">
+        <span class="nav-icon">🔔</span> Notifications
+        <span class="nav-badge" id="sideNotifBadge"></span>
+      </a>
+      <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+    </aside>
+
+    <!-- ════════ MAIN ════════ -->
+    <main class="main">
+
+        <!-- BREADCRUMB -->
+        <div class="breadcrumb fu">
+            <a href="home.html">🏠 Home</a>
+            <span class="sep">›</span>
+            <a href="documents.html">Documents</a>
+            <span class="sep">›</span>
+            <span class="current">⭐ Character Certificate</span>
+        </div>
+
+        <!-- STEP BAR -->
+        <div class="steps-bar fu">
+            <div class="step-node">
+                <div class="step-circle done">✓</div>
+                <span class="step-label done">Select Document</span>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step-node">
+                <div class="step-circle active">2</div>
+                <span class="step-label active">Fill Application</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-node">
+                <div class="step-circle todo">3</div>
+                <span class="step-label todo">Submit</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-node">
+                <div class="step-circle todo">4</div>
+                <span class="step-label todo">Track Status</span>
+            </div>
+        </div>
+
+        <!-- FORM ALERT -->
+        <div class="form-alert" id="formAlert">
+            <span style="font-size:16px;">⚠</span>
+            <span id="formAlertMsg">Please fix the errors below before submitting.</span>
+        </div>
+
+        <!-- ① DOCUMENT INFO BANNER -->
+        <div class="doc-banner fu fu1">
+            <div class="banner-icon">⭐</div>
+            <div class="banner-text">
+                <h2>Character Certificate</h2>
+                <p>Issued to certify the character and conduct of a student during their period of study at JD College of Engineering and Management. Accepted for employment, higher studies, visa applications, and government service.</p>
+                <div class="banner-pills">
+                    <div class="banner-pill">⏱ Processing: <strong>3 Working Days</strong></div>
+                    <div class="banner-pill">🏛 Issued by: <strong>Principal's Office</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ② STUDENT INFORMATION -->
+        <div class="form-card fu fu2">
+            <div class="form-card-header">
+                <span class="fch-icon">👤</span>
+                <h3>Student Information</h3>
+                <span class="fch-badge">🔒 Auto-filled from your profile</span>
+            </div>
+            <div class="form-card-body">
+                <div class="info-note">ℹ️ Name, email and ID are auto-filled. You can update Branch and Year if needed.</div>
+
+                <!-- Row 1: Read-only fields -->
+                <div class="info-grid" style="margin-bottom:14px;">
+                    <div class="info-field">
+                        <label>Full Name</label>
+                        <div class="info-value-box"><span class="iv-icon">👤</span><span id="sName">–</span></div>
+                    </div>
+                    <div class="info-field">
+                        <label>BT ID / Roll Number</label>
+                        <div class="info-value-box"><span class="iv-icon">🎓</span><span id="sBtid">–</span></div>
+                    </div>
+                    <div class="info-field">
+                        <label>College Email</label>
+                        <div class="info-value-box"><span class="iv-icon">📧</span><span id="sEmail">–</span></div>
+                    </div>
+                    <div class="info-field">
+                        <label for="academic-year">Academic Year <span class="req">*</span></label>
+                        <div class="info-value-box">
+                            <span class="iv-icon">🗓</span>
+                            <input type="text" id="academic-year" placeholder="e.g. 2025 – 2026" class="info-input" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Editable branch + year -->
+                <div class="input-grid-2" style="margin-bottom:16px;">
+                    <div class="field-group">
+                        <label>Department / Branch <span class="req">*</span></label>
+                        <select id="sBranch">
+                            <option value="">Select Branch</option>
+                            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Electronics & Telecommunication">Electronics &amp; Telecommunication</option>
+                            <option value="Chemical Engineering">Chemical Engineering</option>
+                            <option value="MBA">MBA</option>
+                            <option value="MCA">MCA</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>Current Year <span class="req">*</span></label>
+                        <select id="sYear">
+                            <option value="">Select Year</option>
+                            <option value="First Year">First Year</option>
+                            <option value="Second Year">Second Year</option>
+                            <option value="Third Year">Third Year</option>
+                            <option value="Fourth Year">Fourth Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Row 3: Extra fields -->
+                <div class="input-grid-2">
+                    <div class="field-group">
+                        <label>Current Semester <span class="req">*</span></label>
+                        <select id="semester">
+                            <option value="">Select Semester</option>
+                            <option>Semester I</option><option>Semester II</option>
+                            <option>Semester III</option><option>Semester IV</option>
+                            <option>Semester V</option><option>Semester VI</option>
+                            <option>Semester VII</option><option>Semester VIII</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>Mobile Number <span class="req">*</span> <span class="hint">For SMS updates</span></label>
+                        <input type="tel" id="mobile" placeholder="10-digit mobile number" maxlength="10">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ③ CHARACTER CERTIFICATE DETAILS -->
+        <div class="form-card fu fu3">
+            <div class="form-card-header">
+                <span class="fch-icon">⭐</span>
+                <h3>Character Certificate Details</h3>
+            </div>
+            <div class="form-card-body">
+
+                <!-- Period of Study -->
+                <div class="input-grid-2" style="margin-bottom:16px;">
+                    <div class="field-group">
+                        <label>Period of Study — From <span class="req">*</span></label>
+                        <input type="month" id="periodFrom">
+                    </div>
+                    <div class="field-group">
+                        <label>Period of Study — To <span class="req">*</span></label>
+                        <input type="month" id="periodTo">
+                    </div>
+                </div>
+
+                <!-- Purpose -->
+                <div class="field-group" style="margin-bottom:16px;">
+                    <label>Purpose of Certificate <span class="req">*</span></label>
+                    <select id="purpose" onchange="onPurposeChange()">
+                        <option value="">-- Select Purpose --</option>
+                        <option value="Employment / Job Application">Employment / Job Application</option>
+                        <option value="Higher Studies / University Admission">Higher Studies / University Admission</option>
+                        <option value="Visa / Immigration Application">Visa / Immigration Application</option>
+                        <option value="Scholarship Application">Scholarship Application</option>
+                        <option value="Government Service Application">Government Service Application</option>
+                        <option value="other">Other (Please Specify)</option>
+                    </select>
+                </div>
+
+                <!-- Other purpose text (shown only when "Other" selected) -->
+                <div class="field-group" id="otherPurposeWrap" style="display:none;margin-bottom:16px;">
+                    <label>Please specify your purpose <span class="req">*</span></label>
+                    <input type="text" id="otherPurpose" placeholder="Describe your reason for applying…">
+                </div>
+
+                <!-- Additional Info -->
+                <div class="field-group">
+                    <label>Additional Information <span class="hint">(Optional)</span></label>
+                    <textarea id="additionalInfo" rows="3"
+                        style="width:100%;padding:10px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;resize:vertical;outline:none;"
+                        placeholder="Any specific requirements or additional information…"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ④ UPLOAD SECTION -->
+        <div class="form-card fu fu3">
+            <div class="form-card-header">
+                <span class="fch-icon">📤</span>
+                <h3>Upload Documents</h3>
+            </div>
+            <div class="form-card-body">
+
+                <!-- Passport Photo -->
+                <div class="upload-group">
+                    <div class="upload-label-row">
+                        <span class="ul-name">📸 Passport Size Photograph <span class="ul-req">*</span></span>
+                        <span class="ul-hint">JPG, PNG · Max 2MB · White background</span>
+                    </div>
+                    <div class="drop-zone" id="dz-photo"
+                        ondragover="onDragOver(event,'photo')"
+                        ondragleave="onDragLeave('photo')"
+                        ondrop="onDrop(event,'photo',2,['image/jpeg','image/png'])">
+                        <div class="dz-default-content" id="dzd-photo">
+                            <span class="dz-icon">🖼️</span>
+                            <div class="dz-text"><strong>Click to upload</strong> or drag &amp; drop</div>
+                            <div class="dz-sub">JPG or PNG · Maximum 2MB</div>
+                        </div>
+                        <div class="photo-preview-wrap" id="pp-photo">
+                            <img id="pp-img-photo" src="" alt="Preview">
+                            <div class="pp-name" id="pp-name-photo"></div>
+                            <div class="pp-size" id="pp-size-photo"></div>
+                            <button class="fp-remove" onclick="removeFile('photo',event)">✕</button>
+                        </div>
+                        <input type="file" accept=".jpg,.jpeg,.png"
+                            onchange="onFileInput(this,'photo',2,['image/jpeg','image/png'])">
+                    </div>
+                    <div class="file-err" id="fe-photo"></div>
+                </div>
+
+                <!-- College ID Card -->
+                <div class="upload-group">
+                    <div class="upload-label-row">
+                        <span class="ul-name">🪪 College ID Card <span class="ul-req">*</span></span>
+                        <span class="ul-hint">JPG, PNG, PDF · Max 3MB</span>
+                    </div>
+                    <div class="drop-zone" id="dz-idcard"
+                        ondragover="onDragOver(event,'idcard')"
+                        ondragleave="onDragLeave('idcard')"
+                        ondrop="onDrop(event,'idcard',3,['image/jpeg','image/png','application/pdf'])">
+                        <div class="dz-default-content" id="dzd-idcard">
+                            <span class="dz-icon">☁️</span>
+                            <div class="dz-text"><strong>Click to upload</strong> or drag &amp; drop</div>
+                            <div class="dz-sub">JPG, PNG or PDF · Maximum 3MB</div>
+                        </div>
+                        <div class="file-preview-row" id="fp-idcard">
+                            <span class="fp-icon" id="fpi-idcard">📄</span>
+                            <div class="fp-info">
+                                <div class="fp-name" id="fpn-idcard"></div>
+                                <div class="fp-size" id="fps-idcard"></div>
+                            </div>
+                            <button class="fp-remove" onclick="removeFile('idcard',event)">✕</button>
+                        </div>
+                        <input type="file" accept=".jpg,.jpeg,.png,.pdf"
+                            onchange="onFileInput(this,'idcard',3,['image/jpeg','image/png','application/pdf'])">
+                    </div>
+                    <div class="file-err" id="fe-idcard"></div>
+                </div>
+
+                <!-- Fee Clearance (Optional) -->
+                <div class="upload-group">
+                    <div class="upload-label-row">
+                        <span class="ul-name">🧾 Fee Clearance <span class="ul-hint" style="font-weight:400;">(Optional)</span></span>
+                        <span class="ul-hint">PDF · Max 5MB</span>
+                    </div>
+                    <div class="drop-zone" id="dz-fee"
+                        ondragover="onDragOver(event,'fee')"
+                        ondragleave="onDragLeave('fee')"
+                        ondrop="onDrop(event,'fee',5,['application/pdf','image/jpeg','image/png'])">
+                        <div class="dz-default-content" id="dzd-fee">
+                            <span class="dz-icon">☁️</span>
+                            <div class="dz-text"><strong>Click to upload</strong> or drag &amp; drop</div>
+                            <div class="dz-sub">PDF · Maximum 5MB</div>
+                        </div>
+                        <div class="file-preview-row" id="fp-fee">
+                            <span class="fp-icon" id="fpi-fee">📄</span>
+                            <div class="fp-info">
+                                <div class="fp-name" id="fpn-fee"></div>
+                                <div class="fp-size" id="fps-fee"></div>
+                            </div>
+                            <button class="fp-remove" onclick="removeFile('fee',event)">✕</button>
+                        </div>
+                        <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                            onchange="onFileInput(this,'fee',5,['application/pdf','image/jpeg','image/png'])">
+                    </div>
+                    <div class="file-err" id="fe-fee"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ⑤ DECLARATION -->
+        <div class="form-card fu fu4">
+            <div class="form-card-header">
+                <span class="fch-icon">📝</span>
+                <h3>Declaration</h3>
+            </div>
+            <div class="form-card-body">
+                <div class="declaration-box" onclick="toggleDecl()">
+                    <input type="checkbox" id="declCheck" onclick="event.stopPropagation()">
+                    <div class="dec-text">
+                        <h4>I confirm the accuracy of all provided information</h4>
+                        <p>I hereby declare that the information provided in this application is true and correct to the best of my knowledge. I understand that any false information may lead to rejection of this application and/or disciplinary action as per college regulations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⑥ SUBMIT -->
+        <div class="submit-card fu fu5">
+            <div class="readiness-row">
+                <div class="r-pill"><span class="r-dot ok" id="dot-info"></span> Student Info</div>
+                <div class="r-pill"><span class="r-dot" id="dot-photo"></span> Passport Photo</div>
+                <div class="r-pill"><span class="r-dot" id="dot-idcard"></span> College ID</div>
+                <div class="r-pill"><span class="r-dot" id="dot-purpose"></span> Purpose</div>
+                <div class="r-pill"><span class="r-dot" id="dot-decl"></span> Declaration</div>
+            </div>
+            <div class="submit-row">
+                <button class="btn-primary" onclick="submitForm()">🚀 Submit Application</button>
+                <button class="btn-secondary" onclick="window.location.href='documents.html'">← Cancel</button>
+                <div class="secure-note">🔒 Encrypted &amp; secure submission</div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+        <span class="modal-icon">🎉</span>
+        <h3>Application Submitted!</h3>
+        <p>Your Character Certificate application has been received successfully.</p>
+        <p style="margin-top:8px;">Your Application ID:</p>
+        <div class="modal-app-id" id="modalAppId">APP-000000</div>
+        <p class="modal-sub">Save this ID to track your application. You will be notified via email &amp; SMS once processed.</p>
+        <p style="font-size:12.5px;color:var(--g400);">Estimated processing: <strong style="color:var(--navy);">3 Working Days</strong></p>
+        <div class="modal-actions">
+            <button class="mbtn-p" onclick="window.location.href='dashboard.html'">📂 My Applications</button>
+            <button class="mbtn-s" onclick="window.location.href='home.html'">🏠 Back to Home</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">JD College of Engineering and Management</div>
+      <p>Education to Eternity</p>
+      <div class="f-contact">
+        📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+        Kalmeshwar Road, Nagpur – 441501<br>
+        📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+        📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+        🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+        📞 7774041329 / 7888018373
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="documents.html">Apply for Document</a></li>
+        <li><a href="dashboard.html">My Applications</a></li>
+        <li><a href="track-status.html">Track Application</a></li>
+        <li><a href="download.html">Download Documents</a></li>
+        <li><a href="profile.html">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Governing Bodies</h4>
+      <ul>
+        <li>Dr. Babasaheb Ambedkar Technological University</li>
+        <li>University Grants Commission (UGC)</li>
+        <li>AICTE – All India Council for Technical Education</li>
+        <li>NAAC Accredited</li>
+        <li>Govt. of Maharashtra Recognized</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+    &nbsp;|&nbsp; Student Digital Document Services Portal
+  </div>
+</footer>
+
+<script src="../js/character.js"></script>
+</body>
+</html>

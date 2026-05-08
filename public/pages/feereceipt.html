@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Receipt Request – JDCOEM Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/bonafide.css">
+</head>
+
+<body>
+
+    <!-- ── HEADER ── -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="home.html" class="logo-wrap">
+                <img src="../assets/logo_left.png" alt="JDCOEM Logo"
+                    style="width:46px;height:46px;object-fit:contain;border-radius:4px;"
+                    onerror="this.style.display='none'">
+                <div class="logo-text">
+                    <div class="college-name">JD College of Engineering &amp; Management</div>
+                    <div class="portal-name">Student Digital Document Services</div>
+                </div>
+            </a>
+            <div class="header-divider"></div>
+            <div class="header-spacer"></div>
+
+            <!-- Notification Bell -->
+            <div style="position:relative;">
+                <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+                    🔔
+                    <span class="notif-badge"></span>
+                </button>
+                <div class="notif-dropdown" id="notifDropdown">
+                    <div class="nd-header">
+                        Notifications
+                        <span class="nd-clear" onclick="clearNotifs()">Mark all read</span>
+                    </div>
+                    <div id="notifList">
+                        <div style="padding:20px;text-align:center;color:#9ca3af;font-size:12px;">No new notifications</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Chip -->
+            <a href="profile.html" class="user-chip-link">
+                <div class="user-chip">
+                    <div class="user-avatar" id="userInitials">?</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Loading…</div>
+                        <div class="user-id" id="userId">--</div>
+                    </div>
+                </div>
+            </a>
+
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+    </header>
+
+    <div class="layout">
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="sidebar">
+            <span class="nav-section-label">Main Menu</span>
+            <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Dashboard</a>
+            <a class="nav-item active" href="documents.html"><span class="nav-icon">📄</span> Apply for Document</a>
+            <a class="nav-item" href="dashboard.html">
+                <span class="nav-icon">📂</span> My Applications
+                <span class="nav-badge" id="sideAppBadge"></span>
+            </a>
+            <a class="nav-item" href="track-status.html"><span class="nav-icon">⏳</span> Track Status</a>
+            <a class="nav-item" href="download.html"><span class="nav-icon">⬇️</span> Downloads</a>
+            <span class="nav-section-label" style="margin-top:8px;">Account</span>
+            <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span> My Profile</a>
+            <a class="nav-item" href="notification.html">
+                <span class="nav-icon">🔔</span> Notifications
+                <span class="nav-badge" id="sideNotifBadge"></span>
+            </a>
+            <a class="nav-item" href="help.html"><span class="nav-icon">❓</span> Help &amp; Support</a>
+        </aside>
+
+        <main class="main">
+            <div class="breadcrumb fu">
+                <a href="home.html">🏠 Home</a>
+                <span class="sep">›</span>
+                <a href="documents.html">Documents</a>
+                <span class="sep">›</span>
+                <span class="current">🧾 Fee Receipt Request</span>
+            </div>
+
+            <div class="steps-bar fu">
+                <div class="step-node">
+                    <div class="step-circle done">✓</div>
+                    <span class="step-label done">Select Document</span>
+                </div>
+                <div class="step-line done"></div>
+                <div class="step-node">
+                    <div class="step-circle active">2</div>
+                    <span class="step-label active">Details</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-node">
+                    <div class="step-circle todo">3</div>
+                    <span class="step-label todo">Submit</span>
+                </div>
+            </div>
+
+            <div class="form-alert" id="formAlert">
+                <span style="font-size:16px;">⚠</span>
+                <span id="formAlertMsg">Please fix the errors below.</span>
+            </div>
+
+            <div class="doc-banner fu fu1">
+                <div class="banner-icon">🧾</div>
+                <div class="banner-text">
+                    <h2>Fee Receipt Request</h2>
+                    <p>Apply for a duplicate or official fee receipt for your payments. This request will be processed
+                        by the Accounts Section after verifying your transaction details.</p>
+                    <div class="banner-pills">
+                        <div class="banner-pill">⏱ Processing: <strong>1-2 Working Days</strong></div>
+                        <div class="banner-pill">🏛 Issued by: <strong>Accounts Section</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card fu fu2">
+                <div class="form-card-header">
+                    <span class="fch-icon">👤</span>
+                    <h3>Student Information</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="info-grid">
+                        <div class="info-field">
+                            <label>Full Name</label>
+                            <div class="info-value-box"><span id="sName">–</span></div>
+                        </div>
+                        <div class="info-field">
+                            <label>BT ID / Roll No</label>
+                            <div class="info-value-box"><span id="sBtid">–</span></div>
+                        </div>
+                    </div>
+                    <div class="input-grid-2" style="margin-top:15px;">
+                        <div class="field-group">
+                            <label>Branch <span class="req">*</span></label>
+                            <select id="sBranch">
+                                <option value="">Select Department</option>
+                                <option>Computer Science and Engineering</option>
+                                <option>Artificial Intelligence</option>
+                                <option>Cyber Security</option>
+                                <option>Information Technology</option>
+                                <option>Mechanical Engineering</option>
+                                <option>Civil Engineering</option>
+                                <option>Electrical Engineering</option>
+                                <option>Electronics &amp; Telecommunication</option>
+                                <option>Chemical Engineering</option>
+                                <option>MBA</option>
+                                <option>MCA</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label>Year <span class="req">*</span></label>
+                            <select id="sYear">
+                                <option value="">Select Year</option>
+                                <option>First Year</option>
+                                <option>Second Year</option>
+                                <option>Third Year</option>
+                                <option>Fourth Year</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card fu fu3">
+                <div class="form-card-header">
+                    <span class="fch-icon">💰</span>
+                    <h3>Payment Details</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="input-grid-2">
+                        <div class="field-group">
+                            <label>Fee Type <span class="req">*</span></label>
+                            <select id="feeType">
+                                <option value="">Select Category</option>
+                                <option>Tuition Fee</option>
+                                <option>Development Fee</option>
+                                <option>Exam Fee</option>
+                                <option>Hostel Fee</option>
+                                <option>Library Fee</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label>Academic Year <span class="req">*</span></label>
+                            <input type="text" id="academic-year" placeholder="e.g. 2024-25">
+                        </div>
+                    </div>
+                    <div class="input-grid-2">
+                        <div class="field-group">
+                            <label>Transaction ID / Ref <span class="req">*</span></label>
+                            <input type="text" id="transactionId" placeholder="Enter Ref. No">
+                        </div>
+                        <div class="field-group">
+                            <label>Amount Paid (₹) <span class="req">*</span></label>
+                            <input type="number" id="paidAmount" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>Purpose of Request <span class="req">*</span></label>
+                        <textarea id="purpose" maxlength="400" placeholder="Why do you need this receipt?"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card fu fu4">
+                <div class="form-card-header">
+                    <span class="fch-icon">📤</span>
+                    <h3>Supporting Documents</h3>
+                </div>
+                <div class="form-card-body">
+                    <div class="upload-group">
+                        <div class="upload-label-row">
+                            <span class="ul-name">Transaction Screenshot / Proof <span class="req">*</span></span>
+                        </div>
+                        <div class="drop-zone" id="dz-paymentProof" ondragover="onDragOver(event,'paymentProof')"
+                            ondragleave="onDragLeave('paymentProof')"
+                            ondrop="onDrop(event,'paymentProof',5,['application/pdf','image/jpeg','image/png'])">
+                            <div class="dz-default-content" id="dzd-paymentProof">
+                                <span class="dz-icon">📸</span>
+                                <div class="dz-text"><strong>Upload Proof</strong></div>
+                                <div class="dz-sub">PDF/JPG/PNG · Max 5MB</div>
+                            </div>
+                            <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="onFileInput(this,'paymentProof',5,['application/pdf','image/jpeg','image/png'])">
+                        </div>
+                        <div class="file-err" id="fe-paymentProof"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card fu fu5">
+                <div class="form-card-body">
+                    <div class="declaration-box" onclick="toggleDecl()">
+                        <input type="checkbox" id="declCheck">
+                        <div class="dec-text">
+                            <h4>I confirm the details provided</h4>
+                            <p>I verify that I have made the payment as stated above and the transaction details are
+                                accurate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-card fu fu6">
+                <div class="submit-row">
+                    <button class="btn-primary" onclick="submitForm()">🚀 Submit Request</button>
+                    <button class="btn-secondary" onclick="window.location.href='documents.html'">Cancel</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <span class="modal-icon">✅</span>
+            <h3>Request Submitted!</h3>
+            <p>Your Fee Receipt request has been received. You will be notified via email.</p>
+            <div class="modal-app-id" id="modalAppId">APP-000000</div>
+            <div class="modal-actions">
+                <button class="mbtn-p" onclick="window.location.href='dashboard.html'">My Applications</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand-name">JD College of Engineering and Management</div>
+                <p>Education to Eternity</p>
+                <div class="f-contact">
+                    📍 Khandala, Post: Valni, Near Hanuman Temple, Borgoan Phata,<br>
+                    Kalmeshwar Road, Nagpur – 441501<br>
+                    📞 9011010038 &nbsp;|&nbsp; Fax: (0712) 2023003<br>
+                    📧 <a href="mailto:info@jdcoem.ac.in">info@jdcoem.ac.in</a><br>
+                    🎓 Admissions: <a href="mailto:admission@jdcoem.ac.in">admission@jdcoem.ac.in</a><br>
+                    📞 7774041329 / 7888018373
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Dashboard</a></li>
+                    <li><a href="documents.html">Apply for Document</a></li>
+                    <li><a href="dashboard.html">My Applications</a></li>
+                    <li><a href="track-status.html">Track Application</a></li>
+                    <li><a href="download.html">Download Documents</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Governing Bodies</h4>
+                <ul>
+                    <li>Dr. Babasaheb Ambedkar Technological University</li>
+                    <li>University Grants Commission (UGC)</li>
+                    <li>AICTE – All India Council for Technical Education</li>
+                    <li>NAAC Accredited</li>
+                    <li>Govt. of Maharashtra Recognized</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 JD College of Engineering and Management, Nagpur. All Rights Reserved.
+            &nbsp;|&nbsp; Student Digital Document Services Portal
+        </div>
+    </footer>
+
+    <script src="../js/feereceipt.js"></script>
+</body>
+
+</html>
