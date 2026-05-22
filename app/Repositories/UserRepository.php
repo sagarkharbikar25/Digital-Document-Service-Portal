@@ -31,13 +31,19 @@ class UserRepository
     {
         $sql = "
             SELECT
-                u.*,
+                u.id, u.name, u.email, u.password, u.role, u.department, u.created_at,
                 s.bt_id,
                 COALESCE(s.branch, s.department, 'Not specified') AS branch,
                 COALESCE(s.current_year, s.year, 'Not specified') AS year,
-                COALESCE(s.phone, '')                            AS mobile,
-                s.dob,
-                s.address
+                COALESCE(u.mobile, s.phone, '') AS mobile,
+                COALESCE(u.dob, s.dob) AS dob,
+                COALESCE(u.address, s.address) AS address,
+                u.gender,
+                s.current_programme AS programme,
+                s.semester,
+                s.admission_year,
+                s.section,
+                s.prn
             FROM users u
             LEFT JOIN students s ON s.user_id = u.id
             WHERE u.email = :email
@@ -128,13 +134,19 @@ class UserRepository
     {
         $sql = "
             SELECT
-                u.id, u.name, u.email, u.role, u.created_at,
+                u.id, u.name, u.email, u.role, u.department, u.created_at,
                 s.bt_id,
                 COALESCE(s.branch, s.department, 'Not specified') AS branch,
                 COALESCE(s.current_year, s.year, 'Not specified') AS year,
-                COALESCE(s.phone, '')                            AS mobile,
-                s.dob,
-                s.address
+                COALESCE(u.mobile, s.phone, '') AS mobile,
+                COALESCE(u.dob, s.dob) AS dob,
+                COALESCE(u.address, s.address) AS address,
+                u.gender,
+                s.current_programme AS programme,
+                s.semester,
+                s.admission_year,
+                s.section,
+                s.prn
             FROM users u
             LEFT JOIN students s ON s.user_id = u.id
             WHERE u.id = :id
@@ -161,7 +173,7 @@ class UserRepository
     public function getByRole(string $role): array
     {
         $sql = "
-            SELECT id, name, email, role, created_at
+            SELECT id, name, email, role, department, created_at
             FROM users
             WHERE role = :role
             ORDER BY created_at ASC

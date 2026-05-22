@@ -194,7 +194,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     /* Refresh session + sync */
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success && !res.user) {
@@ -245,7 +245,7 @@ window.addEventListener('click', function(e) {
 
 function loadNotifications() {
     // 1. Load Unread Count for badges
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success || !res.data) return;
@@ -264,7 +264,7 @@ function loadNotifications() {
     });
 
     // 2. Load Notifications List
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success) return;
@@ -300,7 +300,7 @@ function esc(str) {
 
 
 function clearNotifs() {
-    fetch(API_BASE + '/notifications/mark-all-read', { 
+    secureFetch(API_BASE + '/notifications/mark-all-read', { 
         method: 'POST', 
         credentials: 'include' 
     })
@@ -311,7 +311,7 @@ function clearNotifs() {
 }
 
 function markRead(id) {
-    fetch(API_BASE + '/notifications/read', { 
+    secureFetch(API_BASE + '/notifications/read', { 
         method: 'POST', 
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -326,7 +326,7 @@ function markRead(id) {
 /* ── KEEP SESSION ALIVE (ping every 4 min) ──────── */
 function startKeepAlive() {
     setInterval(function() {
-        fetch(API_BASE + '/auth/keepalive', { credentials: 'include' })
+        secureFetch(API_BASE + '/auth/keepalive', { credentials: 'include' })
         .then(function(r){ return r.json(); })
         .then(function(d){
             if (!d.success) {
@@ -361,7 +361,7 @@ function showLoading() {
    state. Never show 0 due to a session failure.
 ─────────────────────────────────────────────── */
 function loadApplications() {
-    return fetch(API_BASE + '/application/my', { credentials: 'include' })
+    return secureFetch(API_BASE + '/application/my', { credentials: 'include' })
         .then(function(r){
             var httpStatus = r.status;
             return r.json().then(function(res){ return { httpStatus: httpStatus, res: res }; });
@@ -390,7 +390,7 @@ function loadApplications() {
                     return;
                 }
                 /* Re-login OK — retry fetching apps */
-                return fetch(API_BASE + '/application/my', { credentials: 'include' })
+                return secureFetch(API_BASE + '/application/my', { credentials: 'include' })
                     .then(function(r2){ return r2.json(); })
                     .then(function(res2){ return processApps(res2); })
                     .catch(function(err){
@@ -478,7 +478,7 @@ function attemptReLogin(redirectOnFail) {
         return Promise.resolve(false);   /* ← never redirect here */
     }
 
-    return fetch(API_BASE + '/auth/login', {
+    return secureFetch(API_BASE + '/auth/login', {
         method:      'POST',
         credentials: 'include',
         headers:     { 'Content-Type': 'application/json' },
@@ -702,7 +702,7 @@ function doDownload(e, idx) {
 
 function downloadApp(app) {
     toast('⬇️ Preparing download…');
-    fetch(API_BASE + '/documents/download?application_number=' + app.id, {
+    secureFetch(API_BASE + '/documents/download?application_number=' + app.id, {
         credentials: 'include'
     })
     .then(function(r){
@@ -736,7 +736,7 @@ function toast(msg) {
 /* ── LOGOUT ─────────────────────────────────────── */
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
-        fetch(API_BASE + '/auth/logout', { method:'POST', credentials:'include' })
+        secureFetch(API_BASE + '/auth/logout', { method:'POST', credentials:'include' })
         .finally(function(){
             localStorage.clear();
             window.location.href = 'login.html';

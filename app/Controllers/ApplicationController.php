@@ -343,7 +343,17 @@ class ApplicationController extends Controller
         }
 
         try {
-            $data = $this->repo->getAllApplications();
+            $user = Session::get("user");
+            $department = $user['department'] ?? null;
+            
+            $globalAdmins = ['saar@jdcoem.ac.in', 'skhod@jdcoem.ac.in', 'sagar@jdcoem.ac.in'];
+            if (in_array($user['email'] ?? '', $globalAdmins)) {
+                $department = null;
+            } elseif (empty($department) && !empty($user['name'])) {
+                $department = trim(str_ireplace([' clerk', ' hod', ' admin'], '', $user['name']));
+            }
+
+            $data = $this->repo->getAllApplications($department);
             $this->respond(["success" => true, "data" => $data]);
         } catch (Exception $e) {
             $this->respond(["success" => false, "message" => $e->getMessage()], 500);
@@ -485,7 +495,17 @@ class ApplicationController extends Controller
         }
 
         try {
-            $data = $this->service->getClerkPending();
+            $user = Session::get("user");
+            $department = $user['department'] ?? null;
+            
+            $globalAdmins = ['saar@jdcoem.ac.in', 'skhod@jdcoem.ac.in', 'sagar@jdcoem.ac.in'];
+            if (in_array($user['email'] ?? '', $globalAdmins)) {
+                $department = null;
+            } elseif (empty($department) && !empty($user['name'])) {
+                $department = trim(str_ireplace([' clerk', ' hod', ' admin'], '', $user['name']));
+            }
+            
+            $data = $this->service->getClerkPending($department);
             $this->respond(["success" => true, "data" => $data]);
         } catch (Exception $e) {
             $this->respond(["success" => false, "message" => $e->getMessage()], 500);
@@ -543,7 +563,17 @@ class ApplicationController extends Controller
         }
 
         try {
-            $data = $this->service->hodPending();
+            $user = Session::get("user");
+            $department = $user['department'] ?? null;
+            
+            $globalAdmins = ['saar@jdcoem.ac.in', 'skhod@jdcoem.ac.in', 'sagar@jdcoem.ac.in'];
+            if (in_array($user['email'] ?? '', $globalAdmins)) {
+                $department = null;
+            } elseif (empty($department) && !empty($user['name'])) {
+                $department = trim(str_ireplace([' clerk', ' hod', ' admin'], '', $user['name']));
+            }
+            
+            $data = $this->service->hodPending($department);
             $this->respond(["success" => true, "data" => $data ?? []]);
         } catch (Exception $e) {
             $this->respond(["success" => false, "message" => $e->getMessage()], 500);

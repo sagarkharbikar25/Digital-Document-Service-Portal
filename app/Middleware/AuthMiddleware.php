@@ -65,11 +65,12 @@ class AuthMiddleware
         }
 
         $role = $_SESSION["user"]["role"] ?? $_SESSION["role"] ?? null;
+        $staffRoles = ["admin", "clerk", "hod", "principal"];
 
-        if ($role !== "admin") {
+        if (!in_array($role, $staffRoles)) {
             Response::json([
                 "success" => false,
-                "message" => "Admin access required"
+                "message" => "Admin/Staff access required"
             ], 403);
             exit;
         }

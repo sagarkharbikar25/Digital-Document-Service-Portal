@@ -7,52 +7,56 @@ class Session
         if (session_status() === PHP_SESSION_NONE)
         {
             /*
-             * PERMANENT FIX: PHP's default session.gc_maxlifetime is only
-             * 1440 seconds (24 min). Even though the cookie says 24hrs,
-             * PHP destroys the session data after 24min of inactivity.
-             * We force both to match: 24 hours.
+             * SESSION LIFETIME: 8 hours (28800 seconds)
+             * We force PHP's garbage collector and the browser cookie to match.
              */
-            $lifetime = 86400; // 24 hours
+            $lifetime = 28800; 
+
+            // 1. ISOLATED STORAGE: Store sessions in project storage to prevent 
+            // other PHP apps from triggering GC on our sessions.
+            $savePath = dirname(__DIR__, 2) . '/storage/sessions';
+            if (!is_dir($savePath)) {
+                mkdir($savePath, 0777, true);
+            }
+            session_save_path($savePath);
 
             ini_set('session.gc_maxlifetime', $lifetime);
             ini_set('session.cookie_lifetime', $lifetime);
+            
+            // Ensure GC runs occasionally within our private folder
+            ini_set('session.gc_probability', 1);
+            ini_set('session.gc_divisor', 100);
 
-            // Robust base path detection (Project Root)
-            $scriptName = $_SERVER['SCRIPT_NAME']; 
+            // 2. DYNAMIC PATH: Detect base path for cookies
+            $scriptName = $_SERVER['SCRIPT_NAME'] ?? ''; 
             $publicPos = strpos($scriptName, '/public/');
-            if ($publicPos !== false) {
-                $path = substr($scriptName, 0, $publicPos); 
-            } else {
-                $path = '/';
-            }
+            $path = ($publicPos !== false) ? substr($scriptName, 0, $publicPos) : '/';
             if (empty($path)) $path = '/';
             
             session_set_cookie_params([
                 'lifetime' => $lifetime,
                 'path'     => $path,
                 'domain'   => '',
-                'secure'   => isset($_SERVER['HTTPS']),
+                'secure'   => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
                 'httponly' => true,
                 'samesite' => 'Lax'
             ]);
 
             session_start();
 
-            /* Refresh the cookie on every request so it doesn't expire
-               while the user is actively using the portal */
+            // 3. REFRESH COOKIE: Update expiration on every request to keep user active
             if (!empty($_SESSION)) {
                 setcookie(
                     session_name(),
                     session_id(),
                     time() + $lifetime,
-                    '/',
+                    $path,
                     '',
-                    false,
+                    isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
                     true
                 );
             }
         }
-        // If PHP_SESSION_ACTIVE — already started by index.php, do nothing
     }
 
     public static function set($key, $value)

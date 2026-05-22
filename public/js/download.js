@@ -24,13 +24,10 @@
    ================================================ */
 
 /* ── BASE URLs ──────────────────────────────────── */
-const API_BASE = window.location.origin + window.location.pathname.split('/').slice(0, -2).join('/') + '/api';
-
-/* FIX 7: BASE_URL was never declared — caused ReferenceError in
-   buildDirectUrl() whenever Download / View / Print was clicked.
-   Derived from the same pathname logic as API_BASE, just without '/api'.
-   e.g. http://localhost/college-portal/public */
-const BASE_URL = window.location.origin + window.location.pathname.split('/').slice(0, -2).join('/');
+/* Use global root from security.js or derive it */
+const PROJECT_ROOT = window.BASE_URL || window.location.origin + window.location.pathname.split('/public/')[0];
+const BASE_URL = PROJECT_ROOT + '/public';
+const API_BASE = BASE_URL + '/index.php/api';
 
 var APPROVED_DOCS = [];
 var selectedDocIndex = 0;
@@ -164,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* Refresh session + sync */
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
         .then(r => r.json())
         .then(res => {
             if (!res.success && !res.user) {
@@ -198,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /* ── KEEP SESSION ALIVE (ping every 4 min) ──────── */
 function startKeepAlive() {
     setInterval(function () {
-        fetch(API_BASE + '/debug/session', { credentials: 'include' })
+        secureFetch(API_BASE + '/debug/session', { credentials: 'include' })
             .then(function (r) {
                 if (!r.ok) return null;
                 return r.json();
@@ -233,7 +230,7 @@ function toggleNotif() {
  *   - List:         GET /notifications/my            → {success, data:[...]}
  */
 function loadNotifications() {
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
         .then(r => r.json())
         .then(res => {
             if (!res.success) return;
@@ -254,7 +251,7 @@ function loadNotifications() {
             }
         });
 
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
         .then(r => r.json())
         .then(res => {
             const list = document.getElementById('notifList');
@@ -287,7 +284,7 @@ function loadNotifications() {
  * Old: /notifications/mark-read/${id}  (no such route)
  */
 function markRead(id) {
-    fetch(API_BASE + '/notifications/read', {
+    secureFetch(API_BASE + '/notifications/read', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -306,7 +303,7 @@ function markRead(id) {
  * Old: /notifications/mark-all-read  (no such route → 404)
  */
 function clearNotifs() {
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (res) {
             if (!res || !res.success || !Array.isArray(res.data)) return;
@@ -316,7 +313,7 @@ function clearNotifs() {
 
             /* Fire mark-read for each unread notification */
             var promises = unread.map(function (n) {
-                return fetch(API_BASE + '/notifications/read', {
+                return secureFetch(API_BASE + '/notifications/read', {
                     method: 'POST',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
@@ -338,7 +335,7 @@ function clearNotifs() {
    On failure: show retry banner, never auto-redirect.
 ─────────────────────────────────────────────── */
 function loadDocuments() {
-    fetch(API_BASE + '/application/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/application/my?_t=' + Date.now(), { credentials: 'include', cache: 'no-store' })
         .then(function (r) {
             var httpStatus = r.status;
             return r.json().then(function (res) { return { httpStatus: httpStatus, res: res }; });
@@ -369,7 +366,7 @@ function loadDocuments() {
                     showRetryBanner();
                     return;
                 }
-                fetch(API_BASE + '/application/my?_t=' + Date.now(), { credentials: 'include', cache: 'no-store' })
+                secureFetch(API_BASE + '/application/my?_t=' + Date.now(), { credentials: 'include', cache: 'no-store' })
                     .then(function (r2) { return r2.json(); })
                     .then(function (res2) { return processDocuments(res2); })
                     .catch(function (err) {
@@ -435,7 +432,11 @@ function processDocuments(res) {
     else if (res && Array.isArray(res.applications)) all = res.applications;
 
     console.log('[Downloads] Total apps:', all.length,
-        '| Statuses:', all.map(function (a) { return (a.application_number || a.id) + ':' + a.status; }));
+        '| Statuses:', all.map(function (a) { return (a.application_number || a.id) + ':"' + a.status + '"'; }));
+
+    // Debug: log all statuses in a single string for easy reading in some consoles
+    var statusDump = all.map(function(a){ return a.status; }).join(', ');
+    console.log('[Downloads] Raw status list: [' + statusDump + ']');
 
     setEl('sideAppBadge', all.length);
     var sideAppBadge = document.getElementById('sideAppBadge');
@@ -449,7 +450,7 @@ function processDocuments(res) {
     /* Expanded status filter — catch all backend variants of "approved" */
     APPROVED_DOCS = all
         .filter(function (a) {
-            var s = (a.status || '').toLowerCase();
+            var s = (a.status || '').toLowerCase().trim();
             return s === 'approved'
                 || s === 'principal_approved'
                 || s === 'issued'
@@ -504,7 +505,7 @@ function attemptReLoginDl(redirectOnFail) {
         return Promise.resolve(false);
     }
 
-    return fetch(API_BASE + '/auth/login', {
+    return secureFetch(API_BASE + '/auth/login', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -745,7 +746,7 @@ function handleDownload(idx) {
 
     if (directUrl) {
         /* Try a HEAD request — if file is directly accessible, use it */
-        fetch(directUrl, { method: 'HEAD' })
+        secureFetch(directUrl, { method: 'HEAD' })
             .then(function (r) {
                 if (r.ok) {
                     triggerDownload(directUrl, doc.id + '_' + doc.docType.replace(/[\s\/\\]/g, '_') + '.pdf');
@@ -770,7 +771,7 @@ function downloadViaApi(idx, doc) {
     }
     console.log('[Download] Via API:', apiUrl);
 
-    fetch(apiUrl, { credentials: 'include' })
+    secureFetch(apiUrl, { credentials: 'include' })
         .then(function (r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
             var ct = r.headers.get('content-type') || '';
@@ -820,7 +821,7 @@ function handleView(idx) {
 
     if (directUrl) {
         /* Try HEAD — open directly if accessible */
-        fetch(directUrl, { method: 'HEAD' })
+        secureFetch(directUrl, { method: 'HEAD' })
             .then(function (r) {
                 if (r.ok) {
                     window.open(directUrl, '_blank');
@@ -867,7 +868,7 @@ function handlePrint(idx) {
     };
 
     if (directUrl) {
-        fetch(directUrl, { method: 'HEAD' })
+        secureFetch(directUrl, { method: 'HEAD' })
             .then(function (r) {
                 if (r.ok) {
                     openAndPrint(directUrl);
@@ -906,7 +907,7 @@ function showToast(msg) {
 /* ── LOGOUT ─────────────────────────────────────── */
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
-        fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
+        secureFetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
             .finally(function () {
                 localStorage.clear();
                 window.location.href = 'login.html';

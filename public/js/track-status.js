@@ -178,7 +178,7 @@ function buildRemarks(app) {
 
 /* ── NOTIFICATIONS ── */
 function loadNotifications() {
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success) return;
@@ -199,7 +199,7 @@ function loadNotifications() {
         }
     });
 
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         const list = document.getElementById('notifList');
@@ -228,7 +228,7 @@ function loadNotifications() {
 }
 
 function markRead(id) {
-    fetch(API_BASE + '/notifications/read', {
+    secureFetch(API_BASE + '/notifications/read', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -251,7 +251,7 @@ window.addEventListener('click', function(e) {
 
 function loadNotifications() {
     // 1. Load Unread Count for badges
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success || !res.data) return;
@@ -270,7 +270,7 @@ function loadNotifications() {
     });
 
     // 2. Load Notifications List
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success) return;
@@ -311,7 +311,7 @@ function safeSet(id, val) {
 
 
 function clearNotifs() {
-    fetch(API_BASE + '/notifications/mark-all-read', { 
+    secureFetch(API_BASE + '/notifications/mark-all-read', { 
         method: 'POST', 
         credentials: 'include' 
     })
@@ -322,7 +322,7 @@ function clearNotifs() {
 }
 
 function markRead(id) {
-    fetch(API_BASE + '/notifications/read', { 
+    secureFetch(API_BASE + '/notifications/read', { 
         method: 'POST', 
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -351,7 +351,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     /* Refresh from backend session for up-to-date BTID */
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
         .then(function(r) { return r.json(); })
         .then(function(res) {
             if (res.success && res.user) {
@@ -364,7 +364,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     /* Load my applications for quick-pick chips */
-    fetch(API_BASE + '/application/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/application/my', { credentials: 'include' })
         .then(function(r){ return r.json(); })
         .then(function(res){
             var apps = [];
@@ -438,7 +438,7 @@ function fetchFreshAndLoad(appId) {
     var appIdClean = (appId || '').trim();
 
     /* Strategy 1: /api/application/status?application_number=APP-XXX */
-    fetch(API_BASE + '/application/status?application_number=' + encodeURIComponent(appIdClean), {
+    secureFetch(API_BASE + '/application/status?application_number=' + encodeURIComponent(appIdClean), {
         credentials: 'include'
     })
     .then(function(r) { return r.json(); })
@@ -465,7 +465,7 @@ function tryFromCache(appIdClean) {
 
     if (found) {
         /* Re-fetch this specific app fresh via /application/my and filter */
-        fetch(API_BASE + '/application/my', { credentials: 'include' })
+        secureFetch(API_BASE + '/application/my', { credentials: 'include' })
             .then(function(r) { return r.json(); })
             .then(function(res) {
                 var apps = [];
@@ -492,7 +492,7 @@ function tryFromCache(appIdClean) {
     /* Strategy 3: try /application/view?application_id=numeric */
     var numId = appIdClean.replace(/\D/g, '');
     if (numId) {
-        fetch(API_BASE + '/application/view?application_id=' + numId, { credentials: 'include' })
+        secureFetch(API_BASE + '/application/view?application_id=' + numId, { credentials: 'include' })
             .then(function(r) { return r.json(); })
             .then(function(res) {
                 if (res.success && res.data) {
@@ -707,7 +707,7 @@ function downloadDoc() {
 
     /* API fallback */
     showToast('⬇️ Preparing download…');
-    fetch(API_BASE + '/documents/download?application_number=' + encodeURIComponent(appNo), {
+    secureFetch(API_BASE + '/documents/download?application_number=' + encodeURIComponent(appNo), {
         credentials: 'include'
     })
     .then(function(r){
@@ -781,7 +781,7 @@ function showToast(msg) {
 /* ── LOGOUT ─────────────────────────────────────── */
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
-        fetch(API_BASE + '/auth/logout', { method:'POST', credentials:'include' })
+        secureFetch(API_BASE + '/auth/logout', { method:'POST', credentials:'include' })
         .finally(function(){
             localStorage.clear();
             window.location.href = 'login.html';

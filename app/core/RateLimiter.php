@@ -3,7 +3,7 @@
 class RateLimiter
 {
     private $db;
-    private $limit = 60; // Max requests
+    private $limit = 200; // Max requests
     private $window = 60; // Time window in seconds
 
     public function __construct()
@@ -15,11 +15,11 @@ class RateLimiter
     {
         try {
             // Delete old requests outside the window
-            $stmt = $this->db->prepare("DELETE FROM api_requests WHERE requested_at < (NOW() - INTERVAL '60 seconds')");
+            $stmt = $this->db->prepare("DELETE FROM api_requests WHERE requested_at < DATE_SUB(NOW(), INTERVAL 1 MINUTE)");
             $stmt->execute();
 
             // Count requests from this IP in the last window
-            $stmt = $this->db->prepare("SELECT COUNT(*) FROM api_requests WHERE ip_address = :ip AND requested_at > (NOW() - INTERVAL '60 seconds')");
+            $stmt = $this->db->prepare("SELECT COUNT(*) FROM api_requests WHERE ip_address = :ip AND requested_at > DATE_SUB(NOW(), INTERVAL 1 MINUTE)");
             $stmt->execute([':ip' => $ip]);
             $count = $stmt->fetchColumn();
 
@@ -34,7 +34,7 @@ class RateLimiter
             return true;
         } catch (Exception $e) {
             // Self-healing: if table is missing, create it
-            if (strpos($e->getMessage(), 'relation "api_requests" does not exist') !== false) {
+            if (strpos($e->getMessage(), 'doesn\'t exist') !== false || strpos($e->getMessage(), 'relation "api_requests" does not exist') !== false) {
                 $this->createTable();
                 return true; // allow the request this time
             }
@@ -47,12 +47,12 @@ class RateLimiter
     {
         try {
             $sql = "CREATE TABLE IF NOT EXISTS api_requests (
-                id SERIAL PRIMARY KEY,
+                id INT AUTO_INCREMENT PRIMARY KEY,
                 ip_address VARCHAR(45) NOT NULL,
                 endpoint VARCHAR(255) NOT NULL,
                 requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
-            CREATE INDEX IF NOT EXISTS idx_ip_time ON api_requests (ip_address, requested_at);";
+            CREATE INDEX idx_ip_time ON api_requests (ip_address, requested_at);";
             $this->db->exec($sql);
         } catch (Exception $e) {
             error_log("Failed to create api_requests table: " . $e->getMessage());

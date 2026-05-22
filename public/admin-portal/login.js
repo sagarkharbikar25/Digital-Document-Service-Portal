@@ -127,10 +127,11 @@ function doLogin() {
            hod    → admin_user_hod    / admin_creds_hod
            principal → admin_user_principal / admin_creds_principal   ── */
         localStorage.setItem('admin_user_' + role, JSON.stringify({
-          id:    user.id    || null,
-          name:  user.name  || user.full_name || email.split('@')[0],
-          email: user.email || email,
-          role:  role
+          id:         user.id    || null,
+          name:       user.name  || user.full_name || email.split('@')[0],
+          email:      user.email || email,
+          role:       role,
+          department: user.department || null
         }));
 
         console.log('[Admin Login] Role:', role, '→ Redirecting to:', ROLE_REDIRECT[role]);

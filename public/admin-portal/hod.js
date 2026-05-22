@@ -12,6 +12,9 @@ var ALL_APPS     = [];
 
 /* ── INFER DEPARTMENT FROM EMAIL ──────────────────────────── */
 function getAdminDept(email) {
+  if (session && session.department) {
+    return session.department.toUpperCase();
+  }
   if (!email) return null;
   var prefix = email.split('@')[0].toLowerCase();
   var allowed = ['it', 'cs', 'me', 'ce', 'ee', 'etc', 'civil', 'bca', 'mca'];

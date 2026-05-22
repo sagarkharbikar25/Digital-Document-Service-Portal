@@ -103,15 +103,15 @@ body {
 .login-header .header-inner {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 14px 32px;
+    padding: 10px 32px;
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
 .college-logo {
-    width: 76px;
-    height: 76px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -122,15 +122,24 @@ body {
     font-family: 'Noto Serif', serif;
     font-size: 22px;
     font-weight: 700;
-    color: var(--white);      /* white on dark navy header */
+    color: var(--navy);      /* Default dark for login-header */
     line-height: 1.2;
     margin: 0;
 }
 
+/* Scoped colors for dark site-header */
+.site-header .college-text h1 {
+    color: var(--white);
+}
+
 .college-text .subtitle {
     font-size: 13px;
-    color: rgba(255,255,255,0.65);
+    color: var(--gray-600);
     margin-top: 2px;
+}
+
+.site-header .college-text .subtitle {
+    color: rgba(255,255,255,0.65);
 }
 
 .college-text .autonomous-tag {
@@ -149,24 +158,34 @@ body {
 .header-right {
     text-align: right;
     font-size: 12px;
-    color: rgba(255,255,255,0.55);
+    color: var(--gray-600);
     line-height: 1.6;
+}
+
+.site-header .header-right {
+    color: rgba(255,255,255,0.55);
 }
 
 .header-right strong {
     display: block;
     font-size: 13px;
-    color: rgba(255,255,255,0.9);
+    color: var(--navy);
     font-weight: 600;
+}
+
+.site-header .header-right strong {
+    color: rgba(255,255,255,0.9);
 }
 
 /* ── NAVIGATION (login page) ── */
 .nav-bar {
-    background: var(--navy);
+    background: var(--white);
     padding: 0 32px;
     position: sticky;
-    top: 108px; /* height of login header */
+    top: 100px; /* adjusted for flexible header */
     z-index: 99;
+    border-bottom: 1px solid var(--gray-200);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .nav-bar-inner {
@@ -176,25 +195,25 @@ body {
 }
 
 .nav-link {
-    color: rgba(255,255,255,0.85);
+    color: var(--gray-600);
     text-decoration: none;
     font-size: 13px;
-    font-weight: 500;
-    padding: 11px 18px;
+    font-weight: 600;
+    padding: 14px 18px;
     display: block;
-    transition: background 0.2s, color 0.2s;
+    transition: all 0.2s;
     border-bottom: 3px solid transparent;
     white-space: nowrap;
 }
 
 .nav-link:hover {
-    color: var(--white);
-    background: rgba(255,255,255,0.06);
+    color: var(--navy);
+    background: var(--gray-50);
 }
 
 .nav-link.active {
-    color: var(--saffron-light);
-    border-bottom-color: var(--saffron-light);
+    color: var(--saffron);
+    border-bottom-color: var(--saffron);
 }
 
 /* ── BREADCRUMB ── */
@@ -244,7 +263,7 @@ body {
     top: 0;
     z-index: 100;
     background: var(--navy);
-    height: var(--header);
+    min-height: var(--header);
     display: flex;
     align-items: center;
     box-shadow: 0 2px 12px rgba(0,0,0,0.25);

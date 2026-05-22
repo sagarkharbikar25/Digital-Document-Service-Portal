@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /* Step 2: Refresh from backend session */
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
         .then(function(r) { return r.json(); })
         .then(function(res) {
             if (res.success && res.user) {
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
    ============================================================ */
 function logout() {
     if (!confirm('Are you sure you want to logout?')) return;
-    fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
+    secureFetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
         .catch(function(){})
         .finally(function() {
             localStorage.clear();
@@ -132,7 +132,7 @@ function loadApplications() {
     var tbody = document.getElementById('statusTableBody');
     if (tbody) tbody.innerHTML = emptyRow('Loading applications...');
 
-    fetch(API_BASE + '/application/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/application/my', { credentials: 'include' })
         .then(function(r) { return r.json(); })
         .then(function(json) {
             var apps = [];
@@ -229,7 +229,7 @@ function viewApp(id) {
    ============================================================ */
 function loadNotifications() {
     /* Unread count */
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
         .then(function(r) { return r.json(); })
         .then(function(res) {
             if (res.success) {
@@ -249,7 +249,7 @@ function loadNotifications() {
         .catch(function(){});
 
     /* Notification list */
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
         .then(function(r) { return r.json(); })
         .then(function(json) {
             var notifs = [];
@@ -296,7 +296,7 @@ function loadNotifications() {
 }
 
 function markRead(notifId) {
-    fetch(API_BASE + '/notifications/read', {
+    secureFetch(API_BASE + '/notifications/read', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
@@ -307,7 +307,7 @@ function markRead(notifId) {
 }
 
 function clearNotifs() {
-    fetch(API_BASE + '/notifications/read-all', { method: 'POST', credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/read-all', { method: 'POST', credentials: 'include' })
         .catch(function(){})
         .finally(function() {
             var dropdown = document.getElementById('notifDropdown');

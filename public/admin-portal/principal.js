@@ -353,7 +353,7 @@ function openDetail(appId) {
 
   openModal('modalDetail');
 
-  fetch(API_BASE + '/application/view?application_id=' + appId, { credentials: 'include' })
+  secureFetch(API_BASE + '/application/view?application_id=' + appId, { credentials: 'include' })
     .then(function (r) {
       if (!r.ok) { throw new Error('HTTP ' + r.status); }
       return r.json();
@@ -578,7 +578,7 @@ function executePrincipalReject() {
   });
 
   function doReject() {
-    fetch(API_BASE + '/application/principal-reject', {
+    secureFetch(API_BASE + '/application/principal-reject', {
       method: 'POST', credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ application_id: currentAppId, remarks: priRemarks })
@@ -617,7 +617,7 @@ function executePrincipalReject() {
 ══════════════════════════════════════════════════════════════ */
 function logout() {
   if (!confirm('Are you sure you want to logout?')) return;
-  fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' }).catch(function () { });
+  secureFetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' }).catch(function () { });
   localStorage.removeItem('admin_user_principal');
   localStorage.removeItem('admin_creds_principal');
   window.location.replace('index.html');

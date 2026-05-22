@@ -47,7 +47,7 @@ function formatDate(iso) {
 
 /* ── NOTIFICATIONS ── */
 function loadNotifications() {
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success) return;
@@ -68,7 +68,7 @@ function loadNotifications() {
         }
     });
 
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         const list = document.getElementById('notifList');
@@ -102,12 +102,12 @@ function toggleNotif() {
 }
 
 function clearNotifs() {
-    fetch(API_BASE + '/notifications/mark-all-read', { method: 'POST', credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/mark-all-read', { method: 'POST', credentials: 'include' })
     .then(() => loadNotifications());
 }
 
 function markRead(id) {
-    fetch(API_BASE + '/notifications/read', {
+    secureFetch(API_BASE + '/notifications/read', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -138,7 +138,7 @@ window.addEventListener('DOMContentLoaded', function () {
     loadNotifications();
 
     // 2. Verify Session
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success && !res.user) {
@@ -154,7 +154,7 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     // 3. Load application count for sidebar
-    fetch(API_BASE + '/application/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/application/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         const apps = res.data || (Array.isArray(res) ? res : []);
@@ -415,8 +415,8 @@ function buildReview() {
   try { user = JSON.parse(localStorage.getItem('user') || '{}'); } catch (e) {}
 
   setText('rv-name',   user.name              || '—');
-  setText('rv-btid',   user.btid              || '—');
-  setText('rv-dept',   user.branch || user.dept || '—');
+  setText('rv-btid',   user.bt_id || user.btid || user.student_id || user.email || '—');
+  setText('rv-dept',   user.branch || user.dept || user.department || '—');
   setText('rv-year',   user.year              || '—');
   setText('rv-type',   TYPE_LABELS[state.reqType]   || '—');
   setText('rv-reason', REASON_LABELS[state.reason]  || '—');
@@ -469,7 +469,7 @@ function uploadDocument(file, documentType, applicationId) {
     fd.append('document_type',  documentType);
     fd.append('file',           file);
 
-    fetch(API_BASE + '/documents/upload', {
+    secureFetch(API_BASE + '/documents/upload', {
       method:      'POST',
       credentials: 'include',
       body:        fd
@@ -529,7 +529,7 @@ function submitApp() {
   if (submitBtn) { submitBtn.textContent = '⏳ Submitting…'; submitBtn.disabled = true; }
 
   /* ── STEP 1: Create application record ── */
-  fetch(API_BASE + '/application/create', {
+  secureFetch(API_BASE + '/application/create', {
     method:      'POST',
     credentials: 'include',
     headers:     { 'Content-Type': 'application/json' },
@@ -617,7 +617,7 @@ function closeModal(e) {
 /* ─── LOGOUT ─────────────────────────────────────────────────────────────── */
 function logout() {
   if (confirm('Are you sure you want to logout?')) {
-    fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
+    secureFetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
       .finally(function () {
         localStorage.clear();
         window.location.href = 'login.html';

@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', function () {
     renderUser(u);
     loadNotifications();
 
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
         .then(r => r.json())
         .then(res => {
             if (!res.success && !res.user) {
@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', function () {
         .catch(() => { });
 
     // Load sidebar counts
-    fetch(API_BASE + '/application/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/application/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         const apps = res.data || (Array.isArray(res) ? res : []);
@@ -56,7 +56,7 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 function loadNotifications() {
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success) return;
@@ -77,7 +77,7 @@ function loadNotifications() {
         }
     });
 
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         const list = document.getElementById('notifList');
@@ -105,7 +105,7 @@ function loadNotifications() {
     });
 }
 function markRead(id) {
-    fetch(API_BASE + '/notifications/read', {
+    secureFetch(API_BASE + '/notifications/read', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -188,7 +188,7 @@ async function uploadDocument(file, type, appId) {
     fd.append('document_type', type);
     fd.append('file', file);
 
-    const r = await fetch(API_BASE + '/documents/upload', {
+    const r = await secureFetch(API_BASE + '/documents/upload', {
         method: 'POST',
         credentials: 'include',
         body: fd
@@ -222,7 +222,7 @@ async function submitForm() {
 
     try {
         const u = JSON.parse(localStorage.getItem('user') || '{}');
-        const res = await fetch(API_BASE + '/application/create', {
+        const res = await secureFetch(API_BASE + '/application/create', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },

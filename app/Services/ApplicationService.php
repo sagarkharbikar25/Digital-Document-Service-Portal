@@ -173,9 +173,9 @@ class ApplicationService
     ========================================
     */
 
-    public function getClerkPending(): array
+    public function getClerkPending(?string $department = null): array
     {
-        return $this->repo->getClerkPending();
+        return $this->repo->getClerkPending($department);
     }
 
 
@@ -302,9 +302,9 @@ public function clerkApprove(
     ========================================
     */
 
-    public function hodPending(): array
+    public function hodPending(?string $department = null): array
     {
-        return $this->repo->getHodPending();
+        return $this->repo->getHodPending($department);
     }
 
 

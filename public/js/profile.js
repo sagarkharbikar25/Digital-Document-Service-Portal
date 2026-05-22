@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     renderUser(u);
 
     /* Then verify session + load fresh data from backend */
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
         .then(function(r){ return r.json(); })
         .then(function(res){
             if (!res.success && !res.user) {
@@ -143,7 +143,7 @@ function renderUser(u) {
 
 /* ── LOAD APPLICATION STATS ─────────────────────── */
 function loadStats() {
-    return fetch(API_BASE + '/application/my', { credentials: 'include' })
+    return secureFetch(API_BASE + '/application/my', { credentials: 'include' })
         .then(function(r){ return r.json(); })
         .then(function(res){
             var apps = (res.success && res.data) ? res.data : [];
@@ -176,7 +176,7 @@ function loadStats() {
 /* ── LOAD NOTIFICATIONS ─────────────────────────── */
 function loadNotifications() {
     /* Unread count */
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
         .then(function(r) { return r.json(); })
         .then(function(res) {
             if (res.success) {
@@ -196,7 +196,7 @@ function loadNotifications() {
         .catch(function(){});
 
     /* Notification list */
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
         .then(function(r) { return r.json(); })
         .then(function(res) {
             var notifs = (res.success && Array.isArray(res.data)) ? res.data : (Array.isArray(res) ? res : []);
@@ -223,7 +223,7 @@ function loadNotifications() {
 }
 
 function markRead(notifId) {
-    fetch(API_BASE + '/notifications/read', {
+    secureFetch(API_BASE + '/notifications/read', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
@@ -234,7 +234,7 @@ function markRead(notifId) {
 }
 
 function clearNotifs() {
-    fetch(API_BASE + '/notifications/read-all', { method: 'POST', credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/read-all', { method: 'POST', credentials: 'include' })
         .catch(function(){})
         .finally(function() {
             var dropdown = document.getElementById('notifDropdown');
@@ -277,7 +277,7 @@ function previewAvatar(input) {
         /* Upload to backend */
         var fd = new FormData();
         fd.append('photo', input.files[0]);
-        fetch(API_BASE + '/profile/photo', { method:'POST', body:fd, credentials:'include' })
+        secureFetch(API_BASE + '/profile/photo', { method:'POST', body:fd, credentials:'include' })
             .then(function(r){ return r.json(); })
             .then(function(res){
                 if (res.success) showToast('✅ Profile photo saved');
@@ -358,7 +358,7 @@ function savePersonal() {
     if (btn) { btn.disabled = true; btn.textContent = '⏳ Saving…'; }
 
     /* Send to backend */
-    fetch(API_BASE + '/profile/update', {
+    secureFetch(API_BASE + '/profile/update', {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         credentials: 'include',
@@ -445,7 +445,7 @@ function saveAcademic() {
         return;
     }
 
-    fetch(API_BASE + '/profile/update', {
+    secureFetch(API_BASE + '/profile/update', {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         credentials: 'include',
@@ -532,7 +532,7 @@ function handleKycUpload(input, id) {
     fd.append('document', file);
     fd.append('document_type', id);
 
-    fetch(API_BASE + '/profile/document', { method:'POST', body:fd, credentials:'include' })
+    secureFetch(API_BASE + '/profile/document', { method:'POST', body:fd, credentials:'include' })
         .then(function(r){ return r.json(); })
         .then(function(res){
             if (statusEl) { statusEl.className = 'kyc-status pending'; statusEl.textContent = '⏳ Under Review'; }
@@ -621,7 +621,7 @@ function changePassword() {
     var btn = document.querySelector('#modal-changePassword .btn-modal-primary');
     if (btn) { btn.disabled = true; btn.textContent = 'Updating…'; }
 
-    fetch(API_BASE + '/auth/change-password', {
+    secureFetch(API_BASE + '/auth/change-password', {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         credentials: 'include',
@@ -656,7 +656,7 @@ function changePassword() {
 ════════════════════════════════════════════════ */
 function confirmLogoutAll() {
     if (confirm('This will log you out from all devices. Continue?')) {
-        fetch(API_BASE + '/auth/logout-all', { method:'POST', credentials:'include' })
+        secureFetch(API_BASE + '/auth/logout-all', { method:'POST', credentials:'include' })
         .finally(function(){
             localStorage.clear();
             window.location.href = 'login.html';
@@ -682,7 +682,7 @@ function showToast(msg, isError) {
 ════════════════════════════════════════════════ */
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
-        fetch(API_BASE + '/auth/logout', { method:'POST', credentials:'include' })
+        secureFetch(API_BASE + '/auth/logout', { method:'POST', credentials:'include' })
         .finally(function(){
             localStorage.clear();
             window.location.href = 'login.html';

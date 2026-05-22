@@ -37,7 +37,7 @@ function formatDate(iso) {
 
 /* ── NOTIFICATIONS ── */
 function loadNotifications() {
-    fetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/unread-count', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         if (!res.success) return;
@@ -58,7 +58,7 @@ function loadNotifications() {
         }
     });
 
-    fetch(API_BASE + '/notifications/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/notifications/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         const list = document.getElementById('notifList');
@@ -86,7 +86,7 @@ function loadNotifications() {
     });
 }
 function markRead(id) {
-    fetch(API_BASE + '/notifications/read', {
+    secureFetch(API_BASE + '/notifications/read', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -110,7 +110,7 @@ window.addEventListener('DOMContentLoaded', function () {
     loadNotifications();
 
     /* Verify session + refresh user data from backend */
-    fetch(API_BASE + '/auth/me', { credentials: 'include' })
+    secureFetch(API_BASE + '/auth/me', { credentials: 'include' })
         .then(function (r) {
             if (!r.ok) throw new Error('Session check failed');
             return r.json();
@@ -133,7 +133,7 @@ window.addEventListener('DOMContentLoaded', function () {
         });
 
     /* 3. Sidebar application count */
-    fetch(API_BASE + '/application/my', { credentials: 'include' })
+    secureFetch(API_BASE + '/application/my', { credentials: 'include' })
     .then(r => r.json())
     .then(res => {
         const apps = res.data || (Array.isArray(res) ? res : []);
@@ -338,7 +338,7 @@ function uploadDocument(file, documentType, applicationId) {
         fd.append('document_type', documentType);
         fd.append('file', file);
 
-        fetch(API_BASE + '/documents/upload', {
+        secureFetch(API_BASE + '/documents/upload', {
             method: 'POST',
             credentials: 'include',
             body: fd
@@ -416,7 +416,7 @@ function submitForm() {
        Endpoint: POST /api/application/create
        Returns:  { success, application_id, application_number }
     ════════════════════════════════════════════ */
-    fetch(API_BASE + '/application/create', {
+    secureFetch(API_BASE + '/application/create', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -510,7 +510,7 @@ function submitForm() {
 ══════════════════════════════════════════════ */
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
-        fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
+        secureFetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' })
             .finally(function () {
                 localStorage.clear();
                 window.location.href = 'login.html';

@@ -198,7 +198,7 @@ class AuthController extends Controller
     public function me()
     {
         try {
-            if (!isset($_SESSION)) session_start();
+            Session::start();
 
             if (empty($_SESSION['user'])) {
                 echo json_encode(["success" => false, "message" => "Not logged in"]);

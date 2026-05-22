@@ -217,7 +217,7 @@ class ApplicationRepository
     ========================================
     */
 
-    public function getClerkPending()
+    public function getClerkPending($department = null)
     {
         $sql = "
             SELECT
@@ -230,12 +230,21 @@ class ApplicationRepository
             FROM applications a
             LEFT JOIN users    u ON u.id = a.student_id
             LEFT JOIN students s ON s.user_id = a.student_id
-            WHERE a.status = 'pending'
-            ORDER BY a.created_at ASC
+            WHERE a.status IN ('pending', 'pending_clerk')
         ";
 
+        if ($department) {
+            $sql .= " AND (COALESCE(a.branch, s.department, s.branch) = :dept) ";
+        }
+
+        $sql .= " ORDER BY a.created_at ASC ";
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+        
+        $params = [];
+        if ($department) $params[':dept'] = $department;
+        
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -340,7 +349,7 @@ class ApplicationRepository
     ========================================
     */
 
-    public function getHodPending()
+    public function getHodPending($department = null)
     {
         $sql = "
             SELECT
@@ -354,11 +363,20 @@ class ApplicationRepository
             LEFT JOIN users    u ON u.id = a.student_id
             LEFT JOIN students s ON s.user_id = a.student_id
             WHERE a.status = 'clerk_approved'
-            ORDER BY a.created_at ASC
         ";
 
+        if ($department) {
+            $sql .= " AND (COALESCE(a.branch, s.department, s.branch) = :dept) ";
+        }
+
+        $sql .= " ORDER BY a.created_at ASC ";
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+
+        $params = [];
+        if ($department) $params[':dept'] = $department;
+
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -722,7 +740,7 @@ class ApplicationRepository
     ALL APPLICATIONS — admin / clerk view
     ========================================
     */
-    public function getAllApplications()
+    public function getAllApplications($department = null)
     {
         $sql = "
             SELECT
@@ -735,11 +753,21 @@ class ApplicationRepository
             FROM applications a
             LEFT JOIN users    u ON u.id = a.student_id
             LEFT JOIN students s ON s.user_id = a.student_id
-            ORDER BY a.created_at DESC
+            WHERE 1=1
         ";
 
+        if ($department) {
+            $sql .= " AND (COALESCE(a.branch, s.department, s.branch) = :dept) ";
+        }
+
+        $sql .= " ORDER BY a.created_at DESC ";
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+
+        $params = [];
+        if ($department) $params[':dept'] = $department;
+
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
