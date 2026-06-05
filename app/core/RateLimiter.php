@@ -15,11 +15,11 @@ class RateLimiter
     {
         try {
             // Delete old requests outside the window
-            $stmt = $this->db->prepare("DELETE FROM api_requests WHERE requested_at < DATE_SUB(NOW(), INTERVAL 1 MINUTE)");
+            $stmt = $this->db->prepare("DELETE FROM api_requests WHERE requested_at < NOW() - INTERVAL '1 MINUTE'");
             $stmt->execute();
 
             // Count requests from this IP in the last window
-            $stmt = $this->db->prepare("SELECT COUNT(*) FROM api_requests WHERE ip_address = :ip AND requested_at > DATE_SUB(NOW(), INTERVAL 1 MINUTE)");
+            $stmt = $this->db->prepare("SELECT COUNT(*) FROM api_requests WHERE ip_address = :ip AND requested_at > NOW() - INTERVAL '1 MINUTE'");
             $stmt->execute([':ip' => $ip]);
             $count = $stmt->fetchColumn();
 
@@ -47,7 +47,7 @@ class RateLimiter
     {
         try {
             $sql = "CREATE TABLE IF NOT EXISTS api_requests (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id SERIAL PRIMARY KEY,
                 ip_address VARCHAR(45) NOT NULL,
                 endpoint VARCHAR(255) NOT NULL,
                 requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

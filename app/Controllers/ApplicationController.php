@@ -108,6 +108,26 @@ class ApplicationController extends Controller
                 ?? ''
             )) ?: null;
 
+            // Check if student has a profile (bt_id exists)
+            $btid = '';
+            try {
+                require_once __DIR__ . '/../core/Database.php';
+                $db   = Database::getInstance()->getConnection();
+                $stmt = $db->prepare('SELECT bt_id FROM students WHERE user_id = :uid LIMIT 1');
+                $stmt->execute([':uid' => $studentId]);
+                $row  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $btid = trim($row['bt_id'] ?? '');
+            } catch (Exception $e) {
+                $btid = '';
+            }
+
+            if ($btid === '') {
+                return $this->respond([
+                    'success' => false,
+                    'message' => 'Your profile is incomplete. Please complete your profile before applying for any document.'
+                ], 422);
+            }
+
             /*
              * service->createApplication() calls repo->create()
              * which now accepts adm_type as 4th optional param.

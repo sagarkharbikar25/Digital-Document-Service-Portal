@@ -22,6 +22,12 @@ var ALL_APPS     = [];
 
 /* ── INFER DEPARTMENT FROM EMAIL ──────────────────────────── */
 function getAdminDept(email) {
+  var e = (email || '').toLowerCase().trim();
+  var globalAdmins = ['saar@jdcoem.ac.in', 'skhod@jdcoem.ac.in', 'sagar@jdcoem.ac.in'];
+  if (e && globalAdmins.indexOf(e) > -1) {
+    return null;
+  }
+
   if (session && session.department) {
     return session.department.toUpperCase();
   }
