@@ -1,0 +1,537 @@
+/* ============================================================
+   track-status.css — Institutional Application Tracking Styles
+   Full parity with legacy track-status.html and track-status.css
+   ============================================================ */
+
+.track-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── PAGE HERO & SEARCH ── */
+.track-hero-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 26px 30px;
+  box-shadow: var(--shadow-sm);
+}
+
+.track-search-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.track-search-input-wrap {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  padding: 0 14px;
+  background: var(--white);
+  transition: all 0.2s;
+}
+
+.track-search-input-wrap:focus-within {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(10, 22, 40, 0.08);
+}
+
+.track-search-input {
+  width: 100%;
+  padding: 11px 0;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  background: transparent;
+}
+
+.track-search-btn {
+  padding: 11px 24px;
+  border-radius: var(--radius-lg);
+  background: #fff8eb;
+  color: #b45309;
+  border: 1.5px solid #d4781a;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(212, 120, 26, 0.1);
+}
+
+.track-search-btn:hover {
+  background: var(--saffron, #d4781a);
+  color: var(--white);
+  border-color: var(--saffron, #d4781a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 120, 26, 0.2);
+}
+
+.track-quick-picks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--gray-500);
+}
+
+.track-quick-chip {
+  background: #f8fafc;
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.track-quick-chip:hover {
+  background: var(--saffron-pale, #fff4e6);
+  border-color: var(--saffron, #d4781a);
+  color: var(--saffron, #d4781a);
+}
+
+.track-quick-chip.active {
+  background: #fff4e6;
+  border-color: var(--saffron, #d4781a);
+  color: var(--saffron, #d4781a);
+  box-shadow: 0 1px 3px rgba(212, 120, 26, 0.15);
+}
+
+/* ── APPLICATION IDENTITY CARD ── */
+.track-id-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.track-id-header {
+  background: linear-gradient(135deg, #ffffff 0%, #fffbf2 60%, #fff8eb 100%);
+  border-bottom: 2px solid #fed7aa;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  color: var(--navy);
+}
+
+.track-id-header::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(212, 120, 26, 0.06);
+  pointer-events: none;
+}
+
+.track-id-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 1;
+}
+
+.track-id-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  background: var(--white);
+  border: 1.5px solid #fed7aa;
+  display: grid;
+  place-items: center;
+  color: var(--saffron, #d4781a);
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.track-id-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 4px;
+}
+
+.track-id-badge {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: #b45309;
+  background: #fff4e6;
+  border: 1px solid #fed7aa;
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.track-id-body {
+  padding: 22px 28px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  background: var(--white);
+}
+
+.track-id-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
+}
+
+.track-id-field .val {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── ANIMATED PROGRESS TRACKER CARD ── */
+.track-progress-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.track-progress-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gray-50);
+}
+
+.track-progress-header h3 {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+}
+
+.track-progress-body {
+  padding: 38px 30px;
+}
+
+/* ── HORIZONTAL PROGRESS STEPPER (DESKTOP) ── */
+.track-prog-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+/* Background baseline connecting line */
+.track-prog-steps::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 54px;
+  right: 54px;
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+/* Animated progressing fill bar */
+.track-prog-fill {
+  position: absolute;
+  top: 28px;
+  left: 54px;
+  height: 4px;
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  border-radius: 2px;
+  z-index: 2;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.track-step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  position: relative;
+  z-index: 3;
+}
+
+/* Circular node icon */
+.track-ps-dot {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--gray-200);
+  background: var(--white);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.track-ps-dot.done {
+  background: var(--success, #16a34a);
+  border-color: var(--success, #16a34a);
+  color: var(--white);
+  box-shadow: 0 0 0 6px #d1fae5;
+}
+
+.track-ps-dot.active {
+  background: var(--saffron, #d4781a);
+  border-color: var(--saffron, #d4781a);
+  color: var(--white);
+  box-shadow: 0 0 0 6px #fff4e6;
+  animation: trackPulse 2s infinite ease-in-out;
+}
+
+.track-ps-dot.error {
+  background: var(--error, #dc2626);
+  border-color: var(--error, #dc2626);
+  color: var(--white);
+  box-shadow: 0 0 0 6px #fee2e2;
+}
+
+.track-ps-dot.todo {
+  background: var(--white);
+  border-color: var(--gray-200);
+  color: var(--gray-400);
+  opacity: 0.85;
+}
+
+/* Pulsing halo animation on the active node */
+@keyframes trackPulse {
+  0% {
+    box-shadow: 0 0 0 5px rgba(212, 120, 26, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(212, 120, 26, 0.08);
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(212, 120, 26, 0.25);
+  }
+}
+
+.track-ps-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+
+.track-ps-name.done {
+  color: #166534;
+}
+
+.track-ps-name.active {
+  color: var(--navy);
+}
+
+.track-ps-name.error {
+  color: var(--error, #dc2626);
+}
+
+.track-ps-name.todo {
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+.track-ps-sub {
+  font-size: 11.5px;
+  color: var(--gray-500);
+  line-height: 1.35;
+  max-width: 170px;
+}
+
+.track-ps-sub.done {
+  color: #166534;
+}
+
+.track-ps-sub.active {
+  color: var(--saffron, #d4781a);
+  font-weight: 600;
+}
+
+.track-ps-date {
+  font-size: 10.5px;
+  color: var(--gray-400);
+  margin-top: 4px;
+}
+
+/* ── STATUS SUMMARY & REMARKS DETAILS ── */
+.track-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.track-summary-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.track-summary-header {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gray-50);
+}
+
+.track-summary-header h4 {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+}
+
+.track-summary-body {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.track-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.track-summary-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.track-summary-row .label {
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.track-summary-row .val {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* Remarks banner */
+.track-remark-item {
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-left: 4px solid transparent;
+}
+
+.track-remark-item.approved {
+  background: #f0fdf4;
+  border-color: #16a34a;
+}
+
+.track-remark-item.pending {
+  background: #fffbeb;
+  border-color: #d97706;
+}
+
+.track-remark-item.rejected {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+.track-remark-content strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+
+.track-remark-content p {
+  font-size: 12.5px;
+  color: var(--gray-600);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.track-remark-meta {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 5px;
+}
+
+/* ── ACTION DOWNLOAD BANNER ── */
+.track-action-banner {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1.5px solid #86efac;
+  border-radius: var(--radius-xl);
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 860px) {
+  .track-id-body {
+    grid-template-columns: 1fr 1fr;
+  }
+  .track-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .track-prog-steps {
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+}
+

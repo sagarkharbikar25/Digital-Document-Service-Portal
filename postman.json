@@ -1,0 +1,689 @@
+{
+  "info": {
+    "_postman_id": "e4f8d91a-7b32-4119-bc78-8319f368aa22",
+    "name": "JDCOEM V2 Backend Express API (Port 4000)",
+    "description": "Postman test suite for migrated V2 TypeScript Express Backend API (Port 4000) with PostgreSQL database.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4000",
+      "type": "string"
+    },
+    {
+      "key": "student_email",
+      "value": "saarkharbikar@jdcoem.ac.in",
+      "type": "string"
+    },
+    {
+      "key": "clerk_email",
+      "value": "saar@jdcoem.ac.in",
+      "type": "string"
+    },
+    {
+      "key": "hod_email",
+      "value": "skhod@jdcoem.ac.in",
+      "type": "string"
+    },
+    {
+      "key": "principal_email",
+      "value": "sagar@jdcoem.ac.in",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "password123",
+      "type": "string"
+    },
+    {
+      "key": "application_id",
+      "value": "213",
+      "type": "string"
+    },
+    {
+      "key": "application_number",
+      "value": "APP-2026-9041",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Health & Engine",
+      "item": [
+        {
+          "name": "0.1 Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        },
+        {
+          "name": "0.2 API Root Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "1.1 Get CSRF Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/csrf",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "csrf"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.2 Student Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Aarav Sharma\",\n  \"email\": \"aarav.sharma@jdcoem.ac.in\",\n  \"password\": \"SecurePass@123\",\n  \"role\": \"student\",\n  \"roll_number\": \"BT240099CS\",\n  \"bt_id\": \"BT240099CS\",\n  \"department\": \"Computer Science and Engineering\",\n  \"year\": \"First Year\",\n  \"phone\": \"9876543210\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.3 Student Login (Triggers OTP)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{student_email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.4 Verify Student OTP (Master OTP: 123456)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{student_email}}\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-otp",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "verify-otp"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.5 Staff Login (Clerk / HOD / Principal)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{clerk_email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.6 Get Current User Session (/api/auth/me)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Applications & Dynamic Metadata",
+      "item": [
+        {
+          "name": "2.1 Create Bonafide Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"certificate_type\": \"bonafide\",\n  \"admType\": \"bonafide\",\n  \"fullName\": \"Akash Kumar\",\n  \"btid\": \"BT22CSE041\",\n  \"branch\": \"Computer Science and Engineering\",\n  \"year\": \"Third Year\",\n  \"acYear\": \"2025 – 2026\",\n  \"purpose\": \"Required for bank educational loan application at SBI\",\n  \"parentName\": \"Rajesh Kumar\",\n  \"admissionYear\": \"2022\",\n  \"category\": \"General / Open\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/application/create",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "create"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    if (json.application_number) {",
+                  "        pm.collectionVariables.set(\"application_number\", json.application_number);",
+                  "    }",
+                  "    if (json.application_id) {",
+                  "        pm.collectionVariables.set(\"application_id\", json.application_id.toString());",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.2 Create ID Card Application (Duplicate + Lost Reason)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"certificate_type\": \"idcard\",\n  \"admType\": \"idcard\",\n  \"fullName\": \"Akash Kumar\",\n  \"btid\": \"BT22CSE041\",\n  \"branch\": \"Computer Science and Engineering\",\n  \"year\": \"Third Year\",\n  \"purpose\": \"ID Card [DUPLICATE] · Reason: lost (Police FIR filed)\",\n  \"idCardReqType\": \"duplicate\",\n  \"idCardReason\": \"lost\",\n  \"firNumber\": \"FIR-2026-9812-NAGPUR\",\n  \"remarks\": \"Card misplaced during technical symposium\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/application/create",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "create"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    if (json.application_number) {",
+                  "        pm.collectionVariables.set(\"application_number\", json.application_number);",
+                  "    }",
+                  "    if (json.application_id) {",
+                  "        pm.collectionVariables.set(\"application_id\", json.application_id.toString());",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.3 Create NOC Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"certificate_type\": \"noc\",\n  \"admType\": \"noc\",\n  \"fullName\": \"Akash Kumar\",\n  \"btid\": \"BT22CSE041\",\n  \"branch\": \"Computer Science and Engineering\",\n  \"year\": \"Third Year\",\n  \"purpose\": \"NOC for Internship at Tata Consultancy Services (TCS)\",\n  \"nocPurpose\": \"internship\",\n  \"nocOrgName\": \"Tata Consultancy Services (TCS)\",\n  \"nocValidityFrom\": \"2026-06-01\",\n  \"nocValidityTo\": \"2026-12-31\",\n  \"nocRole\": \"Software Engineering Intern\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/application/create",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "create"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    if (json.application_number) {",
+                  "        pm.collectionVariables.set(\"application_number\", json.application_number);",
+                  "    }",
+                  "    if (json.application_id) {",
+                  "        pm.collectionVariables.set(\"application_id\", json.application_id.toString());",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.4 Create Official Transcript Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"certificate_type\": \"transcript\",\n  \"admType\": \"transcript\",\n  \"fullName\": \"Akash Kumar\",\n  \"btid\": \"BT22CSE041\",\n  \"branch\": \"Computer Science and Engineering\",\n  \"year\": \"Third Year\",\n  \"purpose\": \"Transcript for B.Tech (Sem I to Sem VI) · 2 Copies for Higher Studies\",\n  \"transcriptProg\": \"B.Tech (Bachelor of Technology)\",\n  \"transcriptSemFrom\": \"Semester I\",\n  \"transcriptSemTo\": \"Semester VI\",\n  \"transcriptCopies\": 2,\n  \"transcriptPurpose\": \"higher-studies\",\n  \"transcriptTarget\": \"Technical University of Munich, Germany\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/application/create",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "create"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    if (json.application_number) {",
+                  "        pm.collectionVariables.set(\"application_number\", json.application_number);",
+                  "    }",
+                  "    if (json.application_id) {",
+                  "        pm.collectionVariables.set(\"application_id\", json.application_id.toString());",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.5 Get Student Applications (/api/application/my)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/application/my",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "my"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.6 Track Application Status (/api/application/status)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/application/status?application_number={{application_number}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "application_number",
+                  "value": "{{application_number}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Multi-Tier Administrative Approval Chain",
+      "item": [
+        {
+          "name": "3.1 Clerk: Get Pending Queue",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/application/clerk-pending",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "clerk-pending"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.2 Clerk: Endorse & Approve Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_id\": {{application_id}},\n  \"remarks\": \"Verified enrollment and fee clearance.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/application/clerk-approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "clerk-approve"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.3 HOD: Get Pending Queue",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/application/hod-pending",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "hod-pending"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.4 HOD: Recommend Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_id\": {{application_id}},\n  \"remarks\": \"Academic standing and attendance satisfactory. Recommended.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/application/hod-approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "hod-approve"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.5 Principal: Get Pending Queue",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/application/principal-pending",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "principal-pending"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.6 Principal: Sanction Final Cryptographic Approval",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_id\": {{application_id}},\n  \"remarks\": \"Sanctioned with institutional cryptographic digital seal.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/application/principal-approve-final",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "application",
+                "principal-approve-final"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Certificate Issuance & Public QR Verification",
+      "item": [
+        {
+          "name": "4.1 Download Digitally Signed Certificate PDF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/certificate/download?application_id={{application_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "certificate",
+                "download"
+              ],
+              "query": [
+                {
+                  "key": "application_id",
+                  "value": "{{application_id}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.2 Public QR Code Verification Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/certificate/verify?cert=CERT-2026-981241",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "certificate",
+                "verify"
+              ],
+              "query": [
+                {
+                  "key": "cert",
+                  "value": "CERT-2026-981241"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.3 Verify Certificate SHA-256 Hash",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hash\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/certificate/verify-hash",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "certificate",
+                "verify-hash"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
